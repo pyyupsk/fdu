@@ -1,5 +1,5 @@
-import type { Unit } from "../core/types.js";
-import { add } from "./add.js";
+import type { Unit } from "../core/types";
+import { add } from "./add";
 
 /**
  * Subtracts time from a date - with a negative value

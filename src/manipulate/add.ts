@@ -1,5 +1,5 @@
-import type { Unit } from "../core/types.js";
-import { normalizeUnit } from "../core/types.js";
+import type { Unit } from "../core/types";
+import { normalizeUnit } from "../core/types";
 
 /**
  * Adds a specified amount of time to a date

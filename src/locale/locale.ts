@@ -1,4 +1,4 @@
-import type { LocaleConfig } from "../core/types.js";
+import type { LocaleConfig } from "../core/types";
 
 /**
  * Stores all registered locales and tracks which one is currently active

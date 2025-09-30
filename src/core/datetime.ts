@@ -1,9 +1,9 @@
-import { format as formatDate } from "../format/formatter.js";
-import { getLocale } from "../locale/locale.js";
-import { add as addToDate } from "../manipulate/add.js";
-import { subtract as subtractFromDate } from "../manipulate/subtract.js";
-import type { DateInput, DateTime as IDateTime, Unit } from "./types.js";
-import { normalizeUnit } from "./types.js";
+import { format as formatDate } from "../format/formatter";
+import { getLocale } from "../locale/locale";
+import { add as addToDate } from "../manipulate/add";
+import { subtract as subtractFromDate } from "../manipulate/subtract";
+import type { DateInput, DateTime as IDateTime, Unit } from "./types";
+import { normalizeUnit } from "./types";
 
 /**
  * The internal class that powers the DateTime object

@@ -1,4 +1,4 @@
-import type { LocaleConfig } from "../../core/types.js";
+import type { LocaleConfig } from "../../core/types";
 
 export const en: LocaleConfig = {
   name: "en",

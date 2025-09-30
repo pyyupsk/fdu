@@ -1,5 +1,5 @@
-import type { LocaleConfig } from "../core/types.js";
-import { tokenRegex, tokens } from "./tokens.js";
+import type { LocaleConfig } from "../core/types";
+import { tokenRegex, tokens } from "./tokens";
 
 /**
  * Takes a date and a pattern and returns a formatted string

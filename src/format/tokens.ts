@@ -1,4 +1,4 @@
-import type { LocaleConfig } from "../core/types.js";
+import type { LocaleConfig } from "../core/types";
 
 /**
  * All the format tokens and how to convert them to actual values
@@ -63,4 +63,4 @@ export const tokens: Record<string, TokenGetter> = {
  * Longest tokens come first to avoid matching "M" when we want "MMMM"
  */
 export const tokenRegex =
-  /YYYY|YY|MMMM|MMM|MM|dddd|ddd|dd|HH|hh|mm|ss|SSS|[MDdHhmsAa]/g;
+  /YYYY|YY|MMMM|MMM|MM|M|DD|D|dddd|ddd|dd|d|HH|H|hh|h|mm|m|ss|s|SSS|A|a/g;
