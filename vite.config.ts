@@ -1,15 +1,26 @@
-import path from "node:path";
+import dts from "unplugin-dts/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/index.ts"),
-      name: "fd", // global name for UMD
+      entry: "src/index.ts",
+      name: "fd",
       formats: ["es", "cjs", "umd"],
-      fileName: (format) => `${format}/index.js`,
+      fileName: (format) => {
+        if (format === "es") return "esm/index.js";
+        if (format === "cjs") return "cjs/index.js";
+        if (format === "umd") return "umd/index.js";
+        return `index.${format}.js`;
+      },
     },
     sourcemap: true,
-    emptyOutDir: true, // clean dist automatically
+    emptyOutDir: true,
   },
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      outDirs: "dist/esm",
+    }),
+  ],
 });
