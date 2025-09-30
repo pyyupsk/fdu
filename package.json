@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "profile": "tsx benchmarks/profile.ts",
-    "profile:full": "bun run build && bun run profile",
+    "bench": "vitest bench tests/benchmarks/comparison.bench.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
