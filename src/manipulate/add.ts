@@ -1,10 +1,10 @@
-import type { Unit } from "../core/types";
+import type { UnitType } from "../core/types";
 import { normalizeUnit } from "../core/types";
 
 /**
  * Adds a specified amount of time to a date
  */
-export function add(date: Date, value: number, unit: Unit): Date {
+export function add(date: Date, value: number, unit: UnitType): Date {
   const result = new Date(date.getTime());
   const normalizedUnit = normalizeUnit(unit);
 

@@ -2,13 +2,13 @@ import { format as formatDate } from "../format/formatter";
 import { getLocale } from "../locale/locale";
 import { add as addToDate } from "../manipulate/add";
 import { subtract as subtractFromDate } from "../manipulate/subtract";
-import type { DateInput, DateTime as IDateTime, Unit } from "./types";
+import type { FdInput, FdInstance, UnitType } from "./types";
 import { normalizeUnit } from "./types";
 
 /**
  * The internal class that powers the DateTime object
  */
-class DateTimeImpl implements IDateTime {
+class DateTimeImpl implements FdInstance {
   private readonly _date: Date;
   private readonly _isValid: boolean;
   private readonly _locale: string | undefined;
@@ -71,8 +71,8 @@ class DateTimeImpl implements IDateTime {
 
   // Get or set the locale for this date instance
   locale(): string;
-  locale(name: string): IDateTime;
-  locale(name?: string): string | IDateTime {
+  locale(name: string): FdInstance;
+  locale(name?: string): string | FdInstance {
     if (name === undefined) {
       return this._locale || "en";
     }
@@ -86,26 +86,26 @@ class DateTimeImpl implements IDateTime {
   }
 
   // Add or subtract time from date
-  add(value: number, unit: Unit): IDateTime {
+  add(value: number, unit: UnitType): FdInstance {
     const newDate = addToDate(this._date, value, unit);
     return new DateTimeImpl(newDate, this._locale);
   }
 
-  subtract(value: number, unit: Unit): IDateTime {
+  subtract(value: number, unit: UnitType): FdInstance {
     const newDate = subtractFromDate(this._date, value, unit);
     return new DateTimeImpl(newDate, this._locale);
   }
 
   // Compare date with another date
-  isBefore(other: IDateTime): boolean {
+  isBefore(other: FdInstance): boolean {
     return this._date.getTime() < other.valueOf();
   }
 
-  isAfter(other: IDateTime): boolean {
+  isAfter(other: FdInstance): boolean {
     return this._date.getTime() > other.valueOf();
   }
 
-  isSame(other: IDateTime, unit?: Unit): boolean {
+  isSame(other: FdInstance, unit?: UnitType): boolean {
     if (!unit) {
       return this._date.getTime() === other.valueOf();
     }
@@ -159,7 +159,7 @@ class DateTimeImpl implements IDateTime {
     }
   }
 
-  diff(other: IDateTime, unit: Unit = "millisecond"): number {
+  diff(other: FdInstance, unit: UnitType = "millisecond"): number {
     const normalizedUnit = normalizeUnit(unit);
     const diff = this._date.getTime() - other.valueOf();
 
@@ -191,7 +191,7 @@ class DateTimeImpl implements IDateTime {
 /**
  * Takes whatever date input and turns into a Date object
  */
-function parseInput(input: DateInput): Date {
+function parseInput(input: FdInput): Date {
   if (input === undefined) {
     return new Date();
   }
@@ -215,7 +215,7 @@ function parseInput(input: DateInput): Date {
  * Main factory function - creates a DateTime object from various inputs
  * Returns null if the date is invalid
  */
-export function fd(input?: DateInput): IDateTime | null {
+export function fd(input?: FdInput): FdInstance | null {
   const date = parseInput(input);
   if (Number.isNaN(date.getTime())) {
     return null;
@@ -223,4 +223,4 @@ export function fd(input?: DateInput): IDateTime | null {
   return new DateTimeImpl(date);
 }
 
-export type { IDateTime as DateTime };
+export type { FdInstance };

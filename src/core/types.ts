@@ -2,15 +2,15 @@
  * Core type definitions for the fd date-time library
  */
 
-// DateTime interface with all available methods
-export type DateTime = {
+// FdInstance interface with all available methods
+export type FdInstance = {
   format(pattern: string): string;
-  add(value: number, unit: Unit): DateTime;
-  subtract(value: number, unit: Unit): DateTime;
-  isBefore(other: DateTime): boolean;
-  isAfter(other: DateTime): boolean;
-  isSame(other: DateTime, unit?: Unit): boolean;
-  diff(other: DateTime, unit?: Unit): number;
+  add(value: number, unit: UnitType): FdInstance;
+  subtract(value: number, unit: UnitType): FdInstance;
+  isBefore(other: FdInstance): boolean;
+  isAfter(other: FdInstance): boolean;
+  isSame(other: FdInstance, unit?: UnitType): boolean;
+  diff(other: FdInstance, unit?: UnitType): number;
   year(): number;
   month(): number;
   date(): number;
@@ -20,7 +20,7 @@ export type DateTime = {
   millisecond(): number;
   day(): number;
   locale(): string;
-  locale(name: string): DateTime;
+  locale(name: string): FdInstance;
   toDate(): Date;
   toISOString(): string;
   valueOf(): number;
@@ -30,12 +30,12 @@ export type DateTime = {
 /**
  * All the different types can pass in to create a date
  */
-export type DateInput = Date | string | number | DateTime | undefined;
+export type FdInput = Date | string | number | FdInstance | undefined;
 
 /**
  * Time units for adding, subtracting, and comparing dates
  */
-export type Unit =
+export type UnitType =
   | "year"
   | "y"
   | "month"
@@ -112,8 +112,8 @@ export type LocaleConfig = {
 /**
  * Normalize unit aliases to standard unit names
  */
-export function normalizeUnit(unit: Unit): Unit {
-  const unitMap: Record<string, Unit> = {
+export function normalizeUnit(unit: UnitType): UnitType {
+  const unitMap: Record<string, UnitType> = {
     y: "year",
     M: "month",
     w: "week",

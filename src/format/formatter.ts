@@ -10,7 +10,7 @@ export function format(
   locale?: LocaleConfig,
 ): string {
   return pattern.replace(tokenRegex, (token) => {
-    const getter = tokens[token];
+    const getter = tokens[token as keyof typeof tokens];
     return getter ? getter(date, locale) : token;
   });
 }

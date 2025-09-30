@@ -1,6 +1,6 @@
 // Main date-time factory and core types
 export { fd } from "./core/datetime";
-export type { DateInput, DateTime, LocaleConfig, Unit } from "./core/types";
+export type { FdInput, FdInstance, LocaleConfig, UnitType } from "./core/types";
 
 // Locale configuration and registration
 export { locale, registerLocale } from "./locale/locale";

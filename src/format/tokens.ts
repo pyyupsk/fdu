@@ -6,7 +6,7 @@ import type { LocaleConfig } from "../core/types";
 
 export type TokenGetter = (date: Date, locale?: LocaleConfig) => string;
 
-export const tokens: Record<string, TokenGetter> = {
+export const tokens = {
   // Year
   YYYY: (d) => String(d.getFullYear()),
   YY: (d) => String(d.getFullYear()).slice(-2),
@@ -56,7 +56,7 @@ export const tokens: Record<string, TokenGetter> = {
   // AM/PM
   A: (d) => (d.getHours() < 12 ? "AM" : "PM"),
   a: (d) => (d.getHours() < 12 ? "am" : "pm"),
-};
+} satisfies Record<string, TokenGetter>;
 
 /**
  * Regex to find all format tokens in a string

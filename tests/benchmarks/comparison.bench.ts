@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { bench, describe } from "vitest";
-import { type DateTime, fd } from "../../src";
+import { type FdInstance, fd } from "../../src";
 
 const TEST_DATE = "2025-09-30T14:35:45.123Z";
 const TEST_TIMESTAMP = Date.parse(TEST_DATE);
@@ -32,7 +32,7 @@ describe("Date Creation", () => {
 });
 
 describe("Formatting", () => {
-  const fdDate = fd(TEST_DATE) as DateTime;
+  const fdDate = fd(TEST_DATE) as FdInstance;
   const dayjsDate = dayjs(TEST_DATE);
 
   bench("fd - format YYYY-MM-DD", () => {
@@ -69,7 +69,7 @@ describe("Formatting", () => {
 });
 
 describe("Date Manipulation", () => {
-  const fdDate = fd(TEST_DATE) as DateTime;
+  const fdDate = fd(TEST_DATE) as FdInstance;
   const dayjsDate = dayjs(TEST_DATE);
 
   bench("fd - add 3 days", () => {
@@ -114,8 +114,8 @@ describe("Date Manipulation", () => {
 });
 
 describe("Comparisons", () => {
-  const fdDate1 = fd("2025-09-30") as DateTime;
-  const fdDate2 = fd("2025-10-01") as DateTime;
+  const fdDate1 = fd("2025-09-30") as FdInstance;
+  const fdDate2 = fd("2025-10-01") as FdInstance;
   const dayjsDate1 = dayjs("2025-09-30");
   const dayjsDate2 = dayjs("2025-10-01");
 
@@ -145,7 +145,7 @@ describe("Comparisons", () => {
 });
 
 describe("Query Methods", () => {
-  const fdDate = fd(TEST_DATE) as DateTime;
+  const fdDate = fd(TEST_DATE) as FdInstance;
   const dayjsDate = dayjs(TEST_DATE);
 
   bench("fd - year()", () => {
@@ -223,8 +223,8 @@ describe("Real-world Scenarios", () => {
     if (bookingDate) {
       bookingDate.format("MMMM DD, YYYY");
       bookingDate.subtract(7, "day");
-      bookingDate.diff(fd() as DateTime, "day");
-      bookingDate.isAfter(fd() as DateTime);
+      bookingDate.diff(fd() as FdInstance, "day");
+      bookingDate.isAfter(fd() as FdInstance);
     }
   });
 
@@ -251,7 +251,7 @@ describe("Memory & Bundle Size Impact", () => {
   });
 
   bench("fd - format 1000 times", () => {
-    const date = fd(TEST_DATE) as DateTime;
+    const date = fd(TEST_DATE) as FdInstance;
     for (let i = 0; i < 1000; i++) {
       date.format("YYYY-MM-DD HH:mm:ss");
     }

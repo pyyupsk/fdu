@@ -33,7 +33,7 @@ describe("Format Tokens", () => {
     });
 
     it("MMMM should fallback to number without locale", () => {
-      const result = tokens.MMMM(testDate);
+      const result = tokens.MMMM(testDate, undefined);
       expect(result).toMatch(/^(9|September)$/);
     });
 
@@ -42,7 +42,7 @@ describe("Format Tokens", () => {
     });
 
     it("MMM should fallback to number without locale", () => {
-      const result = tokens.MMM(testDate);
+      const result = tokens.MMM(testDate, undefined);
       expect(result).toMatch(/^(9|Sep)$/);
     });
 
@@ -96,7 +96,7 @@ describe("Format Tokens", () => {
     });
 
     it("dddd should fallback to number without locale", () => {
-      const result = tokens.dddd(testDate);
+      const result = tokens.dddd(testDate, undefined);
       expect(result).toMatch(/^\d$/);
     });
 

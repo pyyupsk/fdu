@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type DateTime, fd, registerLocale } from "../../src/index";
+import { type FdInstance, fd, registerLocale } from "../../src/index";
 import { en } from "../../src/locale/locales/en";
 import { th } from "../../src/locale/locales/th";
 
@@ -261,9 +261,9 @@ describe("Integration: User Scenarios", () => {
 
   describe("Scenario 9: Performance with large datasets", () => {
     it("should handle rapid date creation", () => {
-      const dates: DateTime[] = [];
+      const dates: FdInstance[] = [];
       for (let i = 0; i < 1000; i++) {
-        dates.push(fd("2025-09-30") as DateTime);
+        dates.push(fd("2025-09-30") as FdInstance);
       }
       expect(dates).toHaveLength(1000);
       expect(dates.every((d) => d?.isValid())).toBe(true);

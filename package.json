@@ -1,7 +1,60 @@
 {
-  "name": "fd",
-  "version": "0.1.0",
+  "name": "@pyyupsk/fd",
+  "version": "1.0.0",
+  "description": "Lightweight, zero-dependency, ultra-fast JavaScript date-time formatting library",
   "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./format": {
+      "types": "./dist/esm/format/formatter.d.ts",
+      "import": "./dist/esm/format/formatter.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./parse": {
+      "types": "./dist/esm/parse/parser.d.ts",
+      "import": "./dist/esm/parse/parser.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./compare": {
+      "types": "./dist/esm/compare/comparisons.d.ts",
+      "import": "./dist/esm/compare/comparisons.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./manipulate": {
+      "types": "./dist/esm/manipulate/add.d.ts",
+      "import": "./dist/esm/manipulate/add.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "sideEffects": false,
+  "keywords": [
+    "date",
+    "time",
+    "datetime",
+    "format",
+    "parse",
+    "lightweight",
+    "zero-dependency",
+    "fast",
+    "dayjs",
+    "alternative"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "package.json"
+  ],
+  "author": "Pongsakorn Thipayanate <contact@fasu.dev>",
+  "license": "MIT",
   "scripts": {
     "build": "vite build",
     "bench": "vitest bench tests/benchmarks/comparison.bench.ts",
