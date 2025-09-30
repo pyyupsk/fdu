@@ -1,0 +1,20 @@
+{
+  "name": "fd",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "lint": "biome check",
+    "lint:fix": "biome check --fix",
+    "format": "biome format --write",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "@types/bun": "latest",
+    "vite": "^7.1.7"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
