@@ -7,12 +7,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-`fd` is a blazing-fast alternative to Day.js and date-fns, built from scratch with **zero runtime dependencies**. At less than **2KB gzipped**, it delivers **2x faster** performance while providing an intuitive, chainable API for all your date manipulation needs.
+`fd` is a blazing-fast alternative to Day.js and date-fns, built from scratch with **zero runtime dependencies**. At around **2KB gzipped** (2.09 KB with English locale included), it delivers **2x faster** performance while providing an intuitive, chainable API for all your date manipulation needs.
 
 ## ✨ Features
 
 - 🚀 **Ultra-fast**: 2x faster than Day.js, <10μs per operation
-- 📦 **Tiny bundle**: < 2KB gzipped (ESM), tree-shakable
+- 📦 **Tiny bundle**: ~2KB gzipped, tree-shakable
 - 🔒 **Zero dependencies**: No external packages, no supply-chain risks
 - 🌳 **Tree-shakable**: Import only what you need
 - 🔗 **Chainable API**: Fluent, immutable operations
@@ -229,9 +229,11 @@ Bundle size comparison:
 
 | Library  | Minified    | Gzipped        |
 | -------- | ----------- | -------------- |
-| **fd**   | **6.15 KB** | **1.83 KB** ✅ |
+| **fd**   | **8.22 KB** | **2.09 KB** ✅ |
 | Day.js   | 7.2 KB      | 2.9 KB         |
 | date-fns | 78 KB       | 13 KB          |
+
+> **Note**: fd includes English locale by default. Like Day.js, this keeps the library ready-to-use while staying under 2.1KB gzipped.
 
 _Run benchmarks yourself: `npm run bench`_
 
