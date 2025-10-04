@@ -5,6 +5,13 @@ import { getPageImage, source } from "@/lib/source";
 
 export const revalidate = false;
 
+export function generateStaticParams() {
+  return source.getPages().map((page) => ({
+    lang: page.locale,
+    slug: getPageImage(page).segments,
+  }));
+}
+
 export async function GET(
   _req: Request,
   { params }: RouteContext<"/og/docs/[...slug]">,
@@ -24,11 +31,4 @@ export async function GET(
       height: 630,
     },
   );
-}
-
-export function generateStaticParams() {
-  return source.getPages().map((page) => ({
-    lang: page.locale,
-    slug: getPageImage(page).segments,
-  }));
 }

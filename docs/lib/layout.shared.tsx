@@ -10,7 +10,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: <h1 className="font-semibold">FDU</h1>,
+      title: <h1>@pyyupsk/fdu</h1>,
     },
     githubUrl: "https://github.com/pyyupsk/fdu",
   };

@@ -18,11 +18,52 @@ export async function generateMetadata(
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
+  const pageUrl = `https://fdu.fasu.dev${page.url}`;
+  const imageUrl = getPageImage(page).url;
+
   return {
-    title: page.data.title,
+    title: `${page.data.title} | @pyyupsk/fdu`,
     description: page.data.description,
+    keywords: [
+      "fdu",
+      "date library",
+      "typescript",
+      "javascript",
+      "date manipulation",
+      "date formatting",
+      page.data.title.toLowerCase(),
+    ],
+    authors: [{ name: "pyyupsk" }],
+    creator: "pyyupsk",
+    alternates: {
+      canonical: pageUrl,
+    },
     openGraph: {
-      images: getPageImage(page).url,
+      title: page.data.title,
+      description: page.data.description,
+      url: pageUrl,
+      siteName: "@pyyupsk/fdu",
+      images: imageUrl,
+      locale: "en_US",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: page.data.title,
+      description: page.data.description,
+      images: imageUrl,
+      creator: "@pyyupsk",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }
