@@ -15,6 +15,7 @@
  * ```
  */
 export { fdu, fdu as default } from "./core/datetime";
+export { locale, registerLocale } from "./locale/locale";
 
 import { registerLocale } from "./locale/locale";
 import { en } from "./locale/locales/en";
