@@ -75,18 +75,18 @@ validateDateInput("not a date"); // null
 ### API Validation
 
 ```typescript
-app.post('/api/events', (req, res) => {
+app.post("/api/events", (req, res) => {
   const date = fdu(req.body.eventDate);
 
   if (!date.isValid()) {
     return res.status(400).json({
-      error: "Invalid date format"
+      error: "Invalid date format",
     });
   }
 
   // Process valid date
   const event = {
-    date: date.toISOString()
+    date: date.toISOString(),
   };
 
   res.json(event);

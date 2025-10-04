@@ -49,7 +49,7 @@ const date = fdu("2025-09-30T14:30:45");
 
 const record = {
   id: 1,
-  createdAt: date.toISOString()
+  createdAt: date.toISOString(),
 };
 
 // Save to database
@@ -61,11 +61,11 @@ await db.save(record);
 ```typescript
 const date = fdu("2025-09-30");
 
-const response = await fetch('/api/events', {
-  method: 'POST',
+const response = await fetch("/api/events", {
+  method: "POST",
   body: JSON.stringify({
-    eventDate: date.toISOString()
-  })
+    eventDate: date.toISOString(),
+  }),
 });
 ```
 

@@ -93,15 +93,10 @@ registerLocale("de", de);
 const date = fdu("2025-01-15");
 
 // Chain with other methods
-date
-  .locale("fr")
-  .add(1, "month")
-  .format("DD MMMM YYYY"); // '15 février 2025'
+date.locale("fr").add(1, "month").format("DD MMMM YYYY"); // '15 février 2025'
 
 // Switch locale
-date
-  .locale("de")
-  .format("DD. MMMM YYYY"); // '15. Januar 2025'
+date.locale("de").format("DD. MMMM YYYY"); // '15. Januar 2025'
 ```
 
 ## See Also

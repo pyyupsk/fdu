@@ -1,4 +1,16 @@
 {
   "title": "Documentation",
-  "pages": ["index", "formatting", "localization", "---API Reference---", "api"]
+  "pages": [
+    "index",
+    "formatting",
+    "localization",
+    "---API Reference---",
+    "api-creation",
+    "api-formatting",
+    "api-manipulation",
+    "api-comparison",
+    "api-query",
+    "api-conversion",
+    "api-locale"
+  ]
 }

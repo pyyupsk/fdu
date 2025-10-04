@@ -3,8 +3,6 @@ title: Formatting
 description: Format dates and times with flexible token patterns
 ---
 
-Format dates and times with flexible token patterns.
-
 ## Basic Usage
 
 ```typescript
@@ -21,66 +19,66 @@ date.format("DD/MM/YYYY"); // '30/09/2025'
 
 ### Year
 
-| Token  | Output | Description       |
-| ------ | ------ | ----------------- |
-| `YYYY` | 2025   | 4-digit year      |
-| `YY`   | 25     | 2-digit year      |
+| Token  | Output | Description  |
+| ------ | ------ | ------------ |
+| `YYYY` | 2025   | 4-digit year |
+| `YY`   | 25     | 2-digit year |
 
 ### Month
 
-| Token  | Output    | Description          |
-| ------ | --------- | -------------------- |
-| `MMMM` | September | Full month name      |
-| `MMM`  | Sep       | Short month name     |
-| `MM`   | 09        | 2-digit month        |
-| `M`    | 9         | Month without zero   |
+| Token  | Output    | Description        |
+| ------ | --------- | ------------------ |
+| `MMMM` | September | Full month name    |
+| `MMM`  | Sep       | Short month name   |
+| `MM`   | 09        | 2-digit month      |
+| `M`    | 9         | Month without zero |
 
 ### Day of Month
 
-| Token | Output | Description         |
-| ----- | ------ | ------------------- |
-| `DD`  | 30     | 2-digit day         |
-| `D`   | 30     | Day without zero    |
+| Token | Output | Description      |
+| ----- | ------ | ---------------- |
+| `DD`  | 30     | 2-digit day      |
+| `D`   | 30     | Day without zero |
 
 ### Day of Week
 
-| Token  | Output   | Description          |
-| ------ | -------- | -------------------- |
-| `dddd` | Monday   | Full weekday name    |
-| `ddd`  | Mon      | Short weekday name   |
-| `dd`   | Mo       | Min weekday name     |
-| `d`    | 1        | Day of week (0-6)    |
+| Token  | Output | Description        |
+| ------ | ------ | ------------------ |
+| `dddd` | Monday | Full weekday name  |
+| `ddd`  | Mon    | Short weekday name |
+| `dd`   | Mo     | Min weekday name   |
+| `d`    | 1      | Day of week (0-6)  |
 
 ### Hour
 
-| Token | Output | Description              |
-| ----- | ------ | ------------------------ |
-| `HH`  | 14     | 2-digit hour (24h)       |
-| `H`   | 14     | Hour (24h) without zero  |
-| `hh`  | 02     | 2-digit hour (12h)       |
-| `h`   | 2      | Hour (12h) without zero  |
+| Token | Output | Description             |
+| ----- | ------ | ----------------------- |
+| `HH`  | 14     | 2-digit hour (24h)      |
+| `H`   | 14     | Hour (24h) without zero |
+| `hh`  | 02     | 2-digit hour (12h)      |
+| `h`   | 2      | Hour (12h) without zero |
 
 ### Minute
 
-| Token | Output | Description            |
-| ----- | ------ | ---------------------- |
-| `mm`  | 30     | 2-digit minute         |
-| `m`   | 30     | Minute without zero    |
+| Token | Output | Description         |
+| ----- | ------ | ------------------- |
+| `mm`  | 30     | 2-digit minute      |
+| `m`   | 30     | Minute without zero |
 
 ### Second
 
-| Token | Output | Description            |
-| ----- | ------ | ---------------------- |
-| `ss`  | 45     | 2-digit second         |
-| `s`   | 45     | Second without zero    |
+| Token | Output | Description         |
+| ----- | ------ | ------------------- |
+| `ss`  | 45     | 2-digit second      |
+| `s`   | 45     | Second without zero |
 
 ### Millisecond
 
-| Token | Output | Description        |
-| ----- | ------ | ------------------ |
-| `SSS` | 123    | 3-digit millisecond|
-| `SS`  | 12     | 2-digit millisecond|
-| `S`   | 1      | 1-digit millisecond|
+| Token | Output | Description         |
+| ----- | ------ | ------------------- |
+| `SSS` | 123    | 3-digit millisecond |
+| `SS`  | 12     | 2-digit millisecond |
+| `S`   | 1      | 1-digit millisecond |
 
 ### AM/PM
 
@@ -91,10 +89,10 @@ date.format("DD/MM/YYYY"); // '30/09/2025'
 
 ### Unix Timestamp
 
-| Token | Output     | Description              |
-| ----- | ---------- | ------------------------ |
-| `X`   | 1727704245 | Unix timestamp (seconds) |
-| `x`   | 1727704245000 | Unix timestamp (ms)   |
+| Token | Output        | Description              |
+| ----- | ------------- | ------------------------ |
+| `X`   | 1727704245    | Unix timestamp (seconds) |
+| `x`   | 1727704245000 | Unix timestamp (ms)      |
 
 ## Escaped Text
 

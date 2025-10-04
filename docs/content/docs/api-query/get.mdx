@@ -18,6 +18,7 @@ year(): number
 ```
 
 **Example:**
+
 ```typescript
 import { fdu } from "@pyyupsk/fdu";
 
@@ -34,6 +35,7 @@ month(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30");
 date.month(); // 8 (September, 0-indexed)
@@ -48,6 +50,7 @@ date(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30");
 date.date(); // 30
@@ -62,6 +65,7 @@ day(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30"); // Monday
 date.day(); // 1
@@ -76,6 +80,7 @@ hour(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30T14:30:45");
 date.hour(); // 14
@@ -90,6 +95,7 @@ minute(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30T14:30:45");
 date.minute(); // 30
@@ -104,6 +110,7 @@ second(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30T14:30:45");
 date.second(); // 45
@@ -118,6 +125,7 @@ millisecond(): number
 ```
 
 **Example:**
+
 ```typescript
 const date = fdu("2025-09-30T14:30:45.123");
 date.millisecond(); // 123
@@ -130,13 +138,13 @@ import { fdu } from "@pyyupsk/fdu";
 
 const date = fdu("2025-09-30T14:30:45.123");
 
-console.log(date.year());        // 2025
-console.log(date.month());       // 8 (September)
-console.log(date.date());        // 30
-console.log(date.day());         // 1 (Monday)
-console.log(date.hour());        // 14
-console.log(date.minute());      // 30
-console.log(date.second());      // 45
+console.log(date.year()); // 2025
+console.log(date.month()); // 8 (September)
+console.log(date.date()); // 30
+console.log(date.day()); // 1 (Monday)
+console.log(date.hour()); // 14
+console.log(date.minute()); // 30
+console.log(date.second()); // 45
 console.log(date.millisecond()); // 123
 ```
 

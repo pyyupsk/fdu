@@ -3,11 +3,13 @@ title: Localization
 description: fdu supports multiple locales for internationalized date formatting
 ---
 
-fdu supports multiple locales for internationalized date formatting.
-
 ## Supported Locales
 
 fdu includes built-in support for 11 locales:
+
+<Callout type="info" title="Under Development">
+  Additional language support is currently under development and will be added in future releases.
+</Callout>
 
 - `en` - English (default)
 - `es` - Spanish
@@ -121,18 +123,43 @@ import { registerLocale } from "@pyyupsk/fdu";
 
 registerLocale("custom", {
   months: [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
   monthsShort: [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ],
   weekdays: [
-    "Sunday", "Monday", "Tuesday", "Wednesday",
-    "Thursday", "Friday", "Saturday"
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ],
   weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
 });
 ```
