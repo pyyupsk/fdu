@@ -1,0 +1,28 @@
+# Source files
+src/
+tests/
+specs/
+
+# Configuration files
+tsconfig.json
+vite.config.ts
+vitest.config.ts
+biome.json
+.vscode/
+.specify/
+
+# Git files
+.git/
+.gitignore
+.github/
+
+# Development
+node_modules/
+coverage/
+.claude/
+
+# Documentation (keep in dist)
+CLAUDE.md
+CONTRIBUTING.md
+
+# Only publish dist/, README.md, LICENSE, CHANGELOG.md, package.json
