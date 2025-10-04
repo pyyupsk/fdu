@@ -1,6 +1,6 @@
 {
   "name": "@pyyupsk/fdu",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0-beta.2",
   "description": "Ultra-fast, zero-dependency date-time library for JavaScript & TypeScript",
   "keywords": [
     "date",

@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.0-beta.2] - 2025-10-04
+
+### ✨ Features
+
+- **Internationalization Expansion**
+  - Added 11 new locales: Arabic (ar), Czech (cs), Finnish (fi), Hindi (hi), Hungarian (hu), Dutch (nl), Norwegian (no), Polish (pl), Romanian (ro), Swedish (sv), Turkish (tr)
+  - Added `yearOffset` support for alternative calendars (e.g., Thai Buddhist calendar)
+  - Total of 22 built-in locales now available
+
+- **Build System**
+  - Migrated from tsup to tsdown for modular exports
+  - Improved tree-shaking support with better module granularity
+  - Consolidated locale exports into main entry point for easier imports
+
+- **Documentation**
+  - Migrated documentation framework from VitePress → Nextra → Fumadocs
+  - Added comprehensive API reference documentation with grouped structure
+  - Implemented custom OpenGraph image design for better social sharing
+  - Enhanced SEO metadata and documentation descriptions
+  - Redesigned homepage with hero section and features showcase
+  - Added search functionality and page actions for LLM integration
+  - Improved documentation deployment workflow
+
+### 📝 Changes
+
+- **Code Quality**
+  - Added comprehensive JSDoc documentation throughout codebase
+  - Refactored utility functions for better organization
+  - Improved TypeScript type definitions and exports
+
+- **Testing**
+  - Added `parseInput` tests
+  - Reorganized test structure for better maintainability
+  - Added year offset validation tests
+
+- **Maintenance**
+  - Streamlined README to focus on quick start
+  - Removed deprecated static workflow
+  - Updated locale import paths to use modular exports
+
 ## [0.0.0-beta.1] - 2025-10-04
 
 ### 🎉 Initial Beta Release
