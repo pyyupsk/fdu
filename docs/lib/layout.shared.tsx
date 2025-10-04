@@ -11,6 +11,7 @@ export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
       title: <>fdu - faster date-time utility</>,
+      url: "/docs",
     },
     githubUrl: "https://github.com/pyyupsk/fdu",
   };
