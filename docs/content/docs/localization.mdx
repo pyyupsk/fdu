@@ -33,7 +33,7 @@ Import locale data from the source and register it:
 
 ```typescript
 import { registerLocale } from "@pyyupsk/fdu";
-import { es } from "@pyyupsk/fdu/src/locale/locales/es";
+import { es } from "@pyyupsk/fdu/locale/es";
 
 registerLocale("es", es);
 ```
@@ -64,7 +64,7 @@ date.locale("de").format("MMMM"); // 'Januar'
 
 ```typescript
 import { registerLocale, fdu } from "@pyyupsk/fdu";
-import { es } from "@pyyupsk/fdu/src/locale/locales/es";
+import { es } from "@pyyupsk/fdu/locale/es";
 
 registerLocale("es", es);
 
@@ -79,7 +79,7 @@ date.format("D [de] MMMM [de] YYYY"); // '15 de enero de 2025'
 
 ```typescript
 import { registerLocale, fdu } from "@pyyupsk/fdu";
-import { fr } from "@pyyupsk/fdu/src/locale/locales/fr";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 registerLocale("fr", fr);
 
@@ -94,7 +94,7 @@ date.format("D MMMM YYYY"); // '15 janvier 2025'
 
 ```typescript
 import { registerLocale, fdu } from "@pyyupsk/fdu";
-import { ja } from "@pyyupsk/fdu/src/locale/locales/ja";
+import { ja } from "@pyyupsk/fdu/locale/ja";
 
 registerLocale("ja", ja);
 
@@ -108,7 +108,7 @@ date.format("dddd"); // '水曜日'
 
 ```typescript
 import { registerLocale, fdu } from "@pyyupsk/fdu";
-import { zhCn } from "@pyyupsk/fdu/src/locale/locales/zh-cn";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
 
 registerLocale("zh-cn", zhCn);
 
