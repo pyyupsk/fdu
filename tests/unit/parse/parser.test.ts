@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { parse } from "../../../src/parse/parser";
+import { fdu } from "../../../src";
+import { parse, parseInput } from "../../../src/parse/parser";
 
 describe("parse()", () => {
   describe("Date input", () => {
@@ -169,6 +170,69 @@ describe("parse()", () => {
       }
       const duration = Date.now() - start;
       expect(duration).toBeLessThan(100); // 10k parses in < 100ms
+    });
+  });
+});
+
+describe("parseInput()", () => {
+  describe("FduInstance input", () => {
+    it("should parse FduInstance using toDate() method", () => {
+      const instance = fdu("2025-09-30T12:00:00.000Z");
+      const result = parseInput(instance);
+      expect(result).toBeInstanceOf(Date);
+      expect(result.toISOString()).toBe("2025-09-30T12:00:00.000Z");
+    });
+
+    it("should create new Date instance from FduInstance", () => {
+      const instance = fdu("2025-09-30");
+      const result = parseInput(instance);
+      expect(result).not.toBe(instance.toDate());
+      expect(result.getTime()).toBe(instance.toDate().getTime());
+    });
+  });
+
+  describe("undefined input", () => {
+    it("should return current date when undefined", () => {
+      const before = Date.now();
+      const result = parseInput(undefined);
+      const after = Date.now();
+      expect(result).toBeInstanceOf(Date);
+      expect(result.getTime()).toBeGreaterThanOrEqual(before);
+      expect(result.getTime()).toBeLessThanOrEqual(after);
+    });
+  });
+
+  describe("Standard inputs", () => {
+    it("should parse Date object", () => {
+      const input = new Date("2025-09-30");
+      const result = parseInput(input);
+      expect(result).toBeInstanceOf(Date);
+      expect(result.getTime()).toBe(input.getTime());
+    });
+
+    it("should parse number timestamp", () => {
+      const timestamp = Date.parse("2025-09-30T12:00:00.000Z");
+      const result = parseInput(timestamp);
+      expect(result.getTime()).toBe(timestamp);
+    });
+
+    it("should parse string", () => {
+      const result = parseInput("2025-09-30T12:00:00.000Z");
+      expect(result.toISOString()).toBe("2025-09-30T12:00:00.000Z");
+    });
+  });
+
+  describe("Invalid inputs", () => {
+    it("should handle object without toDate method", () => {
+      // biome-ignore lint/suspicious/noExplicitAny: test edge case
+      const result = parseInput({ foo: "bar" } as any);
+      expect(Number.isNaN(result.getTime())).toBe(true);
+    });
+
+    it("should handle object with non-function toDate property", () => {
+      // biome-ignore lint/suspicious/noExplicitAny: test edge case
+      const result = parseInput({ toDate: "not a function" } as any);
+      expect(Number.isNaN(result.getTime())).toBe(true);
     });
   });
 });
