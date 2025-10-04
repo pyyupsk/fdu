@@ -1,0 +1,128 @@
+---
+title: isBefore()
+description: Check if a date is before another
+---
+
+Checks if this date is before another date.
+
+## Syntax
+
+```typescript
+.isBefore(other: FduInstance): boolean
+```
+
+## Parameters
+
+- `other: FduInstance` - Date to compare with
+
+## Returns
+
+`boolean` - True if this date is before the other date
+
+## Examples
+
+### Basic Comparison
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const date1 = fdu('2024-01-15');
+const date2 = fdu('2024-01-20');
+
+date1.isBefore(date2);  // true
+date2.isBefore(date1);  // false
+```
+
+### Same Date
+
+```typescript
+const date1 = fdu('2024-01-15');
+const date2 = fdu('2024-01-15');
+
+date1.isBefore(date2);  // false (same date)
+```
+
+### With Time
+
+```typescript
+const morning = fdu('2024-01-15T09:00:00');
+const afternoon = fdu('2024-01-15T14:00:00');
+
+morning.isBefore(afternoon);  // true
+
+const sameTime = fdu('2024-01-15T09:00:00');
+morning.isBefore(sameTime);   // false (exact same time)
+```
+
+## Common Patterns
+
+### Check if date is in the past
+
+```typescript
+const date = fdu('2023-01-15');
+const now = fdu();
+
+if (date.isBefore(now)) {
+  console.log('This date is in the past');
+}
+```
+
+### Validate date range
+
+```typescript
+function isInRange(date: FduInstance, start: FduInstance, end: FduInstance): boolean {
+  return !date.isBefore(start) && date.isBefore(end);
+}
+
+const date = fdu('2024-06-15');
+const start = fdu('2024-01-01');
+const end = fdu('2024-12-31');
+
+isInRange(date, start, end);  // true
+```
+
+### Sort dates
+
+```typescript
+const dates = [
+  fdu('2024-03-15'),
+  fdu('2024-01-20'),
+  fdu('2024-02-10')
+];
+
+dates.sort((a, b) => a.isBefore(b) ? -1 : 1);
+// Results in chronological order: Jan 20, Feb 10, Mar 15
+```
+
+### Check deadline
+
+```typescript
+const deadline = fdu('2024-12-31');
+const today = fdu();
+
+if (today.isBefore(deadline)) {
+  const daysLeft = deadline.diff(today, 'day');
+  console.log(`${daysLeft} days until deadline`);
+} else {
+  console.log('Deadline has passed');
+}
+```
+
+### Event scheduling
+
+```typescript
+const eventDate = fdu('2024-12-25');
+const now = fdu();
+
+if (now.isBefore(eventDate)) {
+  console.log('Event is upcoming');
+} else {
+  console.log('Event has already occurred');
+}
+```
+
+## See Also
+
+- [isAfter()](/docs/api/is-after) - Check if after another date
+- [isSame()](/docs/api/is-same) - Check if same as another date
+- [diff()](/docs/api/diff) - Calculate difference between dates

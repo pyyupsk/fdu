@@ -107,8 +107,11 @@ export default function HomePage() {
               Ready to get started?
             </h2>
             <p className="text-xl text-fd-muted-foreground">
-              Install fdu in your project and start building with modern date
-              utilities.
+              Install{" "}
+              <code className="bg-fd-accent text-fd-accent-foreground p-1 rounded-md">
+                @pyyupsk/fdu
+              </code>{" "}
+              in your project and start building with modern date utilities.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-4">

@@ -1,0 +1,4 @@
+{
+  "title": "Locale",
+  "pages": ["instance", "global", "register-locale"]
+}

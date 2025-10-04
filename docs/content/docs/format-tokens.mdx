@@ -1,0 +1,321 @@
+---
+title: Format Tokens
+description: All available date and time format tokens
+---
+
+The `.format()` method uses tokens to format dates. Here's the complete list of supported tokens.
+
+<Callout type="info">
+All code examples in this guide assume you've imported `fdu`:
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+```
+</Callout>
+
+## Year
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `YYYY` | 2024 | 4-digit year |
+| `YY` | 24 | 2-digit year |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.format('YYYY');  // '2024'
+date.format('YY');    // '24'
+```
+
+---
+
+## Month
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `MMMM` | January | Full month name (locale-aware) |
+| `MMM` | Jan | Abbreviated month name (locale-aware) |
+| `MM` | 01 | Month number (zero-padded) |
+| `M` | 1 | Month number |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.format('MMMM');  // 'January'
+date.format('MMM');   // 'Jan'
+date.format('MM');    // '01'
+date.format('M');     // '1'
+
+// Locale-aware
+date.locale('es').format('MMMM');  // 'enero'
+date.locale('es').format('MMM');   // 'ene'
+```
+
+---
+
+## Day of Month
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `DD` | 01-31 | Day of month (zero-padded) |
+| `Do` | 1st, 2nd, 3rd | Day with ordinal suffix (locale-aware) |
+| `D` | 1-31 | Day of month |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.format('DD');  // '15'
+date.format('Do');  // '15th' (with English locale)
+date.format('D');   // '15'
+```
+
+---
+
+## Day of Week
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `dddd` | Sunday | Full weekday name (locale-aware) |
+| `ddd` | Sun | Abbreviated weekday name (locale-aware) |
+| `dd` | Su | Minimal weekday name (locale-aware) |
+| `d` | 0-6 | Day of week (0=Sunday, 6=Saturday) |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15'); // Monday
+
+date.format('dddd');  // 'Monday'
+date.format('ddd');   // 'Mon'
+date.format('dd');    // 'Mo'
+date.format('d');     // '1'
+
+// Locale-aware
+date.locale('es').format('dddd');  // 'lunes'
+date.locale('es').format('ddd');   // 'lun'
+```
+
+---
+
+## Hour
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `HH` | 00-23 | Hour in 24-hour format (zero-padded) |
+| `H` | 0-23 | Hour in 24-hour format |
+| `hh` | 01-12 | Hour in 12-hour format (zero-padded) |
+| `h` | 1-12 | Hour in 12-hour format |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:30:00');
+
+date.format('HH');  // '14'
+date.format('H');   // '14'
+date.format('hh');  // '02'
+date.format('h');   // '2'
+
+const morning = fdu('2024-01-15T09:30:00');
+morning.format('hh');  // '09'
+morning.format('h');   // '9'
+```
+
+---
+
+## Minute
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `mm` | 00-59 | Minutes (zero-padded) |
+| `m` | 0-59 | Minutes |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:05:00');
+
+date.format('mm');  // '05'
+date.format('m');   // '5'
+```
+
+---
+
+## Second
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `ss` | 00-59 | Seconds (zero-padded) |
+| `s` | 0-59 | Seconds |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:30:08');
+
+date.format('ss');  // '08'
+date.format('s');   // '8'
+```
+
+---
+
+## Millisecond
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `SSS` | 000-999 | Milliseconds (3 digits) |
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:30:45.123');
+
+date.format('SSS');  // '123'
+```
+
+---
+
+## AM/PM
+
+| Token | Output | Description |
+|-------|--------|-------------|
+| `A` | AM, PM | Uppercase AM/PM indicator (locale-aware) |
+| `a` | am, pm | Lowercase AM/PM indicator (locale-aware) |
+
+**Examples:**
+
+```typescript
+const morning = fdu('2024-01-15T09:30:00');
+const afternoon = fdu('2024-01-15T14:30:00');
+
+morning.format('A');    // 'AM'
+afternoon.format('A');  // 'PM'
+morning.format('a');    // 'am'
+afternoon.format('a');  // 'pm'
+```
+
+---
+
+## Escaping Text
+
+To display text without parsing it as tokens, wrap it in square brackets `[...]`.
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:30:00');
+
+// Basic escaping
+date.format('[Today is] YYYY-MM-DD');
+// 'Today is 2024-01-15'
+
+date.format('YYYY [year]');
+// '2024 year'
+
+// Nested brackets format the inner content
+date.format('[[YYYY-MM-DD]]');
+// '[2024-01-15]'
+
+date.format('[Year: [YYYY]]');
+// 'Year: [2024]'
+
+// Complex example
+date.format('[The date is] dddd, MMMM Do, YYYY [at] h:mm A');
+// 'The date is Monday, January 15th, 2024 at 2:30 PM'
+```
+
+### Escaping Rules
+
+1. **Single brackets** - Text inside is displayed literally:
+   ```typescript
+   format('[text]')  // 'text'
+   ```
+
+2. **Nested brackets** - Inner content is formatted, outer brackets remain:
+   ```typescript
+   format('[[YYYY]]')  // '[2024]'
+   ```
+
+3. **Unclosed brackets** - Treated as literal text until next space:
+   ```typescript
+   format('[unclosed text continues')  // '[unclosed'
+   ```
+
+---
+
+## Common Patterns
+
+Here are some commonly used format patterns:
+
+```typescript
+const date = fdu('2024-01-15T14:30:45');
+
+// Date only
+date.format('YYYY-MM-DD');                    // '2024-01-15'
+date.format('MM/DD/YYYY');                    // '01/15/2024'
+date.format('DD.MM.YYYY');                    // '15.01.2024'
+date.format('MMMM DD, YYYY');                 // 'January 15, 2024'
+date.format('Do MMMM YYYY');                  // '15th January 2024'
+
+// Date with weekday
+date.format('dddd, MMMM DD, YYYY');           // 'Monday, January 15, 2024'
+date.format('ddd, MMM DD');                   // 'Mon, Jan 15'
+
+// Time only
+date.format('HH:mm:ss');                      // '14:30:45'
+date.format('hh:mm:ss A');                    // '02:30:45 PM'
+date.format('HH:mm');                         // '14:30'
+date.format('h:mm A');                        // '2:30 PM'
+
+// Date and time combined
+date.format('YYYY-MM-DD HH:mm:ss');           // '2024-01-15 14:30:45'
+date.format('MMMM DD, YYYY [at] h:mm A');     // 'January 15, 2024 at 2:30 PM'
+date.format('ddd, MMM DD YYYY HH:mm:ss');     // 'Mon, Jan 15 2024 14:30:45'
+
+// Natural language
+date.format('[Today is] dddd');               // 'Today is Monday'
+date.format('[It is] h:mm A [on] MMMM Do');   // 'It is 2:30 PM on January 15th'
+
+// With milliseconds
+date.format('HH:mm:ss.SSS');                  // '14:30:45.000'
+```
+
+---
+
+## Locale-Aware Tokens
+
+Some tokens change their output based on the current locale:
+
+- **MMMM, MMM** - Month names
+- **dddd, ddd, dd** - Weekday names
+- **Do** - Ordinal suffix
+- **A, a** - AM/PM indicator
+
+**Examples:**
+
+```typescript
+const date = fdu('2024-01-15T14:30:00');
+
+// English (default)
+date.format('dddd, MMMM Do, YYYY');
+// 'Monday, January 15th, 2024'
+
+// Spanish
+date.locale('es').format('dddd, D [de] MMMM [de] YYYY');
+// 'lunes, 15 de enero de 2024'
+
+// French
+date.locale('fr').format('dddd D MMMM YYYY');
+// 'lundi 15 janvier 2024'
+
+// Chinese (Simplified)
+date.locale('zh-cn').format('YYYY年M月D日 dddd');
+// '2024年1月15日 星期一'
+```
+
+See the [Localization](/docs/i18n) guide for more information about using locales.

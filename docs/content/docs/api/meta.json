@@ -1,0 +1,13 @@
+{
+  "title": "API Reference",
+  "pages": [
+    "creation",
+    "formatting",
+    "manipulation",
+    "comparison",
+    "get",
+    "conversion",
+    "locale"
+  ],
+  "defaultOpen": true
+}

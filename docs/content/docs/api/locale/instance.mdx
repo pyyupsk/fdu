@@ -1,0 +1,152 @@
+---
+title: .locale()
+description: Get or set instance locale
+---
+
+Gets or sets the locale for a specific date instance.
+
+## Syntax
+
+### Get Locale
+
+```typescript
+.locale(): string
+```
+
+**Returns:** `string` - The current locale name for this instance
+
+### Set Locale
+
+```typescript
+.locale(name: string): FduInstance
+```
+
+**Parameters:**
+- `name: string` - Locale identifier (e.g., 'en', 'es', 'zh-cn')
+
+**Returns:** `FduInstance` - New instance with the specified locale (immutable)
+
+## Examples
+
+### Get Current Locale
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const date = fdu('2024-01-15');
+console.log(date.locale());  // 'en' (default)
+```
+
+### Set Instance Locale
+
+```typescript
+import { fdu, registerLocale } from '@pyyupsk/fdu';
+import { es } from '@pyyupsk/fdu/locale/es';
+
+registerLocale('es', es);
+
+const date = fdu('2024-01-15');
+
+// Create Spanish locale instance
+const spanishDate = date.locale('es');
+
+spanishDate.format('MMMM DD, YYYY');
+// 'enero 15, 2024'
+
+// Original unchanged
+date.format('MMMM DD, YYYY');
+// 'January 15, 2024'
+```
+
+### Chaining with Locale
+
+```typescript
+const date = fdu('2024-01-15')
+  .locale('es')
+  .add(1, 'month')
+  .format('dddd, D [de] MMMM');
+// 'jueves, 15 de febrero'
+```
+
+## Common Patterns
+
+### Switch Locale Temporarily
+
+```typescript
+const date = fdu('2024-01-15');
+
+// Format in different locales
+const english = date.format('MMMM');                // 'January'
+const spanish = date.locale('es').format('MMMM');   // 'enero'
+const french = date.locale('fr').format('MMMM');    // 'janvier'
+
+// Original instance unchanged
+console.log(date.locale());  // 'en'
+```
+
+### Multi-language Display
+
+```typescript
+const date = fdu('2024-01-15');
+
+const translations = {
+  en: date.format('MMMM DD, YYYY'),
+  es: date.locale('es').format('D [de] MMMM [de] YYYY'),
+  fr: date.locale('fr').format('D MMMM YYYY'),
+  de: date.locale('de').format('D. MMMM YYYY')
+};
+
+console.log(translations);
+// {
+//   en: 'January 15, 2024',
+//   es: '15 de enero de 2024',
+//   fr: '15 janvier 2024',
+//   de: '15. Januar 2024'
+// }
+```
+
+### Preserve Locale Through Operations
+
+```typescript
+const spanishDate = fdu('2024-01-15').locale('es');
+
+// Locale is preserved through operations
+const future = spanishDate
+  .add(1, 'month')
+  .add(5, 'day');
+
+future.format('dddd, D [de] MMMM');
+// 'martes, 20 de febrero' (still in Spanish)
+```
+
+### Conditional Locale
+
+```typescript
+function formatDateForUser(date: FduInstance, userLocale: string) {
+  return date.locale(userLocale).format('LL');
+}
+
+const date = fdu('2024-01-15');
+
+formatDateForUser(date, 'en');  // 'January 15, 2024'
+formatDateForUser(date, 'es');  // '15 de enero de 2024'
+formatDateForUser(date, 'fr');  // '15 janvier 2024'
+```
+
+## Immutability
+
+The `.locale()` method returns a new instance and never modifies the original:
+
+```typescript
+const original = fdu('2024-01-15');
+const spanish = original.locale('es');
+
+original.locale();  // 'en' (unchanged)
+spanish.locale();   // 'es'
+```
+
+## See Also
+
+- [locale()](/docs/api/locale/global) - Global locale function
+- [registerLocale()](/docs/api/locale/register-locale) - Register locales
+- [Internationalization](/docs/i18n) - Full i18n guide

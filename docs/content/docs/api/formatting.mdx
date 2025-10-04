@@ -1,0 +1,140 @@
+---
+title: Formatting
+description: Format dates with patterns
+---
+
+## .format()
+
+Formats the date according to a specified pattern using tokens.
+
+### Syntax
+
+```typescript
+.format(pattern: string): string
+```
+
+### Parameters
+
+- `pattern: string` - Format pattern using tokens (see [Format Tokens](/docs/format-tokens))
+
+### Returns
+
+`string` - Formatted date string
+
+### Examples
+
+#### Basic Formatting
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const date = fdu('2024-01-15T14:30:45');
+
+// Date only
+date.format('YYYY-MM-DD');           // '2024-01-15'
+date.format('MM/DD/YYYY');           // '01/15/2024'
+date.format('DD.MM.YYYY');           // '15.01.2024'
+
+// Time only
+date.format('HH:mm:ss');             // '14:30:45'
+date.format('hh:mm A');              // '02:30 PM'
+
+// Date and time
+date.format('YYYY-MM-DD HH:mm:ss');  // '2024-01-15 14:30:45'
+```
+
+#### Natural Language
+
+```typescript
+date.format('MMMM DD, YYYY');                    // 'January 15, 2024'
+date.format('dddd, MMMM Do, YYYY');              // 'Monday, January 15th, 2024'
+date.format('ddd, MMM DD YYYY');                 // 'Mon, Jan 15 2024'
+date.format('MMMM DD, YYYY [at] h:mm A');        // 'January 15, 2024 at 2:30 PM'
+```
+
+#### Escaped Text
+
+Use square brackets to escape text:
+
+```typescript
+date.format('[Today is] YYYY-MM-DD');
+// 'Today is 2024-01-15'
+
+date.format('YYYY [year]');
+// '2024 year'
+
+date.format('[The date is] dddd, MMMM Do');
+// 'The date is Monday, January 15th'
+```
+
+#### Nested Brackets
+
+Nested brackets format the inner content:
+
+```typescript
+date.format('[[YYYY-MM-DD]]');
+// '[2024-01-15]'
+
+date.format('[Year: [YYYY]]');
+// 'Year: [2024]'
+```
+
+#### Locale-Aware Formatting
+
+Some tokens change based on the current locale:
+
+```typescript
+const date = fdu('2024-01-15');
+
+// English
+date.format('dddd, MMMM DD, YYYY');
+// 'Monday, January 15, 2024'
+
+// Spanish
+date.locale('es').format('dddd, D [de] MMMM [de] YYYY');
+// 'lunes, 15 de enero de 2024'
+
+// French
+date.locale('fr').format('dddd D MMMM YYYY');
+// 'lundi 15 janvier 2024'
+
+// Japanese
+date.locale('ja').format('YYYY年M月D日 (dddd)');
+// '2024年1月15日 (月曜日)'
+```
+
+### Common Patterns
+
+```typescript
+const date = fdu('2024-01-15T14:30:45');
+
+// ISO 8601
+date.format('YYYY-MM-DDTHH:mm:ss');         // '2024-01-15T14:30:45'
+
+// RFC 2822
+date.format('ddd, DD MMM YYYY HH:mm:ss');   // 'Mon, 15 Jan 2024 14:30:45'
+
+// Human readable
+date.format('MMMM Do YYYY, h:mm:ss a');     // 'January 15th 2024, 2:30:45 pm'
+
+// Short formats
+date.format('M/D/YY');                      // '1/15/24'
+date.format('MMM D');                       // 'Jan 15'
+date.format('h:mm A');                      // '2:30 PM'
+```
+
+### Available Tokens
+
+For a complete list of available format tokens, see the [Format Tokens](/docs/format-tokens) guide.
+
+**Common tokens:**
+- `YYYY`, `YY` - Year
+- `MMMM`, `MMM`, `MM`, `M` - Month
+- `DD`, `Do`, `D` - Day of month
+- `dddd`, `ddd`, `dd`, `d` - Day of week
+- `HH`, `H` - Hour (24-hour)
+- `hh`, `h` - Hour (12-hour)
+- `mm`, `m` - Minutes
+- `ss`, `s` - Seconds
+- `SSS` - Milliseconds
+- `A`, `a` - AM/PM

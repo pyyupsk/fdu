@@ -1,0 +1,181 @@
+---
+title: add()
+description: Add time to a date
+---
+
+Adds the specified amount of time to the date. Returns a new instance (immutable).
+
+## Syntax
+
+```typescript
+.add(value: number, unit: UnitType): FduInstance
+```
+
+## Parameters
+
+- `value: number` - Amount to add
+- `unit: UnitType` - Time unit ('year'|'y', 'month'|'M', 'week'|'w', 'day'|'d', 'hour'|'h', 'minute'|'m', 'second'|'s', 'millisecond'|'ms')
+
+## Returns
+
+`FduInstance` - New instance with the added time
+
+## Examples
+
+### Adding Days
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const date = fdu('2024-01-15');
+
+date.add(1, 'day');   // 2024-01-16
+date.add(7, 'day');   // 2024-01-22
+date.add(1, 'd');     // 2024-01-16 (short form)
+```
+
+### Adding Months
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.add(1, 'month');   // 2024-02-15
+date.add(6, 'month');   // 2024-07-15
+date.add(1, 'M');       // 2024-02-15 (short form)
+```
+
+### Adding Years
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.add(1, 'year');    // 2025-01-15
+date.add(5, 'year');    // 2029-01-15
+date.add(1, 'y');       // 2025-01-15 (short form)
+```
+
+### Adding Time
+
+```typescript
+const date = fdu('2024-01-15T00:00:00');
+
+date.add(3, 'hour');         // 2024-01-15 03:00:00
+date.add(30, 'minute');      // 2024-01-15 00:30:00
+date.add(45, 'second');      // 2024-01-15 00:00:45
+date.add(500, 'millisecond'); // 2024-01-15 00:00:00.500
+```
+
+### Adding Weeks
+
+```typescript
+const date = fdu('2024-01-15');
+
+date.add(1, 'week');    // 2024-01-22
+date.add(2, 'w');       // 2024-01-29 (short form)
+```
+
+## Chaining
+
+Since `.add()` returns a new instance, you can chain multiple operations:
+
+```typescript
+const date = fdu('2024-01-15');
+
+const future = date
+  .add(1, 'month')
+  .add(2, 'day')
+  .add(3, 'hour');
+
+date.format('YYYY-MM-DD HH:mm');    // '2024-01-15 00:00' (original unchanged)
+future.format('YYYY-MM-DD HH:mm');  // '2024-02-17 03:00'
+```
+
+## Unit Types
+
+| Full Name | Short | Example |
+|-----------|-------|---------|
+| `year` | `y` | `.add(1, 'year')` |
+| `month` | `M` | `.add(1, 'month')` |
+| `week` | `w` | `.add(1, 'week')` |
+| `day` | `d` | `.add(1, 'day')` |
+| `hour` | `h` | `.add(1, 'hour')` |
+| `minute` | `m` | `.add(1, 'minute')` |
+| `second` | `s` | `.add(1, 'second')` |
+| `millisecond` | `ms` | `.add(1, 'millisecond')` |
+
+## Month/Year Edge Cases
+
+When adding months or years, if the resulting day doesn't exist in the target month, it will be clamped to the last valid day:
+
+```typescript
+const date = fdu('2024-01-31');
+
+// January 31 + 1 month = February 29 (2024 is a leap year)
+date.add(1, 'month').format('YYYY-MM-DD');  // '2024-02-29'
+
+// January 31 + 2 months = March 31
+date.add(2, 'month').format('YYYY-MM-DD');  // '2024-03-31'
+
+const date2 = fdu('2023-01-31');
+// January 31 + 1 month = February 28 (2023 is not a leap year)
+date2.add(1, 'month').format('YYYY-MM-DD'); // '2023-02-28'
+```
+
+## Immutability
+
+`.add()` returns a new instance and never modifies the original:
+
+```typescript
+const original = fdu('2024-01-15');
+const modified = original.add(1, 'day');
+
+original.format('YYYY-MM-DD');  // '2024-01-15' (unchanged)
+modified.format('YYYY-MM-DD');  // '2024-01-16'
+```
+
+## Common Patterns
+
+### Add business days
+
+```typescript
+function addBusinessDays(date: FduInstance, days: number): FduInstance {
+  let result = date;
+  let added = 0;
+
+  while (added < days) {
+    result = result.add(1, 'day');
+    const dayOfWeek = result.day();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) {  // Not weekend
+      added++;
+    }
+  }
+
+  return result;
+}
+
+const start = fdu('2024-01-15');  // Monday
+const end = addBusinessDays(start, 5);  // Following Monday
+```
+
+### Schedule future event
+
+```typescript
+const now = fdu();
+const reminder = now.add(7, 'day').add(9, 'hour');  // 7 days from now at 9 AM
+
+console.log(`Reminder set for: ${reminder.format('YYYY-MM-DD HH:mm')}`);
+```
+
+### Calculate expiration date
+
+```typescript
+const purchaseDate = fdu('2024-01-15');
+const warranty = purchaseDate.add(2, 'year');
+
+console.log(`Warranty expires: ${warranty.format('MMMM D, YYYY')}`);
+```
+
+## See Also
+
+- [subtract()](/docs/api/subtract) - Subtract time from a date
+- [diff()](/docs/api/diff) - Calculate difference between dates

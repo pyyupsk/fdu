@@ -1,0 +1,98 @@
+---
+title: toDate()
+description: Convert to native JavaScript Date
+---
+
+Converts the instance to a native JavaScript Date object.
+
+## Syntax
+
+```typescript
+.toDate(): Date
+```
+
+## Returns
+
+`Date` - Native JavaScript Date object
+
+## Examples
+
+### Basic Conversion
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const fduDate = fdu('2024-01-15T14:30:00');
+const nativeDate = fduDate.toDate();
+
+console.log(nativeDate instanceof Date);  // true
+console.log(nativeDate.getFullYear());    // 2024
+```
+
+### Use with Native Methods
+
+```typescript
+const fduDate = fdu('2024-01-15');
+const nativeDate = fduDate.toDate();
+
+// Use native Date methods
+console.log(nativeDate.toLocaleDateString());
+console.log(nativeDate.toUTCString());
+console.log(nativeDate.getTime());
+```
+
+## Common Patterns
+
+### Pass to APIs Expecting Date
+
+```typescript
+const fduDate = fdu('2024-01-15');
+
+// Pass to API expecting Date
+someApi.setDate(fduDate.toDate());
+
+// Use with libraries that need Date objects
+calendar.setSelectedDate(fduDate.toDate());
+```
+
+### Use with Chart Libraries
+
+```typescript
+const fduDate = fdu('2024-01-15');
+
+// Use with chart library
+chart.addDataPoint({
+  x: fduDate.toDate(),
+  y: value
+});
+```
+
+### Date Picker Integration
+
+```typescript
+const fduDate = fdu('2024-01-15');
+
+// Set date picker value
+datePicker.setValue(fduDate.toDate());
+
+// Convert back from native Date
+const nativeDate = datePicker.getValue();
+const backToFdu = fdu(nativeDate);
+```
+
+### Comparison with Native Dates
+
+```typescript
+const fduDate = fdu('2024-01-15');
+const nativeDate = new Date('2024-01-20');
+
+// Convert to compare
+if (fduDate.toDate() < nativeDate) {
+  console.log('fdu date is earlier');
+}
+```
+
+## See Also
+
+- [toISOString()](/docs/api/to-iso-string) - Convert to ISO string
+- [valueOf()](/docs/api/value-of) - Get Unix timestamp

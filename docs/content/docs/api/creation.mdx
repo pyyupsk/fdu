@@ -1,0 +1,93 @@
+---
+title: Creation
+description: Creating date instances
+---
+
+## fdu()
+
+Creates a date-time instance from various input types.
+
+### Syntax
+
+```typescript
+fdu(input?: FduInput): FduInstance
+```
+
+### Parameters
+
+- `input?: FduInput` - Optional date input
+  - `Date` - JavaScript Date object
+  - `string` - ISO 8601 date string
+  - `number` - Unix timestamp in milliseconds
+  - `FduInstance` - Another fdu instance (creates a copy)
+  - `undefined` - Current date/time (default)
+
+### Returns
+
+`FduInstance` - An immutable date-time instance with methods for manipulation, formatting, and comparison
+
+### Examples
+
+#### Current Date/Time
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const now = fdu();
+```
+
+#### From Date Object
+
+```typescript
+const date = fdu(new Date());
+const specificDate = fdu(new Date('2024-01-15'));
+```
+
+#### From ISO String
+
+```typescript
+// Date only
+const date1 = fdu('2024-01-15');
+
+// Date and time
+const date2 = fdu('2024-01-15T14:30:00');
+
+// With timezone
+const date3 = fdu('2024-01-15T14:30:00Z');
+const date4 = fdu('2024-01-15T14:30:00+05:30');
+```
+
+#### From Timestamp
+
+```typescript
+// Unix timestamp in milliseconds
+const date = fdu(1705329600000);
+```
+
+#### Copy Instance
+
+```typescript
+const original = fdu('2024-01-15');
+const copy = fdu(original);
+
+// Both are independent instances
+original.add(1, 'day'); // doesn't affect copy
+```
+
+### Invalid Dates
+
+When given invalid input, `@pyyupsk/fdu` creates an invalid date instance:
+
+```typescript
+const invalid = fdu('not-a-date');
+invalid.isValid(); // false
+
+const valid = fdu('2024-01-15');
+valid.isValid(); // true
+```
+
+### Type Definition
+
+```typescript
+type FduInput = Date | string | number | FduInstance | undefined;
+```

@@ -1,0 +1,126 @@
+---
+title: toISOString()
+description: Convert to ISO 8601 string
+---
+
+Converts to ISO 8601 string format (always in UTC).
+
+## Syntax
+
+```typescript
+.toISOString(): string
+```
+
+## Returns
+
+`string` - ISO 8601 formatted string in UTC timezone
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+
+const date = fdu('2024-01-15T14:30:45');
+date.toISOString();  // '2024-01-15T14:30:45.000Z'
+
+const date2 = fdu('2024-12-25T00:00:00');
+date2.toISOString();  // '2024-12-25T00:00:00.000Z'
+```
+
+### With Milliseconds
+
+```typescript
+const date = fdu('2024-01-15T14:30:45.123');
+date.toISOString();  // '2024-01-15T14:30:45.123Z'
+```
+
+## Common Patterns
+
+### Store in Database
+
+```typescript
+const date = fdu('2024-01-15T14:30:45');
+
+// Store in database
+db.insert({
+  created_at: date.toISOString()
+});
+
+// Retrieve and recreate
+const row = db.select();
+const retrieved = fdu(row.created_at);
+```
+
+### Send via API
+
+```typescript
+const date = fdu('2024-01-15T14:30:45');
+
+// Send via API
+fetch('/api/events', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    date: date.toISOString(),
+    title: 'Event'
+  })
+});
+```
+
+### JSON Serialization
+
+```typescript
+const date = fdu('2024-01-15T14:30:45');
+
+const data = {
+  timestamp: date.toISOString(),
+  event: 'User login'
+};
+
+const json = JSON.stringify(data);
+// {"timestamp":"2024-01-15T14:30:45.000Z","event":"User login"}
+```
+
+### Logging
+
+```typescript
+const now = fdu();
+
+console.log(`[${now.toISOString()}] Application started`);
+// [2024-01-15T14:30:45.123Z] Application started
+```
+
+### File Naming
+
+```typescript
+const now = fdu();
+
+const filename = `backup-${now.toISOString()}.sql`;
+// backup-2024-01-15T14:30:45.123Z.sql
+
+// Remove colons for filesystem compatibility
+const safeFilename = `backup-${now.toISOString().replace(/:/g, '-')}.sql`;
+// backup-2024-01-15T14-30-45.123Z.sql
+```
+
+## Format
+
+ISO 8601 format: `YYYY-MM-DDTHH:mm:ss.sssZ`
+
+- `YYYY` - 4-digit year
+- `MM` - 2-digit month (01-12)
+- `DD` - 2-digit day (01-31)
+- `T` - Literal separator
+- `HH` - 2-digit hour (00-23)
+- `mm` - 2-digit minute (00-59)
+- `ss` - 2-digit second (00-59)
+- `sss` - 3-digit millisecond (000-999)
+- `Z` - UTC timezone indicator
+
+## See Also
+
+- [toDate()](/docs/api/to-date) - Convert to native Date object
+- [valueOf()](/docs/api/value-of) - Get Unix timestamp
+- [format()](/docs/api/formatting) - Custom format strings

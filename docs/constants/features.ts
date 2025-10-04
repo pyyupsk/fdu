@@ -11,8 +11,8 @@ export const features = [
   },
   {
     title: "Locales Built-in",
-    description: "11 locales included with comprehensive i18n support.",
-    metric: "11",
+    description: "Multiple locales included with comprehensive i18n support.",
+    metric: "11+",
   },
   {
     title: "Test Coverage",
