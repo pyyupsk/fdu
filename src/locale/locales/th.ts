@@ -2,6 +2,7 @@ import type { LocaleConfig } from "../../core/types";
 
 export const th: LocaleConfig = {
   name: "th",
+  yearOffset: 543,
   months: [
     "มกราคม",
     "กุมภาพันธ์",

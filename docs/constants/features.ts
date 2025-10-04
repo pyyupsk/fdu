@@ -12,12 +12,12 @@ export const features = [
   {
     title: "Locales Built-in",
     description: "Multiple locales included with comprehensive i18n support.",
-    metric: "11+",
+    metric: "20+",
   },
   {
     title: "Test Coverage",
     description:
       "Rigorously tested with comprehensive unit & integration coverage.",
-    metric: "99%+",
+    metric: "94%+",
   },
 ];

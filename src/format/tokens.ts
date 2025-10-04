@@ -23,8 +23,14 @@ type TokenGetter = (date: Date, locale?: LocaleConfig) => string;
  * @internal
  */
 export const tokens = {
-  YYYY: (d) => String(d.getFullYear()),
-  YY: (d) => String(d.getFullYear()).slice(-2),
+  YYYY: (d, locale) => {
+    const year = d.getFullYear() + (locale?.yearOffset ?? 0);
+    return String(year);
+  },
+  YY: (d, locale) => {
+    const year = d.getFullYear() + (locale?.yearOffset ?? 0);
+    return String(year).slice(-2);
+  },
 
   MMMM: (d, locale) => locale?.months[d.getMonth()] ?? String(d.getMonth() + 1),
   MMM: (d, locale) =>

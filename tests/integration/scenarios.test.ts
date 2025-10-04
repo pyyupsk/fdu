@@ -122,10 +122,10 @@ describe("Integration: User Scenarios", () => {
       const euFormat = date.format("DD.MM.YYYY");
       expect(euFormat).toBe("25.12.2025");
 
-      // Thai full format
+      // Thai full format (Buddhist Era: 2025 + 543 = 2568)
       const thDate2 = date.locale("th");
       const thFormat = thDate2.format("dddd DD MMMM YYYY");
-      expect(thFormat).toMatch(/^วัน.+ 25 ธันวาคม 2025/);
+      expect(thFormat).toMatch(/^วัน.+ 25 ธันวาคม 2568/);
     });
   });
 

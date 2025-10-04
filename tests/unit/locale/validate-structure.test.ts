@@ -1,28 +1,50 @@
 import { describe, expect, test } from "vitest";
 import type { LocaleConfig } from "../../../src/core/types";
+import { ar } from "../../../src/locale/locales/ar";
+import { cs } from "../../../src/locale/locales/cs";
 import { de } from "../../../src/locale/locales/de";
 import { en } from "../../../src/locale/locales/en";
 import { es } from "../../../src/locale/locales/es";
+import { fi } from "../../../src/locale/locales/fi";
 import { fr } from "../../../src/locale/locales/fr";
+import { hi } from "../../../src/locale/locales/hi";
+import { hu } from "../../../src/locale/locales/hu";
 import { it } from "../../../src/locale/locales/it";
 import { ja } from "../../../src/locale/locales/ja";
 import { ko } from "../../../src/locale/locales/ko";
+import { nl } from "../../../src/locale/locales/nl";
+import { no } from "../../../src/locale/locales/no";
+import { pl } from "../../../src/locale/locales/pl";
 import { pt } from "../../../src/locale/locales/pt";
+import { ro } from "../../../src/locale/locales/ro";
 import { ru } from "../../../src/locale/locales/ru";
+import { sv } from "../../../src/locale/locales/sv";
 import { th } from "../../../src/locale/locales/th";
+import { tr } from "../../../src/locale/locales/tr";
 import { zhCn } from "../../../src/locale/locales/zh-cn";
 
 const allLocales: Record<string, LocaleConfig> = {
+  ar,
+  cs,
+  de,
   en,
   es,
+  fi,
   fr,
-  de,
+  hi,
+  hu,
+  it,
   ja,
   ko,
+  nl,
+  no,
+  pl,
   pt,
+  ro,
   ru,
-  it,
+  sv,
   th,
+  tr,
   "zh-cn": zhCn,
 };
 

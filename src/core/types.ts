@@ -205,6 +205,9 @@ export type LocaleConfig = {
   /** Locale identifier (e.g., "en", "es", "zh-cn") */
   name: string;
 
+  /** Year offset for alternative calendar systems (e.g., 543 for Thai Buddhist Era) */
+  yearOffset?: number;
+
   /** Full month names [January...December] */
   months: readonly [
     string,

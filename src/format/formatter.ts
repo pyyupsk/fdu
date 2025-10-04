@@ -33,7 +33,19 @@ export function format(
   pattern: string,
   locale?: LocaleConfig,
 ): string {
-  const { processedPattern, escapedSections } = extractEscapedSections(pattern);
+  let expandedPattern = pattern;
+  if (locale?.formats) {
+    const formatKeys = ["LLLL", "LLL", "LL", "LTS", "LT", "L"] as const;
+    for (const key of formatKeys) {
+      if (locale.formats[key] && pattern === key) {
+        expandedPattern = locale.formats[key];
+        break;
+      }
+    }
+  }
+
+  const { processedPattern, escapedSections } =
+    extractEscapedSections(expandedPattern);
 
   const formatted = processedPattern.replace(tokenRegex, (token) => {
     const getter = tokens[token as keyof typeof tokens];

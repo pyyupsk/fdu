@@ -7,23 +7,23 @@ describe("Format Tokens", () => {
 
   describe("Year tokens", () => {
     it("YYYY should return full year", () => {
-      expect(tokens.YYYY(testDate)).toBe("2025");
+      expect(tokens.YYYY(testDate, undefined)).toBe("2025");
     });
 
     it("YY should return 2-digit year", () => {
-      expect(tokens.YY(testDate)).toBe("25");
+      expect(tokens.YY(testDate, undefined)).toBe("25");
     });
 
     it("should handle year 2000 edge case", () => {
       const date = new Date("2000-01-01");
-      expect(tokens.YYYY(date)).toBe("2000");
-      expect(tokens.YY(date)).toBe("00");
+      expect(tokens.YYYY(date, undefined)).toBe("2000");
+      expect(tokens.YY(date, undefined)).toBe("00");
     });
 
     it("should handle 3-digit years", () => {
       const date = new Date("0099-01-01");
-      expect(tokens.YYYY(date)).toBe("99");
-      expect(tokens.YY(date)).toBe("99");
+      expect(tokens.YYYY(date, undefined)).toBe("99");
+      expect(tokens.YY(date, undefined)).toBe("99");
     });
   });
 
