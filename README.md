@@ -6,7 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-📚 **[Documentation](https://fdu.fasu.dev)** • 🚀 **[Getting Started](https://fdu.fasu.dev/guide)** • 🌐 **[API Reference](https://fdu.fasu.dev/api)**
+📚 **[Documentation](https://fdu.fasu.dev)** • 🚀 **[Getting Started](https://fdu.fasu.dev/docs/getting-started)** • 🌐 **[API Reference](https://fdu.fasu.dev/docs/api-reference/creation/fdu)**
 
 ## Features
 
@@ -67,7 +67,7 @@ fdu("2025-01-15").locale("es").format("MMMM"); // 'enero'
 | `dddd` | Monday    | Full weekday name  |
 | `A`    | PM        | AM/PM              |
 
-[See all tokens →](https://fdu.fasu.dev/api/format)
+[See all tokens →](https://fdu.fasu.dev/docs/formatting)
 
 ## Supported Locales
 
@@ -116,9 +116,9 @@ fdu("2025-01-15").locale("es").format("MMMM"); // 'enero'
 ## Learn More
 
 - 📚 [Full Documentation](https://fdu.fasu.dev)
-- 🎯 [Examples](https://fdu.fasu.dev/examples)
-- 🌍 [Locale Guide](https://fdu.fasu.dev/guide/localization)
-- ⚡ [Performance](https://fdu.fasu.dev/guide/performance)
+- 🚀 [Getting Started](https://fdu.fasu.dev/docs/getting-started)
+- 🌍 [Localization Guide](https://fdu.fasu.dev/docs/localization)
+- 🎨 [Formatting Guide](https://fdu.fasu.dev/docs/formatting)
 
 ## License
 

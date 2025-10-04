@@ -143,8 +143,6 @@ Then create a Pull Request on GitHub with:
 
 ## Constitutional Principles
 
-All contributions must adhere to the project constitution (`.specify/memory/constitution.md`):
-
 ### 1. Zero Dependencies (NON-NEGOTIABLE)
 
 - No runtime dependencies allowed
