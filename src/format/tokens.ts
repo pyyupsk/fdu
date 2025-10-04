@@ -1,7 +1,27 @@
 import type { LocaleConfig } from "../core/types";
 
+/**
+ * @internal
+ */
 type TokenGetter = (date: Date, locale?: LocaleConfig) => string;
 
+/**
+ * Format token definitions and their corresponding getter functions.
+ *
+ * Tokens:
+ * - YYYY/YY: Year (4-digit/2-digit)
+ * - MMMM/MMM/MM/M: Month (full/short/padded/numeric)
+ * - DD/Do/D: Date (padded/ordinal/numeric)
+ * - dddd/ddd/dd/d: Weekday (full/short/min/numeric)
+ * - HH/H: Hour 24-hour (padded/numeric)
+ * - hh/h: Hour 12-hour (padded/numeric)
+ * - mm/m: Minute (padded/numeric)
+ * - ss/s: Second (padded/numeric)
+ * - SSS: Millisecond (3-digit)
+ * - A/a: AM/PM indicator (uppercase/lowercase)
+ *
+ * @internal
+ */
 export const tokens = {
   YYYY: (d) => String(d.getFullYear()),
   YY: (d) => String(d.getFullYear()).slice(-2),
@@ -68,5 +88,11 @@ export const tokens = {
   },
 } satisfies Record<string, TokenGetter>;
 
+/**
+ * Regular expression to match all format tokens.
+ * Longest tokens come first to avoid partial matches.
+ *
+ * @internal
+ */
 export const tokenRegex =
   /YYYY|MMMM|MMM|MM|YY|Do|DD|dddd|ddd|dd|HH|hh|mm|ss|SSS|[MdDHhmsAa]/g;

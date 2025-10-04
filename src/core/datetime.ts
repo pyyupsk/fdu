@@ -1,20 +1,38 @@
 import { format as formatDate } from "../format/formatter";
-import { locale as getGlobalLocale, getLocale } from "../locale/locale";
+import { locale as getGlobalLocale, resolveLocale } from "../locale/locale";
 import { add as addToDate } from "../manipulate/add";
 import { subtract as subtractFromDate } from "../manipulate/subtract";
-import type { FduInput, FduInstance, LocaleConfig, UnitType } from "./types";
-import { normalizeUnit } from "./types";
+import { parseInput } from "../parse/parser";
+import { normalizeUnit } from "../utils/units";
+import type { FduInput, FduInstance, UnitType } from "./types";
 
-function resolveLocale(instanceLocale: string | undefined): LocaleConfig {
-  const localeName = instanceLocale || getGlobalLocale();
-  const config = getLocale(localeName);
-
-  if (!config) {
-    console.warn(`Locale "${localeName}" not registered, falling back to "en"`);
-    return getLocale("en") as LocaleConfig;
-  }
-
-  return config;
+/**
+ * Creates a date-time instance from various input types.
+ *
+ * @param input - Date input (Date, string, number, FduInstance, or undefined for current time)
+ * @returns An FduInstance with methods for manipulation, formatting, and comparison
+ *
+ * @example
+ * ```ts
+ * // Current date/time
+ * fdu()
+ *
+ * // From Date object
+ * fdu(new Date())
+ *
+ * // From ISO string
+ * fdu('2024-01-01T12:00:00Z')
+ *
+ * // From timestamp
+ * fdu(1609459200000)
+ *
+ * // From another FduInstance
+ * fdu(existingInstance)
+ * ```
+ */
+export function fdu(input?: FduInput): FduInstance {
+  const date = parseInput(input);
+  return new DateTimeImpl(date, getGlobalLocale());
 }
 
 class DateTimeImpl implements FduInstance {
@@ -187,28 +205,4 @@ class DateTimeImpl implements FduInstance {
         return diff;
     }
   }
-}
-
-function parseInput(input: FduInput): Date {
-  if (input === undefined) {
-    return new Date();
-  }
-  if (input instanceof Date) {
-    return new Date(input.getTime());
-  }
-  if (typeof input === "number") {
-    return new Date(input);
-  }
-  if (typeof input === "string") {
-    return new Date(input);
-  }
-  if ("toDate" in input && typeof input.toDate === "function") {
-    return input.toDate();
-  }
-  return new Date(NaN);
-}
-
-export function fdu(input?: FduInput): FduInstance {
-  const date = parseInput(input);
-  return new DateTimeImpl(date, getGlobalLocale());
 }
