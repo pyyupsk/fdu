@@ -10,8 +10,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: <>fdu - faster date-time utility</>,
-      url: "/docs",
+      title: <h1 className="font-semibold">FDU</h1>,
     },
     githubUrl: "https://github.com/pyyupsk/fdu",
   };

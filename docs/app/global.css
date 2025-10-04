@@ -2,8 +2,16 @@
 @import "fumadocs-ui/css/neutral.css";
 @import "fumadocs-ui/css/preset.css";
 
+@custom-variant dark (&:is(.dark *));
+
 @layer base {
   body {
-    @apply min-h-dvh font-sans antialiased;
+    @apply min-h-dvh bg-fd-background text-fd-foreground font-sans antialiased;
+  }
+  code {
+    @apply font-mono;
+  }
+  header nav {
+    @apply border-x;
   }
 }

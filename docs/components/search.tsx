@@ -22,7 +22,7 @@ function initOrama() {
   });
 }
 
-export default function DefaultSearchDialog(props: SharedProps) {
+export function DefaultSearchDialog(props: Readonly<SharedProps>) {
   const { locale } = useI18n(); // (optional) for i18n
   const { search, setSearch, query } = useDocsSearch({
     type: "static",

@@ -2,7 +2,7 @@ import "@/app/global.css";
 
 import { RootProvider } from "fumadocs-ui/provider/next";
 import { Geist, Geist_Mono } from "next/font/google";
-import SearchDialog from "@/components/search";
+import { DefaultSearchDialog } from "@/components/search";
 
 const sans = Geist({
   subsets: ["latin"],
@@ -20,7 +20,7 @@ export default function Layout({ children }: LayoutProps<"/">) {
       <body className={`${sans.variable} ${mono.variable}`}>
         <RootProvider
           search={{
-            SearchDialog,
+            SearchDialog: DefaultSearchDialog,
           }}
         >
           {children}

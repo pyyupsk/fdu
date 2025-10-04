@@ -5,10 +5,14 @@
       "name": "docs",
       "dependencies": {
         "@orama/orama": "^3.1.14",
+        "@pyyupsk/fdu": "^0.0.0-beta.1",
+        "@radix-ui/react-slot": "^1.2.3",
+        "@radix-ui/react-tabs": "^1.1.13",
         "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
         "fumadocs-core": "^15.8.3",
         "fumadocs-mdx": "12.0.2",
-        "fumadocs-ui": "15.8.3",
+        "fumadocs-ui": "^15.8.3",
         "lucide-react": "^0.544.0",
         "next": "15.5.4",
         "react": "^19.2.0",
@@ -193,6 +197,8 @@
     "@next/swc-win32-x64-msvc": ["@next/swc-win32-x64-msvc@15.5.4", "", { "os": "win32", "cpu": "x64" }, "sha512-1ur2tSHZj8Px/KMAthmuI9FMp/YFusMMGoRNJaRZMOlSkgvLjzosSdQI0cJAKogdHl3qXUQKL9MGaYvKwA7DXg=="],
 
     "@orama/orama": ["@orama/orama@3.1.14", "", {}, "sha512-Iq4RxYC7y0pA/hLgcUGpYYs5Vze4qNmJk0Qi1uIrg2bHGpm6A06nbjWcH9h4HQsddkDFFlanLj/zYBH3Sxdb4w=="],
+
+    "@pyyupsk/fdu": ["@pyyupsk/fdu@0.0.0-beta.1", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-3DNTV/vjI6XdlYXe0j0vjG9daLZOEzTltS74xnXIYHzNjubjEYNR2+5bKE0p6yMMEKIKJhJr3Gz/XEIwpWIh9Q=="],
 
     "@radix-ui/number": ["@radix-ui/number@1.1.1", "", {}, "sha512-MkKCwxlXTgz6CFoJx3pCwn07GKp36+aZyu/u2Ln2VrA5DcdyCZkASEDBTd8x5whTQQL5CiYf4prXKLcgQdv29g=="],
 
