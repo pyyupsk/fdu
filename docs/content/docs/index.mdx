@@ -102,10 +102,62 @@ date1.diff(date2, "hour"); // -24
 const date = fdu("2025-09-30T14:30:45");
 
 date.year(); // 2025
-date.month(); // 9 (0-indexed)
+date.month(); // 8 (0-indexed, September)
 date.date(); // 30
-date.day(); // 1 (Monday)
+date.day(); // Day of week (0-6)
 date.hour(); // 14
 date.minute(); // 30
 date.second(); // 45
+date.millisecond(); // 0
 ```
+
+### Conversion
+
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+
+// Check validity
+date.isValid(); // true
+
+// Convert to Date object
+date.toDate(); // Date object
+
+// Convert to ISO string
+date.toISOString(); // '2025-09-30T14:30:45.000Z'
+
+// Get timestamp
+date.valueOf(); // 1727704245000
+```
+
+### Localization
+
+```typescript
+import { registerLocale, locale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/src/locale/locales/es";
+
+// Register locale
+registerLocale("es", es);
+
+// Set global locale
+locale("es");
+
+// Use locale on instance
+const date = fdu("2025-09-30");
+date.locale("es").format("dddd, D [de] MMMM [de] YYYY");
+// 'martes, 30 de septiembre de 2025'
+```
+
+## Key Features
+
+- **Zero dependencies** - Lightweight and fast
+- **Immutable** - All operations return new instances
+- **Type-safe** - Full TypeScript support
+- **Locale support** - 11 built-in locales
+- **Chainable API** - Fluent method chaining
+- **Tree-shakable** - Import only what you need
+
+## Next Steps
+
+- [Formatting Guide](/docs/formatting) - Learn about format tokens
+- [Localization](/docs/localization) - Use different locales
+- [API Reference](/docs/api-creation/fdu) - Complete API documentation

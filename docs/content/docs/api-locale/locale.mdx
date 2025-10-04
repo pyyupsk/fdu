@@ -3,7 +3,7 @@ title: locale()
 description: Get or set the locale for date formatting
 ---
 
-Get or set the locale for date formatting.
+Gets or sets the locale for date formatting, both as an instance method (for specific instances) and as a global function (for all new instances).
 
 ## Instance Method
 
@@ -12,18 +12,18 @@ Set locale for a specific instance.
 ### Syntax
 
 ```typescript
-locale(name: string): Fdu
+locale(name: string): FduInstance
 locale(): string
 ```
 
 ### Parameters
 
-- **name** (optional): `string` - Locale name to set
+- **name** (optional): `string` - Locale name to set (must be registered first)
 
 ### Returns
 
-- With parameter: Returns the `Fdu` instance for chaining
-- Without parameter: Returns the current locale name
+- With parameter: Returns a new `FduInstance` with the specified locale (immutable)
+- Without parameter: Returns the current locale name as a string
 
 ### Examples
 
@@ -54,12 +54,16 @@ Set global default locale.
 ```typescript
 import { locale } from "@pyyupsk/fdu";
 
-locale(name: string): void
+locale(name: string): string
 ```
 
 ### Parameters
 
-- **name**: `string` - Locale name to set as global default
+- **name**: `string` - Locale name to set as global default (must be registered first)
+
+### Returns
+
+Returns the new global locale name
 
 ### Examples
 
@@ -101,6 +105,8 @@ date.locale("de").format("DD. MMMM YYYY"); // '15. Januar 2025'
 
 ## See Also
 
-- [registerLocale()](/docs/api/locale/register-locale) - Register a locale
+- [registerLocale()](/docs/api-locale/register-locale) - Register a locale
 - [Localization Guide](/docs/localization) - Learn about locales
-- [format()](/docs/api/formatting/format) - Format dates
+- [format()](/docs/api-formatting/format) - Format dates
+
+The instance `.locale()` method is immutable and returns a new instance with the specified locale, while the global `locale()` function affects all subsequently created instances.

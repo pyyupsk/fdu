@@ -3,26 +3,27 @@ title: fdu()
 description: Create a new fdu date-time instance
 ---
 
-Create a new fdu date-time instance.
+Creates a new fdu date-time instance from various input types including strings, Date objects, timestamps, or returns the current date/time if no input is provided.
 
 ## Syntax
 
 ```typescript
-fdu(): Fdu
-fdu(date: string | Date | number): Fdu
+fdu(): FduInstance
+fdu(input: FduInput): FduInstance
 ```
 
 ## Parameters
 
-- **date** (optional): `string | Date | number`
-  - `string`: ISO 8601 date string (e.g., `"2025-09-30"`, `"2025-09-30T14:30:00"`)
+- **input** (optional): `FduInput`
+  - `undefined`: Creates instance with current date and time
+  - `string`: ISO 8601 date string (e.g., `"2025-09-30"`, `"2025-09-30T14:30:00Z"`)
   - `Date`: JavaScript Date object
   - `number`: Unix timestamp in milliseconds
-  - If omitted, returns current date and time
+  - `FduInstance`: Another fdu instance (creates a copy)
 
 ## Returns
 
-Returns a new `Fdu` instance.
+Returns a new `FduInstance` object. Always returns an instance - use `.isValid()` to check if the date is valid.
 
 ## Examples
 
@@ -77,6 +78,8 @@ console.log(invalid.isValid()); // false
 
 ## See Also
 
-- [format()](/docs/api/formatting/format) - Format the date
-- [isValid()](/docs/api/conversion/is-valid) - Check if date is valid
-- [toDate()](/docs/api/conversion/to-date) - Convert to Date object
+- [format()](/docs/api-formatting/format) - Format the date
+- [isValid()](/docs/api-conversion/is-valid) - Check if date is valid
+- [toDate()](/docs/api-conversion/to-date) - Convert to Date object
+
+The `fdu()` function is the main entry point for creating date-time instances in the library. All instances are immutable, ensuring safe and predictable date manipulations throughout your application.

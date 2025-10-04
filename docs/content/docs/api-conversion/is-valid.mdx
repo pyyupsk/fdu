@@ -3,7 +3,7 @@ title: isValid()
 description: Check if the date is valid
 ---
 
-Check if the date is valid.
+Checks if the date-time instance represents a valid date. Always check validity when working with user input or external data sources.
 
 ## Syntax
 
@@ -13,7 +13,7 @@ isValid(): boolean
 
 ## Returns
 
-Returns `true` if the date is valid, `false` otherwise.
+Returns `true` if the date is valid, `false` if the date is invalid (e.g., created from invalid input).
 
 ## Examples
 
@@ -95,6 +95,8 @@ app.post("/api/events", (req, res) => {
 
 ## See Also
 
-- [fdu()](/docs/api/creation/fdu) - Create date instance
-- [toDate()](/docs/api/conversion/to-date) - Convert to Date
-- [toISOString()](/docs/api/conversion/to-iso-string) - ISO string
+- [fdu()](/docs/api-creation/fdu) - Create date instance
+- [toDate()](/docs/api-conversion/to-date) - Convert to Date
+- [toISOString()](/docs/api-conversion/to-iso-string) - ISO string
+
+The `fdu()` function always returns an instance, even for invalid input. Use `isValid()` to determine if the date was successfully parsed before performing operations on it.

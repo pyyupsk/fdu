@@ -3,17 +3,17 @@ title: isAfter()
 description: Check if the date is after another date
 ---
 
-Check if the date is after another date.
+Checks if the current date-time instance is after another date instance by comparing timestamps.
 
 ## Syntax
 
 ```typescript
-isAfter(date: ConfigType): boolean
+isAfter(other: FduInstance): boolean
 ```
 
 ## Parameters
 
-- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
+- **other**: `FduInstance` - Date instance to compare with
 
 ## Returns
 
@@ -33,35 +33,30 @@ date1.isAfter(date2); // true
 date2.isAfter(date1); // false
 ```
 
-### With String
+### Time Comparison
 
 ```typescript
-const date = fdu("2025-10-01");
+const date1 = fdu("2025-09-30T14:00:00");
+const date2 = fdu("2025-09-30T10:00:00");
 
-date.isAfter("2025-09-30"); // true
-date.isAfter("2025-10-02"); // false
+date1.isAfter(date2); // true (same day, but later time)
 ```
 
-### With Date Object
+### Practical Example
 
 ```typescript
-const date = fdu("2025-10-01");
-const jsDate = new Date(2025, 8, 30); // September 30, 2025
+const event = fdu("2025-09-30");
+const now = fdu();
 
-date.isAfter(jsDate); // true
-```
-
-### With Timestamp
-
-```typescript
-const date = fdu("2025-10-01");
-const timestamp = new Date("2025-09-30").getTime();
-
-date.isAfter(timestamp); // true
+if (event.isAfter(now)) {
+  console.log("Event is in the future!");
+}
 ```
 
 ## See Also
 
-- [isBefore()](/docs/api/comparison/is-before) - Check if before
-- [isSame()](/docs/api/comparison/is-same) - Check if same
-- [diff()](/docs/api/comparison/diff) - Calculate difference
+- [isBefore()](/docs/api-comparison/is-before) - Check if before
+- [isSame()](/docs/api-comparison/is-same) - Check if same
+- [diff()](/docs/api-comparison/diff) - Calculate difference
+
+The `isAfter()` method performs a strict timestamp comparison. Use `isSame()` with a unit parameter if you need granular comparisons (e.g., same day but different times).

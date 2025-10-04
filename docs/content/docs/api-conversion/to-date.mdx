@@ -3,7 +3,7 @@ title: toDate()
 description: Convert to native JavaScript Date object
 ---
 
-Convert to native JavaScript Date object.
+Converts the fdu instance back to a native JavaScript Date object. Useful for interoperability with APIs and libraries that expect Date objects.
 
 ## Syntax
 
@@ -13,7 +13,7 @@ toDate(): Date
 
 ## Returns
 
-Returns a native JavaScript `Date` object.
+Returns a new native JavaScript `Date` object representing the same timestamp.
 
 ## Examples
 
@@ -58,6 +58,8 @@ datePicker.valueAsDate = date.toDate();
 
 ## See Also
 
-- [toISOString()](/docs/api/conversion/to-iso-string) - Convert to ISO string
-- [valueOf()](/docs/api/conversion/value-of) - Get timestamp
-- [format()](/docs/api/formatting/format) - Format to custom string
+- [toISOString()](/docs/api-conversion/to-iso-string) - Convert to ISO string
+- [valueOf()](/docs/api-conversion/value-of) - Get timestamp
+- [format()](/docs/api-formatting/format) - Format to custom string
+
+The returned Date object is a copy, so modifying it won't affect the original fdu instance (which is immutable).

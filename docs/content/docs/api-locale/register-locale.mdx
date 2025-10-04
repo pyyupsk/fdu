@@ -3,7 +3,7 @@ title: registerLocale()
 description: Register a locale for use with fdu
 ---
 
-Register a locale for use with fdu.
+Registers a locale configuration for date formatting. Locales must be registered before they can be used with `locale()` or `.locale()` methods.
 
 ## Syntax
 
@@ -13,13 +13,17 @@ registerLocale(name: string, config: LocaleConfig): void
 
 ## Parameters
 
-- **name**: `string` - Unique identifier for the locale
-- **config**: `LocaleConfig` - Locale configuration object
-  - `months`: `string[]` - Full month names (12 items)
-  - `monthsShort`: `string[]` - Short month names (12 items)
-  - `weekdays`: `string[]` - Full weekday names (7 items, Sunday first)
-  - `weekdaysShort`: `string[]` - Short weekday names (7 items)
-  - `weekdaysMin`: `string[]` - Minimal weekday names (7 items)
+- **name**: `string` - Unique identifier for the locale (e.g., `"en"`, `"es"`, `"fr"`)
+- **config**: `LocaleConfig` - Locale configuration object with:
+  - `name`: `string` - Locale identifier
+  - `months`: `readonly string[12]` - Full month names array
+  - `monthsShort` (optional): `readonly string[12]` - Abbreviated month names
+  - `weekdays`: `readonly string[7]` - Full weekday names (Sunday first)
+  - `weekdaysShort` (optional): `readonly string[7]` - Abbreviated weekday names
+  - `weekdaysMin` (optional): `readonly string[7]` - Minimal weekday names
+  - `weekStart` (optional): `0-6` - First day of week (0=Sunday, 1=Monday, etc.)
+  - `ordinal` (optional): `(n: number) => string` - Ordinal formatter
+  - `meridiem` (optional): `(hour: number, minute: number, isLower?: boolean) => string` - AM/PM formatter
 
 ## Examples
 
@@ -111,20 +115,29 @@ registerLocale("en-custom", {
 
 ## Built-in Locales
 
-fdu includes these built-in locales ready to import:
+fdu includes these built-in locales:
+
+- `en` - English (registered by default)
+- `es` - Spanish
+- `fr` - French
+- `de` - German
+- `it` - Italian
+- `pt` - Portuguese
+- `ru` - Russian
+- `ja` - Japanese
+- `ko` - Korean
+- `zh-cn` - Chinese (Simplified)
+- `th` - Thai
+
+Import and register as needed:
 
 ```typescript
-import { en } from "@pyyupsk/fdu/locale/en";
-import { es } from "@pyyupsk/fdu/locale/es";
-import { fr } from "@pyyupsk/fdu/locale/fr";
-import { de } from "@pyyupsk/fdu/locale/de";
-import { it } from "@pyyupsk/fdu/locale/it";
-import { pt } from "@pyyupsk/fdu/locale/pt";
-import { ru } from "@pyyupsk/fdu/locale/ru";
-import { ja } from "@pyyupsk/fdu/locale/ja";
-import { ko } from "@pyyupsk/fdu/locale/ko";
-import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
-import { th } from "@pyyupsk/fdu/locale/th";
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/src/locale/locales/es";
+import { fr } from "@pyyupsk/fdu/src/locale/locales/fr";
+
+registerLocale("es", es);
+registerLocale("fr", fr);
 ```
 
 ## Complete Example
@@ -153,6 +166,8 @@ console.log(date.locale("fr").format("DD MMMM YYYY"));
 
 ## See Also
 
-- [locale()](/docs/api/locale/locale) - Get/set locale
+- [locale()](/docs/api-locale/locale) - Get/set locale
 - [Localization Guide](/docs/localization) - Complete localization guide
-- [format()](/docs/api/formatting/format) - Format with locale
+- [format()](/docs/api-formatting/format) - Format with locale
+
+English (`en`) is registered and set as the default locale automatically when you import fdu. You only need to register additional locales you want to use.

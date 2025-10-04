@@ -3,7 +3,7 @@ title: toISOString()
 description: Convert to ISO 8601 string format
 ---
 
-Convert to ISO 8601 string format.
+Converts the date-time instance to an ISO 8601 formatted string in UTC timezone. Ideal for storing dates in databases or sending via APIs.
 
 ## Syntax
 
@@ -13,7 +13,7 @@ toISOString(): string
 
 ## Returns
 
-Returns an ISO 8601 formatted string in UTC timezone.
+Returns an ISO 8601 formatted string in UTC timezone (format: `YYYY-MM-DDTHH:mm:ss.sssZ`).
 
 ## Examples
 
@@ -71,6 +71,8 @@ const response = await fetch("/api/events", {
 
 ## See Also
 
-- [toDate()](/docs/api/conversion/to-date) - Convert to Date object
-- [format()](/docs/api/formatting/format) - Custom format
-- [valueOf()](/docs/api/conversion/value-of) - Get timestamp
+- [toDate()](/docs/api-conversion/to-date) - Convert to Date object
+- [format()](/docs/api-formatting/format) - Custom format
+- [valueOf()](/docs/api-conversion/value-of) - Get timestamp
+
+ISO 8601 is a widely-adopted international standard for date/time representation, ensuring consistent parsing across different systems and time zones.

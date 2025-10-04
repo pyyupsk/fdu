@@ -3,7 +3,7 @@ title: valueOf()
 description: Get Unix timestamp in milliseconds
 ---
 
-Get Unix timestamp in milliseconds.
+Returns the Unix timestamp (milliseconds since epoch) of the date-time instance. Useful for comparisons, storage, and mathematical operations.
 
 ## Syntax
 
@@ -13,7 +13,7 @@ valueOf(): number
 
 ## Returns
 
-Returns the number of milliseconds since Unix epoch (January 1, 1970 00:00:00 UTC).
+Returns the number of milliseconds since Unix epoch (January 1, 1970 00:00:00 UTC). Returns `NaN` for invalid dates.
 
 ## Examples
 
@@ -74,6 +74,8 @@ date - 0; // 1727654400000
 
 ## See Also
 
-- [toISOString()](/docs/api/conversion/to-iso-string) - ISO string
-- [toDate()](/docs/api/conversion/to-date) - Date object
-- [diff()](/docs/api/comparison/diff) - Calculate difference
+- [toISOString()](/docs/api-conversion/to-iso-string) - ISO string
+- [toDate()](/docs/api-conversion/to-date) - Date object
+- [diff()](/docs/api-comparison/diff) - Calculate difference
+
+The `valueOf()` method is automatically called when an fdu instance is used in numeric contexts, allowing for direct mathematical operations and comparisons.

@@ -3,31 +3,30 @@ title: diff()
 description: Calculate the difference between two dates
 ---
 
-Calculate the difference between two dates.
+Calculates the difference between two dates in the specified unit. Returns a positive number if the current date is later than the compared date, negative if earlier.
 
 ## Syntax
 
 ```typescript
-diff(date: ConfigType, unit?: OpUnitType, float?: boolean): number
+diff(other: FduInstance, unit?: UnitType): number
 ```
 
 ## Parameters
 
-- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
-- **unit** (optional): `OpUnitType` - Unit of difference
-  - `"year"` or `"y"`
-  - `"month"` or `"M"`
-  - `"day"` or `"d"`
-  - `"hour"` or `"h"`
-  - `"minute"` or `"m"`
-  - `"second"` or `"s"`
-  - `"millisecond"` or `"ms"`
-  - Default: `"millisecond"`
-- **float** (optional): `boolean` - Return decimal value (default: `false`)
+- **other**: `FduInstance` - Date instance to compare with
+- **unit** (optional): `UnitType` - Unit of difference
+  - `"year"` or `"y"` - Years
+  - `"month"` or `"M"` - Months
+  - `"week"` or `"w"` - Weeks
+  - `"day"` or `"d"` - Days
+  - `"hour"` or `"h"` - Hours
+  - `"minute"` or `"m"` - Minutes
+  - `"second"` or `"s"` - Seconds
+  - `"millisecond"` or `"ms"` - Milliseconds (default)
 
 ## Returns
 
-Returns the difference as a number. Positive if the date is later, negative if earlier.
+Returns the difference as an integer number. Positive if the current instance is later than the compared date, negative if earlier.
 
 ## Examples
 
@@ -60,7 +59,7 @@ const date1 = fdu("2025-09-30T10:00:00");
 const date2 = fdu("2025-09-30T14:30:00");
 
 date1.diff(date2, "hour"); // -4
-date1.diff(date2, "hour", true); // -4.5 (with decimals)
+date2.diff(date1, "hour"); // 4
 ```
 
 ### Difference in Milliseconds
@@ -72,7 +71,6 @@ const date2 = fdu("2025-09-30T10:00:01.500");
 date1.diff(date2); // -1500
 date1.diff(date2, "millisecond"); // -1500
 date1.diff(date2, "second"); // -1
-date1.diff(date2, "second", true); // -1.5
 ```
 
 ### Practical Examples
@@ -90,12 +88,14 @@ const age = birthday.diff(fdu(), "year");
 // Duration
 const start = fdu("2025-09-30T09:00:00");
 const end = fdu("2025-09-30T17:30:00");
-const hours = start.diff(end, "hour", true); // 8.5
+const hours = end.diff(start, "hour"); // 8
 ```
 
 ## See Also
 
-- [isBefore()](/docs/api/comparison/is-before) - Check if before
-- [isAfter()](/docs/api/comparison/is-after) - Check if after
-- [add()](/docs/api/manipulation/add) - Add time
-- [subtract()](/docs/api/manipulation/subtract) - Subtract time
+- [isBefore()](/docs/api-comparison/is-before) - Check if before
+- [isAfter()](/docs/api-comparison/is-after) - Check if after
+- [add()](/docs/api-manipulation/add) - Add time
+- [subtract()](/docs/api-manipulation/subtract) - Subtract time
+
+The `diff()` method calculates integer differences. For year and month calculations, it returns the count of complete units between the dates.

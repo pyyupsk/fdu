@@ -3,26 +3,25 @@ title: isSame()
 description: Check if the date is the same as another date
 ---
 
-Check if the date is the same as another date.
+Checks if the current date-time instance is the same as another date, either by exact timestamp or by a specified unit (year, month, day, etc.).
 
 ## Syntax
 
 ```typescript
-isSame(date: ConfigType, unit?: OpUnitType): boolean
+isSame(other: FduInstance, unit?: UnitType): boolean
 ```
 
 ## Parameters
 
-- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
-- **unit** (optional): `OpUnitType` - Unit of comparison
-  - `"year"` or `"y"`
-  - `"month"` or `"M"`
-  - `"day"` or `"d"`
-  - `"hour"` or `"h"`
-  - `"minute"` or `"m"`
-  - `"second"` or `"s"`
-  - `"millisecond"` or `"ms"`
-  - If omitted, compares exact timestamps
+- **other**: `FduInstance` - Date instance to compare with
+- **unit** (optional): `UnitType` - Unit of comparison
+  - `"year"` or `"y"` - Same year
+  - `"month"` or `"M"` - Same month and year
+  - `"day"` or `"d"` - Same day, month, and year
+  - `"hour"` or `"h"` - Same hour, day, month, and year
+  - `"minute"` or `"m"` - Same minute, hour, day, month, and year
+  - `"second"` or `"s"` - Same second (and all above)
+  - If omitted, compares exact timestamps (millisecond precision)
 
 ## Returns
 
@@ -73,6 +72,8 @@ date1.isSame(date2, "month"); // false
 
 ## See Also
 
-- [isBefore()](/docs/api/comparison/is-before) - Check if before
-- [isAfter()](/docs/api/comparison/is-after) - Check if after
-- [diff()](/docs/api/comparison/diff) - Calculate difference
+- [isBefore()](/docs/api-comparison/is-before) - Check if before
+- [isAfter()](/docs/api-comparison/is-after) - Check if after
+- [diff()](/docs/api-comparison/diff) - Calculate difference
+
+The `isSame()` method with a unit parameter is useful for checking if two dates fall within the same calendar period, regardless of their exact timestamps.

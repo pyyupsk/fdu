@@ -3,29 +3,30 @@ title: subtract()
 description: Subtract time from the date
 ---
 
-Subtract time from the date.
+Subtracts a specified amount of time from the date-time instance and returns a new instance. The original instance remains unchanged (immutable).
 
 ## Syntax
 
 ```typescript
-subtract(value: number, unit: ManipulateUnit): Fdu
+subtract(value: number, unit: UnitType): FduInstance
 ```
 
 ## Parameters
 
-- **value**: `number` - Amount to subtract
-- **unit**: `ManipulateUnit` - Unit of time
-  - `"year"` or `"y"`
-  - `"month"` or `"M"`
-  - `"day"` or `"d"`
-  - `"hour"` or `"h"`
-  - `"minute"` or `"m"`
-  - `"second"` or `"s"`
-  - `"millisecond"` or `"ms"`
+- **value**: `number` - Amount to subtract (can be positive or negative)
+- **unit**: `UnitType` - Unit of time
+  - `"year"` or `"y"` - Years
+  - `"month"` or `"M"` - Months
+  - `"week"` or `"w"` - Weeks
+  - `"day"` or `"d"` - Days
+  - `"hour"` or `"h"` - Hours
+  - `"minute"` or `"m"` - Minutes
+  - `"second"` or `"s"` - Seconds
+  - `"millisecond"` or `"ms"` - Milliseconds
 
 ## Returns
 
-Returns a new `Fdu` instance with the time subtracted (immutable).
+Returns a new `FduInstance` with the time subtracted. The original instance is not modified.
 
 ## Examples
 
@@ -82,5 +83,7 @@ date
 
 ## See Also
 
-- [add()](/docs/api/manipulation/add) - Add time
-- [diff()](/docs/api/comparison/diff) - Calculate difference
+- [add()](/docs/api-manipulation/add) - Add time
+- [diff()](/docs/api-comparison/diff) - Calculate difference
+
+The `subtract()` method is immutable and returns a new instance. It's functionally equivalent to calling `add()` with a negative value.

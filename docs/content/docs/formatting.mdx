@@ -3,6 +3,8 @@ title: Formatting
 description: Format dates and times with flexible token patterns
 ---
 
+Format dates and times using customizable token patterns. The `format()` method supports locale-aware formatting and escaped text for flexible output.
+
 ## Basic Usage
 
 ```typescript
@@ -77,8 +79,6 @@ date.format("DD/MM/YYYY"); // '30/09/2025'
 | Token | Output | Description         |
 | ----- | ------ | ------------------- |
 | `SSS` | 123    | 3-digit millisecond |
-| `SS`  | 12     | 2-digit millisecond |
-| `S`   | 1      | 1-digit millisecond |
 
 ### AM/PM
 
@@ -87,12 +87,11 @@ date.format("DD/MM/YYYY"); // '30/09/2025'
 | `A`   | PM     | Uppercase   |
 | `a`   | pm     | Lowercase   |
 
-### Unix Timestamp
+### Ordinal
 
-| Token | Output        | Description              |
-| ----- | ------------- | ------------------------ |
-| `X`   | 1727704245    | Unix timestamp (seconds) |
-| `x`   | 1727704245000 | Unix timestamp (ms)      |
+| Token | Output | Description                  |
+| ----- | ------ | ---------------------------- |
+| `Do`  | 30th   | Day with ordinal (1st, 2nd…) |
 
 ## Escaped Text
 
@@ -127,4 +126,24 @@ date.format("dddd, MMMM DD, YYYY"); // 'Monday, September 30, 2025'
 // Time only
 date.format("HH:mm:ss"); // '14:30:45'
 date.format("hh:mm A"); // '02:30 PM'
+
+// With ordinal
+date.format("MMMM Do, YYYY"); // 'September 30th, 2025'
 ```
+
+## Locale Support
+
+Format tokens like `MMMM`, `MMM`, `dddd`, `ddd`, `dd`, `Do`, `A`, and `a` are locale-aware and will display values based on the current locale setting.
+
+```typescript
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/src/locale/locales/es";
+
+registerLocale("es", es);
+
+const date = fdu("2025-09-30");
+date.locale("es").format("dddd, D [de] MMMM [de] YYYY");
+// 'martes, 30 de septiembre de 2025'
+```
+
+See the [Localization Guide](/docs/localization) for more information about using different locales.

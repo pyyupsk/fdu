@@ -3,11 +3,11 @@ title: Get Components
 description: Get individual date/time components
 ---
 
-Get individual date/time components.
+Retrieves individual date and time components from an fdu instance. All getter methods return numeric values representing the specific component.
 
 ## Methods
 
-All getter methods return a number representing the component value.
+All getter methods return a number representing the component value. These methods correspond to the underlying JavaScript Date object getters.
 
 ### year()
 
@@ -67,8 +67,8 @@ day(): number
 **Example:**
 
 ```typescript
-const date = fdu("2025-09-30"); // Monday
-date.day(); // 1
+const date = fdu("2025-09-30");
+date.day(); // Returns 0-6 (depends on actual day of week)
 ```
 
 ### hour()
@@ -139,16 +139,35 @@ import { fdu } from "@pyyupsk/fdu";
 const date = fdu("2025-09-30T14:30:45.123");
 
 console.log(date.year()); // 2025
-console.log(date.month()); // 8 (September)
+console.log(date.month()); // 8 (September, 0-indexed)
 console.log(date.date()); // 30
-console.log(date.day()); // 1 (Monday)
+console.log(date.day()); // Day of week (0-6)
 console.log(date.hour()); // 14
 console.log(date.minute()); // 30
 console.log(date.second()); // 45
 console.log(date.millisecond()); // 123
 ```
 
+## Practical Usage
+
+```typescript
+// Build custom date displays
+const date = fdu("2025-09-30T14:30:00");
+const customFormat = `Year: ${date.year()}, Month: ${date.month() + 1}, Day: ${date.date()}`;
+// "Year: 2025, Month: 9, Day: 30"
+
+// Conditional logic based on date components
+if (date.hour() >= 12) {
+  console.log("Afternoon");
+}
+
+// Extract specific components for calculations
+const isWeekend = date.day() === 0 || date.day() === 6;
+```
+
 ## See Also
 
-- [format()](/docs/api/formatting/format) - Format date to string
-- [toDate()](/docs/api/conversion/to-date) - Convert to Date object
+- [format()](/docs/api-formatting/format) - Format date to string
+- [toDate()](/docs/api-conversion/to-date) - Convert to Date object
+
+These getter methods provide direct access to date components without needing to convert to a Date object or use formatting. Note that `.month()` returns 0-11 (0 = January), matching JavaScript's Date behavior.
