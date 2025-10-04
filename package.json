@@ -43,9 +43,9 @@
   "scripts": {
     "bench": "vitest bench --run",
     "build": "rimraf dist && tsup",
-    "docs:build": "vitepress build docs",
-    "docs:dev": "vitepress dev docs",
-    "docs:preview": "vitepress preview docs",
+    "docs:build": "cd docs && bun run build",
+    "docs:dev": "cd docs && bun run dev",
+    "docs:preview": "cd docs && bun run start",
     "format": "biome format --write",
     "lint": "biome check",
     "lint:fix": "biome check --fix",
@@ -62,7 +62,6 @@
     "rimraf": "^6.0.1",
     "tsup": "^8.5.0",
     "tsx": "^4.20.6",
-    "vitepress": "^2.0.0-alpha.12",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
