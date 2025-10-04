@@ -1,0 +1,79 @@
+---
+title: valueOf()
+description: Get Unix timestamp in milliseconds
+---
+
+Get Unix timestamp in milliseconds.
+
+## Syntax
+
+```typescript
+valueOf(): number
+```
+
+## Returns
+
+Returns the number of milliseconds since Unix epoch (January 1, 1970 00:00:00 UTC).
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-09-30T14:30:45");
+date.valueOf(); // 1727704245000
+```
+
+### Timestamp Comparison
+
+```typescript
+const date1 = fdu("2025-09-30");
+const date2 = fdu("2025-10-01");
+
+const timestamp1 = date1.valueOf(); // 1727654400000
+const timestamp2 = date2.valueOf(); // 1727740800000
+
+timestamp1 < timestamp2; // true
+```
+
+### Storing Timestamps
+
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+
+const record = {
+  id: 1,
+  timestamp: date.valueOf()
+};
+
+// Later, recreate the date
+const restored = fdu(record.timestamp);
+```
+
+### Time Calculations
+
+```typescript
+const start = fdu("2025-09-30T09:00:00");
+const end = fdu("2025-09-30T17:30:00");
+
+const duration = end.valueOf() - start.valueOf();
+const hours = duration / (1000 * 60 * 60); // 8.5 hours
+```
+
+### Implicit Conversion
+
+```typescript
+const date = fdu("2025-09-30");
+
+// Automatic conversion in mathematical operations
++date; // 1727654400000 (same as valueOf())
+date - 0; // 1727654400000
+```
+
+## See Also
+
+- [toISOString()](/docs/api/conversion/to-iso-string) - ISO string
+- [toDate()](/docs/api/conversion/to-date) - Date object
+- [diff()](/docs/api/comparison/diff) - Calculate difference

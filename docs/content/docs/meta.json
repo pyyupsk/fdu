@@ -1,0 +1,6 @@
+{
+  "title": "Documentation",
+  "pages": ["index", "formatting", "localization"],
+  "---": "API Reference",
+  "api": "API"
+}

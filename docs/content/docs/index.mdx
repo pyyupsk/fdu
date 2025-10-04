@@ -1,0 +1,115 @@
+---
+title: Getting Started
+description: Get started with fdu in minutes
+---
+
+Get started with fdu in minutes.
+
+## Installation
+
+Install fdu using your preferred package manager:
+
+<Tabs items={['npm', 'pnpm', 'yarn', 'bun']}>
+  <Tab value="npm">
+    ```bash
+    npm install @pyyupsk/fdu
+    ```
+  </Tab>
+  <Tab value="pnpm">
+    ```bash
+    pnpm add @pyyupsk/fdu
+    ```
+  </Tab>
+  <Tab value="yarn">
+    ```bash
+    yarn add @pyyupsk/fdu
+    ```
+  </Tab>
+  <Tab value="bun">
+    ```bash
+    bun add @pyyupsk/fdu
+    ```
+  </Tab>
+</Tabs>
+
+## Basic Usage
+
+### Creating Dates
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+// Current date and time
+const now = fdu();
+
+// From ISO string
+const date1 = fdu("2025-09-30");
+const date2 = fdu("2025-09-30T14:30:00");
+
+// From Date object
+const date3 = fdu(new Date());
+
+// From timestamp
+const date4 = fdu(1727704200000);
+```
+
+### Formatting
+
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+
+date.format("YYYY-MM-DD"); // '2025-09-30'
+date.format("MMMM DD, YYYY"); // 'September 30, 2025'
+date.format("dddd [at] HH:mm"); // 'Monday at 14:30'
+date.format("hh:mm:ss A"); // '02:30:45 PM'
+```
+
+### Manipulation
+
+```typescript
+const date = fdu("2025-09-30");
+
+// Add time
+date.add(1, "day"); // 2025-10-01
+date.add(2, "month"); // 2025-11-30
+date.add(1, "year"); // 2026-09-30
+
+// Subtract time
+date.subtract(1, "day"); // 2025-09-29
+date.subtract(2, "month"); // 2025-07-30
+```
+
+### Comparison
+
+```typescript
+const date1 = fdu("2025-09-30");
+const date2 = fdu("2025-10-01");
+
+date1.isBefore(date2); // true
+date1.isAfter(date2); // false
+date1.isSame(date2); // false
+
+// Calculate difference
+date1.diff(date2, "day"); // -1
+date1.diff(date2, "hour"); // -24
+```
+
+### Query
+
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+
+date.year(); // 2025
+date.month(); // 9 (0-indexed)
+date.date(); // 30
+date.day(); // 1 (Monday)
+date.hour(); // 14
+date.minute(); // 30
+date.second(); // 45
+```
+
+## Next Steps
+
+- [Formatting Guide](/docs/formatting) - Learn all available format tokens
+- [Localization](/docs/localization) - Use different locales
+- [API Reference](/docs/api/creation/fdu) - Explore all methods

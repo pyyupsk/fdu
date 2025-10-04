@@ -1,0 +1,67 @@
+---
+title: isAfter()
+description: Check if the date is after another date
+---
+
+Check if the date is after another date.
+
+## Syntax
+
+```typescript
+isAfter(date: ConfigType): boolean
+```
+
+## Parameters
+
+- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
+
+## Returns
+
+Returns `true` if the date is after the given date, `false` otherwise.
+
+## Examples
+
+### Basic Comparison
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date1 = fdu("2025-10-01");
+const date2 = fdu("2025-09-30");
+
+date1.isAfter(date2); // true
+date2.isAfter(date1); // false
+```
+
+### With String
+
+```typescript
+const date = fdu("2025-10-01");
+
+date.isAfter("2025-09-30"); // true
+date.isAfter("2025-10-02"); // false
+```
+
+### With Date Object
+
+```typescript
+const date = fdu("2025-10-01");
+const jsDate = new Date(2025, 8, 30); // September 30, 2025
+
+date.isAfter(jsDate); // true
+```
+
+### With Timestamp
+
+```typescript
+const date = fdu("2025-10-01");
+const timestamp = new Date("2025-09-30").getTime();
+
+date.isAfter(timestamp); // true
+```
+
+## See Also
+
+- [isBefore()](/docs/api/comparison/is-before) - Check if before
+- [isSame()](/docs/api/comparison/is-same) - Check if same
+- [diff()](/docs/api/comparison/diff) - Calculate difference

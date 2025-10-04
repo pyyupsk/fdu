@@ -1,0 +1,4 @@
+{
+  "title": "Comparison",
+  "pages": ["is-before", "is-after", "is-same", "diff"]
+}

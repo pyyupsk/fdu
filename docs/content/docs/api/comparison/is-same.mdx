@@ -1,0 +1,78 @@
+---
+title: isSame()
+description: Check if the date is the same as another date
+---
+
+Check if the date is the same as another date.
+
+## Syntax
+
+```typescript
+isSame(date: ConfigType, unit?: OpUnitType): boolean
+```
+
+## Parameters
+
+- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
+- **unit** (optional): `OpUnitType` - Unit of comparison
+  - `"year"` or `"y"`
+  - `"month"` or `"M"`
+  - `"day"` or `"d"`
+  - `"hour"` or `"h"`
+  - `"minute"` or `"m"`
+  - `"second"` or `"s"`
+  - `"millisecond"` or `"ms"`
+  - If omitted, compares exact timestamps
+
+## Returns
+
+Returns `true` if the dates are the same, `false` otherwise.
+
+## Examples
+
+### Exact Comparison
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date1 = fdu("2025-09-30T14:30:00");
+const date2 = fdu("2025-09-30T14:30:00");
+
+date1.isSame(date2); // true
+```
+
+### Same Day
+
+```typescript
+const date1 = fdu("2025-09-30T10:00:00");
+const date2 = fdu("2025-09-30T18:00:00");
+
+date1.isSame(date2, "day"); // true
+date1.isSame(date2); // false (different times)
+```
+
+### Same Month
+
+```typescript
+const date1 = fdu("2025-09-01");
+const date2 = fdu("2025-09-30");
+
+date1.isSame(date2, "month"); // true
+date1.isSame(date2, "day"); // false
+```
+
+### Same Year
+
+```typescript
+const date1 = fdu("2025-01-01");
+const date2 = fdu("2025-12-31");
+
+date1.isSame(date2, "year"); // true
+date1.isSame(date2, "month"); // false
+```
+
+## See Also
+
+- [isBefore()](/docs/api/comparison/is-before) - Check if before
+- [isAfter()](/docs/api/comparison/is-after) - Check if after
+- [diff()](/docs/api/comparison/diff) - Calculate difference

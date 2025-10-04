@@ -1,0 +1,138 @@
+---
+title: Localization
+description: fdu supports multiple locales for internationalized date formatting
+---
+
+fdu supports multiple locales for internationalized date formatting.
+
+## Supported Locales
+
+fdu includes built-in support for 11 locales:
+
+- `en` - English (default)
+- `es` - Spanish
+- `fr` - French
+- `de` - German
+- `it` - Italian
+- `pt` - Portuguese
+- `ru` - Russian
+- `ja` - Japanese
+- `ko` - Korean
+- `zh-cn` - Chinese (Simplified)
+- `th` - Thai
+
+## Using Locales
+
+### Register a Locale
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+
+registerLocale("es", es);
+```
+
+### Set Global Locale
+
+```typescript
+import { locale } from "@pyyupsk/fdu";
+
+locale("es"); // Set Spanish as default
+```
+
+### Use Locale for Specific Instance
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-01-15");
+
+date.locale("es").format("MMMM"); // 'enero'
+date.locale("fr").format("MMMM"); // 'janvier'
+date.locale("de").format("MMMM"); // 'Januar'
+```
+
+## Examples
+
+### Spanish
+
+```typescript
+import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+
+registerLocale("es", es);
+
+const date = fdu("2025-01-15").locale("es");
+
+date.format("MMMM"); // 'enero'
+date.format("dddd"); // 'miércoles'
+date.format("MMMM DD, YYYY"); // 'enero 15, 2025'
+```
+
+### French
+
+```typescript
+import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+
+registerLocale("fr", fr);
+
+const date = fdu("2025-01-15").locale("fr");
+
+date.format("MMMM"); // 'janvier'
+date.format("dddd"); // 'mercredi'
+date.format("DD MMMM YYYY"); // '15 janvier 2025'
+```
+
+### Japanese
+
+```typescript
+import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { ja } from "@pyyupsk/fdu/locale/ja";
+
+registerLocale("ja", ja);
+
+const date = fdu("2025-01-15").locale("ja");
+
+date.format("YYYY年MMMMD日"); // '2025年1月15日'
+date.format("dddd"); // '水曜日'
+```
+
+### Chinese (Simplified)
+
+```typescript
+import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
+
+registerLocale("zh-cn", zhCn);
+
+const date = fdu("2025-01-15").locale("zh-cn");
+
+date.format("YYYY年MMMMD日"); // '2025年1月15日'
+date.format("dddd"); // '星期三'
+```
+
+## Custom Locale
+
+You can create custom locale configurations:
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+
+registerLocale("custom", {
+  months: [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ],
+  monthsShort: [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ],
+  weekdays: [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
+  ],
+  weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
+});
+```

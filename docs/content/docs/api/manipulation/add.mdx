@@ -1,0 +1,86 @@
+---
+title: add()
+description: Add time to the date
+---
+
+Add time to the date.
+
+## Syntax
+
+```typescript
+add(value: number, unit: ManipulateUnit): Fdu
+```
+
+## Parameters
+
+- **value**: `number` - Amount to add
+- **unit**: `ManipulateUnit` - Unit of time
+  - `"year"` or `"y"`
+  - `"month"` or `"M"`
+  - `"day"` or `"d"`
+  - `"hour"` or `"h"`
+  - `"minute"` or `"m"`
+  - `"second"` or `"s"`
+  - `"millisecond"` or `"ms"`
+
+## Returns
+
+Returns a new `Fdu` instance with the time added (immutable).
+
+## Examples
+
+### Add Days
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-09-30");
+
+date.add(1, "day").format("YYYY-MM-DD"); // '2025-10-01'
+date.add(7, "d").format("YYYY-MM-DD"); // '2025-10-07'
+```
+
+### Add Months
+
+```typescript
+const date = fdu("2025-09-30");
+
+date.add(1, "month").format("YYYY-MM-DD"); // '2025-10-30'
+date.add(3, "M").format("YYYY-MM-DD"); // '2025-12-30'
+```
+
+### Add Years
+
+```typescript
+const date = fdu("2025-09-30");
+
+date.add(1, "year").format("YYYY-MM-DD"); // '2026-09-30'
+date.add(5, "y").format("YYYY-MM-DD"); // '2030-09-30'
+```
+
+### Add Time
+
+```typescript
+const date = fdu("2025-09-30T14:30:00");
+
+date.add(1, "hour").format("HH:mm"); // '15:30'
+date.add(30, "minute").format("HH:mm"); // '15:00'
+date.add(45, "second").format("HH:mm:ss"); // '14:30:45'
+```
+
+### Chaining
+
+```typescript
+const date = fdu("2025-09-30");
+
+date
+  .add(1, "month")
+  .add(5, "day")
+  .add(2, "hour")
+  .format("YYYY-MM-DD HH:mm"); // '2025-11-04 02:00'
+```
+
+## See Also
+
+- [subtract()](/docs/api/manipulation/subtract) - Subtract time
+- [diff()](/docs/api/comparison/diff) - Calculate difference

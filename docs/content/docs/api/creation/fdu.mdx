@@ -1,0 +1,82 @@
+---
+title: fdu()
+description: Create a new fdu date-time instance
+---
+
+Create a new fdu date-time instance.
+
+## Syntax
+
+```typescript
+fdu(): Fdu
+fdu(date: string | Date | number): Fdu
+```
+
+## Parameters
+
+- **date** (optional): `string | Date | number`
+  - `string`: ISO 8601 date string (e.g., `"2025-09-30"`, `"2025-09-30T14:30:00"`)
+  - `Date`: JavaScript Date object
+  - `number`: Unix timestamp in milliseconds
+  - If omitted, returns current date and time
+
+## Returns
+
+Returns a new `Fdu` instance.
+
+## Examples
+
+### Current Date and Time
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const now = fdu();
+console.log(now.format("YYYY-MM-DD HH:mm:ss"));
+```
+
+### From ISO String
+
+```typescript
+// Date only
+const date1 = fdu("2025-09-30");
+console.log(date1.format("YYYY-MM-DD")); // '2025-09-30'
+
+// Date and time
+const date2 = fdu("2025-09-30T14:30:00");
+console.log(date2.format("YYYY-MM-DD HH:mm:ss")); // '2025-09-30 14:30:00'
+
+// With timezone
+const date3 = fdu("2025-09-30T14:30:00Z");
+```
+
+### From Date Object
+
+```typescript
+const jsDate = new Date(2025, 8, 30); // Note: month is 0-indexed
+const date = fdu(jsDate);
+console.log(date.format("YYYY-MM-DD")); // '2025-09-30'
+```
+
+### From Unix Timestamp
+
+```typescript
+const timestamp = 1727704200000;
+const date = fdu(timestamp);
+console.log(date.format("YYYY-MM-DD HH:mm:ss"));
+```
+
+## Invalid Dates
+
+When an invalid date is provided, the instance will be marked as invalid:
+
+```typescript
+const invalid = fdu("invalid-date");
+console.log(invalid.isValid()); // false
+```
+
+## See Also
+
+- [format()](/docs/api/formatting/format) - Format the date
+- [isValid()](/docs/api/conversion/is-valid) - Check if date is valid
+- [toDate()](/docs/api/conversion/to-date) - Convert to Date object

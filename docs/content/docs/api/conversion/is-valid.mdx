@@ -1,0 +1,100 @@
+---
+title: isValid()
+description: Check if the date is valid
+---
+
+Check if the date is valid.
+
+## Syntax
+
+```typescript
+isValid(): boolean
+```
+
+## Returns
+
+Returns `true` if the date is valid, `false` otherwise.
+
+## Examples
+
+### Valid Dates
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+fdu("2025-09-30").isValid(); // true
+fdu("2025-09-30T14:30:45").isValid(); // true
+fdu(1727704245000).isValid(); // true
+fdu(new Date()).isValid(); // true
+fdu().isValid(); // true
+```
+
+### Invalid Dates
+
+```typescript
+fdu("invalid-date").isValid(); // false
+fdu("2025-13-40").isValid(); // false (invalid month and day)
+fdu("abc123").isValid(); // false
+fdu(NaN).isValid(); // false
+```
+
+### Validation Before Use
+
+```typescript
+function processDate(input: string) {
+  const date = fdu(input);
+
+  if (!date.isValid()) {
+    throw new Error("Invalid date provided");
+  }
+
+  return date.format("YYYY-MM-DD");
+}
+
+processDate("2025-09-30"); // '2025-09-30'
+processDate("invalid"); // throws Error
+```
+
+### User Input Validation
+
+```typescript
+function validateDateInput(userInput: string): string | null {
+  const date = fdu(userInput);
+
+  if (date.isValid()) {
+    return date.format("YYYY-MM-DD");
+  }
+
+  return null;
+}
+
+validateDateInput("2025-09-30"); // '2025-09-30'
+validateDateInput("not a date"); // null
+```
+
+### API Validation
+
+```typescript
+app.post('/api/events', (req, res) => {
+  const date = fdu(req.body.eventDate);
+
+  if (!date.isValid()) {
+    return res.status(400).json({
+      error: "Invalid date format"
+    });
+  }
+
+  // Process valid date
+  const event = {
+    date: date.toISOString()
+  };
+
+  res.json(event);
+});
+```
+
+## See Also
+
+- [fdu()](/docs/api/creation/fdu) - Create date instance
+- [toDate()](/docs/api/conversion/to-date) - Convert to Date
+- [toISOString()](/docs/api/conversion/to-iso-string) - ISO string

@@ -1,0 +1,146 @@
+---
+title: Get Components
+description: Get individual date/time components
+---
+
+Get individual date/time components.
+
+## Methods
+
+All getter methods return a number representing the component value.
+
+### year()
+
+Get the year.
+
+```typescript
+year(): number
+```
+
+**Example:**
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-09-30");
+date.year(); // 2025
+```
+
+### month()
+
+Get the month (0-11, where 0 = January).
+
+```typescript
+month(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30");
+date.month(); // 8 (September, 0-indexed)
+```
+
+### date()
+
+Get the day of the month (1-31).
+
+```typescript
+date(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30");
+date.date(); // 30
+```
+
+### day()
+
+Get the day of the week (0-6, where 0 = Sunday).
+
+```typescript
+day(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30"); // Monday
+date.day(); // 1
+```
+
+### hour()
+
+Get the hour (0-23).
+
+```typescript
+hour(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+date.hour(); // 14
+```
+
+### minute()
+
+Get the minute (0-59).
+
+```typescript
+minute(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+date.minute(); // 30
+```
+
+### second()
+
+Get the second (0-59).
+
+```typescript
+second(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30T14:30:45");
+date.second(); // 45
+```
+
+### millisecond()
+
+Get the millisecond (0-999).
+
+```typescript
+millisecond(): number
+```
+
+**Example:**
+```typescript
+const date = fdu("2025-09-30T14:30:45.123");
+date.millisecond(); // 123
+```
+
+## Complete Example
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-09-30T14:30:45.123");
+
+console.log(date.year());        // 2025
+console.log(date.month());       // 8 (September)
+console.log(date.date());        // 30
+console.log(date.day());         // 1 (Monday)
+console.log(date.hour());        // 14
+console.log(date.minute());      // 30
+console.log(date.second());      // 45
+console.log(date.millisecond()); // 123
+```
+
+## See Also
+
+- [format()](/docs/api/formatting/format) - Format date to string
+- [toDate()](/docs/api/conversion/to-date) - Convert to Date object

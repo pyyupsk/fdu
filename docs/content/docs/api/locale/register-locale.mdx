@@ -1,0 +1,136 @@
+---
+title: registerLocale()
+description: Register a locale for use with fdu
+---
+
+Register a locale for use with fdu.
+
+## Syntax
+
+```typescript
+registerLocale(name: string, config: LocaleConfig): void
+```
+
+## Parameters
+
+- **name**: `string` - Unique identifier for the locale
+- **config**: `LocaleConfig` - Locale configuration object
+  - `months`: `string[]` - Full month names (12 items)
+  - `monthsShort`: `string[]` - Short month names (12 items)
+  - `weekdays`: `string[]` - Full weekday names (7 items, Sunday first)
+  - `weekdaysShort`: `string[]` - Short weekday names (7 items)
+  - `weekdaysMin`: `string[]` - Minimal weekday names (7 items)
+
+## Examples
+
+### Register Built-in Locale
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+
+registerLocale("es", es);
+```
+
+### Register Multiple Locales
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
+
+registerLocale("es", es);
+registerLocale("fr", fr);
+registerLocale("de", de);
+```
+
+### Register Custom Locale
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+
+registerLocale("custom", {
+  months: [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+  ],
+  monthsShort: [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ],
+  weekdays: [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
+  ],
+  weekdaysShort: [
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+  ],
+  weekdaysMin: [
+    "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
+  ]
+});
+```
+
+### Override Existing Locale
+
+```typescript
+import { registerLocale } from "@pyyupsk/fdu";
+
+// Register custom English variant
+registerLocale("en-custom", {
+  months: [
+    "Januar", "Februar", "March", // ... custom names
+  ],
+  // ... other config
+});
+```
+
+## Built-in Locales
+
+fdu includes these built-in locales ready to import:
+
+```typescript
+import { en } from "@pyyupsk/fdu/locale/en";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
+import { it } from "@pyyupsk/fdu/locale/it";
+import { pt } from "@pyyupsk/fdu/locale/pt";
+import { ru } from "@pyyupsk/fdu/locale/ru";
+import { ja } from "@pyyupsk/fdu/locale/ja";
+import { ko } from "@pyyupsk/fdu/locale/ko";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
+import { th } from "@pyyupsk/fdu/locale/th";
+```
+
+## Complete Example
+
+```typescript
+import { fdu, registerLocale, locale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+
+// Register locales
+registerLocale("es", es);
+registerLocale("fr", fr);
+
+// Set global locale
+locale("es");
+
+// Use locales
+const date = fdu("2025-01-15");
+
+console.log(date.format("MMMM DD, YYYY"));
+// 'enero 15, 2025'
+
+console.log(date.locale("fr").format("DD MMMM YYYY"));
+// '15 janvier 2025'
+```
+
+## See Also
+
+- [locale()](/docs/api/locale/locale) - Get/set locale
+- [Localization Guide](/docs/localization) - Complete localization guide
+- [format()](/docs/api/formatting/format) - Format with locale

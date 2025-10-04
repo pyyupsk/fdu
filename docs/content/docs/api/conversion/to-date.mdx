@@ -1,0 +1,63 @@
+---
+title: toDate()
+description: Convert to native JavaScript Date object
+---
+
+Convert to native JavaScript Date object.
+
+## Syntax
+
+```typescript
+toDate(): Date
+```
+
+## Returns
+
+Returns a native JavaScript `Date` object.
+
+## Examples
+
+### Basic Conversion
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const fduDate = fdu("2025-09-30T14:30:45");
+const jsDate = fduDate.toDate();
+
+console.log(jsDate); // Date object
+console.log(jsDate instanceof Date); // true
+```
+
+### Using with Date Methods
+
+```typescript
+const fduDate = fdu("2025-09-30");
+const jsDate = fduDate.toDate();
+
+jsDate.getFullYear(); // 2025
+jsDate.getMonth(); // 8 (September, 0-indexed)
+jsDate.getDate(); // 30
+```
+
+### Passing to APIs
+
+```typescript
+const date = fdu("2025-09-30");
+
+// Use with APIs that expect Date objects
+const event = {
+  title: "Meeting",
+  date: date.toDate()
+};
+
+// Use with date pickers
+const datePicker = document.querySelector('input[type="date"]');
+datePicker.valueAsDate = date.toDate();
+```
+
+## See Also
+
+- [toISOString()](/docs/api/conversion/to-iso-string) - Convert to ISO string
+- [valueOf()](/docs/api/conversion/value-of) - Get timestamp
+- [format()](/docs/api/formatting/format) - Format to custom string

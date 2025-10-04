@@ -1,0 +1,111 @@
+---
+title: locale()
+description: Get or set the locale for date formatting
+---
+
+Get or set the locale for date formatting.
+
+## Instance Method
+
+Set locale for a specific instance.
+
+### Syntax
+
+```typescript
+locale(name: string): Fdu
+locale(): string
+```
+
+### Parameters
+
+- **name** (optional): `string` - Locale name to set
+
+### Returns
+
+- With parameter: Returns the `Fdu` instance for chaining
+- Without parameter: Returns the current locale name
+
+### Examples
+
+```typescript
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+
+registerLocale("es", es);
+
+const date = fdu("2025-01-15");
+
+// Set locale
+date.locale("es");
+
+// Get locale
+date.locale(); // 'es'
+
+// Format with locale
+date.locale("es").format("MMMM"); // 'enero'
+```
+
+## Global Function
+
+Set global default locale.
+
+### Syntax
+
+```typescript
+import { locale } from "@pyyupsk/fdu";
+
+locale(name: string): void
+```
+
+### Parameters
+
+- **name**: `string` - Locale name to set as global default
+
+### Examples
+
+```typescript
+import { locale, fdu, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+
+registerLocale("es", es);
+
+// Set global locale
+locale("es");
+
+// All new instances use Spanish
+const date1 = fdu("2025-01-15");
+date1.format("MMMM"); // 'enero'
+
+const date2 = fdu("2025-02-20");
+date2.format("MMMM"); // 'febrero'
+```
+
+## Chaining
+
+```typescript
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
+
+registerLocale("fr", fr);
+registerLocale("de", de);
+
+const date = fdu("2025-01-15");
+
+// Chain with other methods
+date
+  .locale("fr")
+  .add(1, "month")
+  .format("DD MMMM YYYY"); // '15 février 2025'
+
+// Switch locale
+date
+  .locale("de")
+  .format("DD. MMMM YYYY"); // '15. Januar 2025'
+```
+
+## See Also
+
+- [registerLocale()](/docs/api/locale/register-locale) - Register a locale
+- [Localization Guide](/docs/localization) - Learn about locales
+- [format()](/docs/api/formatting/format) - Format dates

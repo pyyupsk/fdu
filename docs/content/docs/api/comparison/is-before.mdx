@@ -1,0 +1,67 @@
+---
+title: isBefore()
+description: Check if the date is before another date
+---
+
+Check if the date is before another date.
+
+## Syntax
+
+```typescript
+isBefore(date: ConfigType): boolean
+```
+
+## Parameters
+
+- **date**: `ConfigType` - Date to compare with (`string | Date | number | Fdu`)
+
+## Returns
+
+Returns `true` if the date is before the given date, `false` otherwise.
+
+## Examples
+
+### Basic Comparison
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date1 = fdu("2025-09-30");
+const date2 = fdu("2025-10-01");
+
+date1.isBefore(date2); // true
+date2.isBefore(date1); // false
+```
+
+### With String
+
+```typescript
+const date = fdu("2025-09-30");
+
+date.isBefore("2025-10-01"); // true
+date.isBefore("2025-09-29"); // false
+```
+
+### With Date Object
+
+```typescript
+const date = fdu("2025-09-30");
+const jsDate = new Date(2025, 9, 1); // October 1, 2025
+
+date.isBefore(jsDate); // true
+```
+
+### With Timestamp
+
+```typescript
+const date = fdu("2025-09-30");
+const timestamp = new Date("2025-10-01").getTime();
+
+date.isBefore(timestamp); // true
+```
+
+## See Also
+
+- [isAfter()](/docs/api/comparison/is-after) - Check if after
+- [isSame()](/docs/api/comparison/is-same) - Check if same
+- [diff()](/docs/api/comparison/diff) - Calculate difference

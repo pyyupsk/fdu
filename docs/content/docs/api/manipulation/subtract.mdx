@@ -1,0 +1,86 @@
+---
+title: subtract()
+description: Subtract time from the date
+---
+
+Subtract time from the date.
+
+## Syntax
+
+```typescript
+subtract(value: number, unit: ManipulateUnit): Fdu
+```
+
+## Parameters
+
+- **value**: `number` - Amount to subtract
+- **unit**: `ManipulateUnit` - Unit of time
+  - `"year"` or `"y"`
+  - `"month"` or `"M"`
+  - `"day"` or `"d"`
+  - `"hour"` or `"h"`
+  - `"minute"` or `"m"`
+  - `"second"` or `"s"`
+  - `"millisecond"` or `"ms"`
+
+## Returns
+
+Returns a new `Fdu` instance with the time subtracted (immutable).
+
+## Examples
+
+### Subtract Days
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-09-30");
+
+date.subtract(1, "day").format("YYYY-MM-DD"); // '2025-09-29'
+date.subtract(7, "d").format("YYYY-MM-DD"); // '2025-09-23'
+```
+
+### Subtract Months
+
+```typescript
+const date = fdu("2025-09-30");
+
+date.subtract(1, "month").format("YYYY-MM-DD"); // '2025-08-30'
+date.subtract(3, "M").format("YYYY-MM-DD"); // '2025-06-30'
+```
+
+### Subtract Years
+
+```typescript
+const date = fdu("2025-09-30");
+
+date.subtract(1, "year").format("YYYY-MM-DD"); // '2024-09-30'
+date.subtract(5, "y").format("YYYY-MM-DD"); // '2020-09-30'
+```
+
+### Subtract Time
+
+```typescript
+const date = fdu("2025-09-30T14:30:00");
+
+date.subtract(1, "hour").format("HH:mm"); // '13:30'
+date.subtract(30, "minute").format("HH:mm"); // '14:00'
+date.subtract(45, "second").format("HH:mm:ss"); // '14:29:15'
+```
+
+### Chaining
+
+```typescript
+const date = fdu("2025-09-30");
+
+date
+  .subtract(1, "month")
+  .subtract(5, "day")
+  .subtract(2, "hour")
+  .format("YYYY-MM-DD HH:mm"); // '2025-08-24 22:00'
+```
+
+## See Also
+
+- [add()](/docs/api/manipulation/add) - Add time
+- [diff()](/docs/api/comparison/diff) - Calculate difference
