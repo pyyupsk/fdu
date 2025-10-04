@@ -5,10 +5,6 @@ import { subtract as subtractFromDate } from "../manipulate/subtract";
 import type { FduInput, FduInstance, LocaleConfig, UnitType } from "./types";
 import { normalizeUnit } from "./types";
 
-/**
- * Resolves the effective locale for a date instance
- * Falls back to English if locale not found
- */
 function resolveLocale(instanceLocale: string | undefined): LocaleConfig {
   const localeName = instanceLocale || getGlobalLocale();
   const config = getLocale(localeName);
@@ -21,9 +17,6 @@ function resolveLocale(instanceLocale: string | undefined): LocaleConfig {
   return config;
 }
 
-/**
- * The internal class that powers the DateTime object
- */
 class DateTimeImpl implements FduInstance {
   private readonly _date: Date;
   private readonly _isValid: boolean;
@@ -35,7 +28,6 @@ class DateTimeImpl implements FduInstance {
     this._locale = locale;
   }
 
-  // Methods to get date/time values
   year(): number {
     return this._date.getFullYear();
   }
@@ -68,7 +60,6 @@ class DateTimeImpl implements FduInstance {
     return this._date.getDay();
   }
 
-  // Conversion and validation methods
   toDate(): Date {
     return new Date(this._date.getTime());
   }
@@ -85,7 +76,6 @@ class DateTimeImpl implements FduInstance {
     return this._isValid;
   }
 
-  // Get or set the locale for this date instance
   locale(): string;
   locale(name: string): FduInstance;
   locale(name?: string): string | FduInstance {
@@ -95,13 +85,11 @@ class DateTimeImpl implements FduInstance {
     return new DateTimeImpl(this._date, name);
   }
 
-  // Format the date using a pattern
   format(pattern: string): string {
     const localeConfig = resolveLocale(this._locale);
     return formatDate(this._date, pattern, localeConfig);
   }
 
-  // Add or subtract time from date
   add(value: number, unit: UnitType): FduInstance {
     const newDate = addToDate(this._date, value, unit);
     return new DateTimeImpl(newDate, this._locale);
@@ -112,7 +100,6 @@ class DateTimeImpl implements FduInstance {
     return new DateTimeImpl(newDate, this._locale);
   }
 
-  // Compare date with another date
   isBefore(other: FduInstance): boolean {
     return this._date.getTime() < other.valueOf();
   }
@@ -127,8 +114,6 @@ class DateTimeImpl implements FduInstance {
     }
 
     const normalizedUnit = normalizeUnit(unit);
-
-    // Compare by unit granularity
     const d1 = this._date;
     const d2 = other.toDate();
 
@@ -204,9 +189,6 @@ class DateTimeImpl implements FduInstance {
   }
 }
 
-/**
- * Takes whatever date input and turns into a Date object
- */
 function parseInput(input: FduInput): Date {
   if (input === undefined) {
     return new Date();
@@ -220,17 +202,12 @@ function parseInput(input: FduInput): Date {
   if (typeof input === "string") {
     return new Date(input);
   }
-  // Handle DateTime objects by extracting internal Date
   if ("toDate" in input && typeof input.toDate === "function") {
     return input.toDate();
   }
   return new Date(NaN);
 }
 
-/**
- * Main factory function - creates a DateTime object from various inputs
- * Always returns an FduInstance. Use isValid() to check if the date is valid.
- */
 export function fdu(input?: FduInput): FduInstance {
   const date = parseInput(input);
   return new DateTimeImpl(date, getGlobalLocale());

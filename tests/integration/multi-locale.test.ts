@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { LocaleConfig } from "../../src";
 import { fdu } from "../../src/core/datetime";
+import type { LocaleConfig } from "../../src/core/types";
 import {
   registerLocale,
   locale as setGlobalLocale,

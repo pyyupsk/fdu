@@ -1,9 +1,6 @@
 import type { UnitType } from "../core/types";
 import { normalizeUnit } from "../core/types";
 
-/**
- * Adds a specified amount of time to a date
- */
 export function add(date: Date, value: number, unit: UnitType): Date {
   const result = new Date(date.getTime());
   const normalizedUnit = normalizeUnit(unit);
@@ -34,7 +31,6 @@ export function add(date: Date, value: number, unit: UnitType): Date {
       result.setMilliseconds(result.getMilliseconds() + value);
       break;
     default:
-      // If the unit is not a valid unit, return the original date
       break;
   }
 
