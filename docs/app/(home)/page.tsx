@@ -26,11 +26,11 @@ export default function HomePage() {
         <div className="space-y-8">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance">
-              The modern date utility library.
+              Ultra-fast date-time library
             </h1>
             <p className="text-xl md:text-2xl text-fd-muted-foreground text-pretty">
-              Zero dependencies. Lightweight. TypeScript-first. The date library
-              that respects your bundle size.
+              Zero dependencies. 2× faster than Day.js. TypeScript-first.
+              Immutable API with comprehensive i18n support.
             </p>
           </div>
           <div className="flex flex-wrap gap-4">
@@ -63,8 +63,8 @@ export default function HomePage() {
           lang="ts"
           code={
             today
-              ? `import { fdu } from "fdu";\n\nconst date = fdu("${today}");\n\ndate.format("dddd [at] HH:mm");\n\n// → "${formattedDate}"`
-              : `import { fdu } from "fdu";\n\nconst date = fdu("loading...");\n\ndate.format("dddd [at] HH:mm");\n\n// → "loading..."`
+              ? `import { fdu } from "@pyyupsk/fdu";\n\nconst date = fdu("${today}");\n\ndate.format("dddd [at] HH:mm");\n\n// → "${formattedDate}"`
+              : `import { fdu } from "@pyyupsk/fdu";\n\nconst date = fdu("loading...");\n\ndate.format("dddd [at] HH:mm");\n\n// → "loading..."`
           }
           wrapInSuspense
         />

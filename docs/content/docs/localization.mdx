@@ -63,7 +63,7 @@ date.locale("de").format("MMMM"); // 'Januar'
 ### Spanish
 
 ```typescript
-import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { fdu, registerLocale } from "@pyyupsk/fdu";
 import { es } from "@pyyupsk/fdu/locale/es";
 
 registerLocale("es", es);
@@ -78,7 +78,7 @@ date.format("D [de] MMMM [de] YYYY"); // '15 de enero de 2025'
 ### French
 
 ```typescript
-import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { fdu, registerLocale } from "@pyyupsk/fdu";
 import { fr } from "@pyyupsk/fdu/locale/fr";
 
 registerLocale("fr", fr);
@@ -93,7 +93,7 @@ date.format("D MMMM YYYY"); // '15 janvier 2025'
 ### Japanese
 
 ```typescript
-import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { fdu, registerLocale } from "@pyyupsk/fdu";
 import { ja } from "@pyyupsk/fdu/locale/ja";
 
 registerLocale("ja", ja);
@@ -107,7 +107,7 @@ date.format("dddd"); // '水曜日'
 ### Chinese (Simplified)
 
 ```typescript
-import { registerLocale, fdu } from "@pyyupsk/fdu";
+import { fdu, registerLocale } from "@pyyupsk/fdu";
 import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
 
 registerLocale("zh-cn", zhCn);
@@ -123,7 +123,8 @@ date.format("dddd"); // '星期三'
 You can create custom locale configurations:
 
 ```typescript
-import { registerLocale, type LocaleConfig } from "@pyyupsk/fdu";
+import { registerLocale } from "@pyyupsk/fdu";
+import type { LocaleConfig } from "@pyyupsk/fdu/types";
 
 const customLocale: LocaleConfig = {
   name: "custom",

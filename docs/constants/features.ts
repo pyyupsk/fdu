@@ -1,25 +1,23 @@
 export const features = [
   {
     title: "Fast Performance",
-    description:
-      "2x faster than Day.js with optimized algorithms and zero overhead.",
-    metric: "2x",
+    description: "2× faster than Day.js with optimized native Date algorithms.",
+    metric: "2×",
   },
   {
     title: "Zero Dependencies",
-    description:
-      "Pure TypeScript implementation with no external packages required.",
+    description: "Pure TypeScript with no external runtime dependencies.",
     metric: "0",
   },
   {
-    title: "Tiny Bundle Size",
-    description: "Only 2KB minified and gzipped. Every byte counts.",
-    metric: "2KB",
+    title: "Locales Built-in",
+    description: "11 locales included with comprehensive i18n support.",
+    metric: "11",
   },
   {
-    title: "Type-Safe",
+    title: "Test Coverage",
     description:
-      "Complete TypeScript support with excellent developer experience.",
-    metric: "100%",
+      "Rigorously tested with comprehensive unit & integration coverage.",
+    metric: "99%+",
   },
 ];

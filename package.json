@@ -1,18 +1,28 @@
 {
   "name": "@pyyupsk/fdu",
   "version": "0.0.0-beta.1",
-  "description": "Ultra-fast, zero-dependency JavaScript date-time library",
+  "description": "Ultra-fast, zero-dependency date-time library for JavaScript & TypeScript",
   "keywords": [
     "date",
-    "time",
     "datetime",
-    "format",
-    "parse",
-    "lightweight",
-    "zero-dependency",
-    "fast",
+    "time",
+    "timestamp",
     "dayjs",
-    "alternative"
+    "moment",
+    "date-fns",
+    "lightweight",
+    "immutable",
+    "typescript",
+    "i18n",
+    "locale",
+    "formatter",
+    "parser",
+    "timezone",
+    "fdu",
+    "fast",
+    "zero-dependency",
+    "utility",
+    "javascript-library"
   ],
   "license": "MIT",
   "author": "Pongsakorn Thipayanate <contact@fasu.dev>",
@@ -31,11 +41,6 @@
       "import": "./dist/types.js",
       "require": "./dist/types.cjs"
     },
-    "./locale": {
-      "types": "./dist/locale.d.ts",
-      "import": "./dist/locale.js",
-      "require": "./dist/locale.cjs"
-    },
     "./locale/*": {
       "types": "./dist/locale/*.d.ts",
       "import": "./dist/locale/*.js",
@@ -53,9 +58,6 @@
   "scripts": {
     "bench": "vitest bench --run",
     "build": "rimraf dist && tsdown",
-    "docs:build": "cd docs && bun run build",
-    "docs:dev": "cd docs && bun run dev",
-    "docs:preview": "cd docs && bun run start",
     "format": "biome format --write",
     "lint": "biome check",
     "lint:fix": "biome check --fix",

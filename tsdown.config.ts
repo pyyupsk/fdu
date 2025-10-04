@@ -18,16 +18,6 @@ export default defineConfig([
     clean: false,
   },
 
-  // Locale utilities - registerLocale and locale functions
-  {
-    entry: { locale: "src/locale/index.ts" },
-    outDir: "dist",
-    format: ["esm", "cjs"],
-    platform: "neutral",
-    minify: true,
-    clean: false,
-  },
-
   // Locale files - Tree-shakeable language data
   {
     entry: "src/locale/locales/*.ts",
