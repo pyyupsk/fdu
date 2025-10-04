@@ -25,7 +25,7 @@ npm install @pyyupsk/fdu
 ## Usage
 
 ```typescript
-import fdu from "@pyyupsk/fdu";
+import { fdu } from "@pyyupsk/fdu";
 
 // Create
 const now = fdu();
