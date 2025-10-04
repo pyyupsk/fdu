@@ -1,24 +1,8 @@
-// Main date-time factory and core types
-export { fdu } from "./core/datetime";
-export type {
-  FduInput,
-  FduInstance,
-  LocaleConfig,
-  UnitType,
-} from "./core/types";
-
-// Locale configuration and registration
-export { locale, registerLocale } from "./locale/locale";
+// Main export - the fdu factory function
+export { fdu, fdu as default } from "./core/datetime";
 
 // Set up English as the default locale
 import { registerLocale } from "./locale/locale";
 import { en } from "./locale/locales/en";
 
 registerLocale("en", en);
-
-// Utility functions (tree-shakable)
-export { diff, isAfter, isBefore, isSame } from "./compare/comparisons";
-export { format } from "./format/formatter";
-export { add } from "./manipulate/add";
-export { subtract } from "./manipulate/subtract";
-export { parse } from "./parse/parser";

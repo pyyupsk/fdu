@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { fdu, registerLocale } from "../../src/index";
+import { fdu } from "../../src/index";
+import { registerLocale } from "../../src/locale/index";
 import { en } from "../../src/locale/locales/en";
 import { th } from "../../src/locale/locales/th";
 

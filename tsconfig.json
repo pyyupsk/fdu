@@ -25,6 +25,6 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "tsdown.config.ts", "vitest.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
