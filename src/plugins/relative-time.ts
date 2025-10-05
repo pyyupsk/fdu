@@ -326,14 +326,14 @@ declare module "../core/types" {
      * Requires relativeTime plugin to be registered
      * @returns Human-readable relative time string
      */
-    fromNow?(): string;
+    fromNow(): string;
 
     /**
      * Get relative time to now (inverse of fromNow)
      * Requires relativeTime plugin to be registered
      * @returns Human-readable relative time string
      */
-    toNow?(): string;
+    toNow(): string;
 
     /**
      * Get relative time from a specific date
@@ -341,7 +341,7 @@ declare module "../core/types" {
      * @param compared - The date to compare against
      * @returns Human-readable relative time string
      */
-    from?(compared: FduInstance): string;
+    from(compared: FduInstance): string;
 
     /**
      * Get relative time to a specific date (inverse of from)
@@ -349,6 +349,6 @@ declare module "../core/types" {
      * @param compared - The date to compare against
      * @returns Human-readable relative time string
      */
-    to?(compared: FduInstance): string;
+    to(compared: FduInstance): string;
   }
 }

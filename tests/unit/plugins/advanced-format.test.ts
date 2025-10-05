@@ -10,94 +10,94 @@ describe("Advanced Format Plugin", () => {
   describe("dayOfYear()", () => {
     it("should return 1 for January 1st", () => {
       const date = fdu("2025-01-01");
-      expect(date.dayOfYear?.()).toBe(1);
+      expect(date.dayOfYear()).toBe(1);
     });
 
     it("should return 32 for February 1st", () => {
       const date = fdu("2025-02-01");
-      expect(date.dayOfYear?.()).toBe(32);
+      expect(date.dayOfYear()).toBe(32);
     });
 
     it("should return 365 for December 31st in non-leap year", () => {
       const date = fdu("2025-12-31");
-      expect(date.dayOfYear?.()).toBe(365);
+      expect(date.dayOfYear()).toBe(365);
     });
 
     it("should return 366 for December 31st in leap year", () => {
       const date = fdu("2024-12-31");
-      expect(date.dayOfYear?.()).toBe(366);
+      expect(date.dayOfYear()).toBe(366);
     });
 
     it("should return 60 for Feb 29th in leap year", () => {
       const date = fdu("2024-02-29");
-      expect(date.dayOfYear?.()).toBe(60);
+      expect(date.dayOfYear()).toBe(60);
     });
 
     it("should calculate day of year correctly mid-year", () => {
       const date = fdu("2025-06-15");
-      expect(date.dayOfYear?.()).toBe(166);
+      expect(date.dayOfYear()).toBe(166);
     });
   });
 
   describe("isoWeekday()", () => {
     it("should return 1 for Monday", () => {
       const date = fdu("2025-10-06"); // Monday
-      expect(date.isoWeekday?.()).toBe(1);
+      expect(date.isoWeekday()).toBe(1);
     });
 
     it("should return 2 for Tuesday", () => {
       const date = fdu("2025-10-07"); // Tuesday
-      expect(date.isoWeekday?.()).toBe(2);
+      expect(date.isoWeekday()).toBe(2);
     });
 
     it("should return 3 for Wednesday", () => {
       const date = fdu("2025-10-08"); // Wednesday
-      expect(date.isoWeekday?.()).toBe(3);
+      expect(date.isoWeekday()).toBe(3);
     });
 
     it("should return 4 for Thursday", () => {
       const date = fdu("2025-10-09"); // Thursday
-      expect(date.isoWeekday?.()).toBe(4);
+      expect(date.isoWeekday()).toBe(4);
     });
 
     it("should return 5 for Friday", () => {
       const date = fdu("2025-10-10"); // Friday
-      expect(date.isoWeekday?.()).toBe(5);
+      expect(date.isoWeekday()).toBe(5);
     });
 
     it("should return 6 for Saturday", () => {
       const date = fdu("2025-10-11"); // Saturday
-      expect(date.isoWeekday?.()).toBe(6);
+      expect(date.isoWeekday()).toBe(6);
     });
 
     it("should return 7 for Sunday", () => {
       const date = fdu("2025-10-05"); // Sunday
-      expect(date.isoWeekday?.()).toBe(7);
+      expect(date.isoWeekday()).toBe(7);
     });
   });
 
   describe("weekOfYear()", () => {
     it("should return 1 for first week of year", () => {
       const date = fdu("2025-01-01");
-      expect(date.weekOfYear?.()).toBe(1);
+      expect(date.weekOfYear()).toBe(1);
     });
 
     it("should calculate week number correctly mid-year", () => {
       const date = fdu("2025-06-15");
-      expect(date.weekOfYear?.()).toBeGreaterThan(0);
-      expect(date.weekOfYear?.()).toBeLessThanOrEqual(53);
+      expect(date.weekOfYear()).toBeGreaterThan(0);
+      expect(date.weekOfYear()).toBeLessThanOrEqual(53);
     });
 
     it("should return 53 for last week of year when applicable", () => {
       const date = fdu("2025-12-31");
-      const week = date.weekOfYear?.();
+      const week = date.weekOfYear();
       expect(week).toBeGreaterThan(0);
       expect(week).toBeLessThanOrEqual(53);
     });
 
     it("should handle week calculation at year boundary", () => {
       const date = fdu("2024-12-31");
-      const week = date.weekOfYear?.();
+      const week = date.weekOfYear();
       expect(week).toBeGreaterThan(0);
     });
   });
@@ -105,39 +105,39 @@ describe("Advanced Format Plugin", () => {
   describe("isoWeek()", () => {
     it("should return valid ISO week number", () => {
       const date = fdu("2025-01-01");
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       expect(isoWeek).toBeGreaterThan(0);
       expect(isoWeek).toBeLessThanOrEqual(53);
     });
 
     it("should calculate ISO week correctly mid-year", () => {
       const date = fdu("2025-06-15");
-      expect(date.isoWeek?.()).toBeGreaterThan(0);
-      expect(date.isoWeek?.()).toBeLessThanOrEqual(53);
+      expect(date.isoWeek()).toBeGreaterThan(0);
+      expect(date.isoWeek()).toBeLessThanOrEqual(53);
     });
 
     it("should handle Thursday rule for ISO weeks", () => {
       // Week 1 is the first week with a Thursday
       const date = fdu("2025-01-02"); // Thursday
-      expect(date.isoWeek?.()).toBeGreaterThan(0);
+      expect(date.isoWeek()).toBeGreaterThan(0);
     });
 
     it("should handle year-end ISO weeks correctly", () => {
       const date = fdu("2025-12-31");
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       expect(isoWeek).toBeGreaterThan(0);
       expect(isoWeek).toBeLessThanOrEqual(53);
     });
 
     it("should handle dates where ISO week belongs to next year", () => {
       const date = fdu("2024-12-30"); // Monday in week 1 of 2025
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       expect(isoWeek).toBeDefined();
     });
 
     it("should handle dates where ISO week belongs to previous year", () => {
       const date = fdu("2026-01-01"); // Thursday
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       expect(isoWeek).toBeDefined();
     });
   });
@@ -145,85 +145,85 @@ describe("Advanced Format Plugin", () => {
   describe("weekYear()", () => {
     it("should return current year for mid-year dates", () => {
       const date = fdu("2025-06-15");
-      expect(date.weekYear?.()).toBe(2025);
+      expect(date.weekYear()).toBe(2025);
     });
 
     it("should return next year when week 1 falls in December", () => {
       // Find a date in December that's in week 1 of next year
       const date = fdu("2024-12-30"); // Week 1 of 2025
-      const weekNum = date.weekOfYear?.();
+      const weekNum = date.weekOfYear();
       if (weekNum === 1) {
-        expect(date.weekYear?.()).toBe(2025);
+        expect(date.weekYear()).toBe(2025);
       }
     });
 
     it("should return previous year when week 52/53 falls in January", () => {
       // Find a date in January that's in week 52/53 of previous year
       const date = fdu("2026-01-01");
-      const weekNum = date.weekOfYear?.();
+      const weekNum = date.weekOfYear();
       if (weekNum && weekNum >= 52) {
-        expect(date.weekYear?.()).toBe(2025);
+        expect(date.weekYear()).toBe(2025);
       }
     });
 
     it("should handle normal year boundaries", () => {
       const date = fdu("2025-01-15");
-      expect(date.weekYear?.()).toBe(2025);
+      expect(date.weekYear()).toBe(2025);
     });
   });
 
   describe("isoWeekYear()", () => {
     it("should return current year for mid-year dates", () => {
       const date = fdu("2025-06-15");
-      expect(date.isoWeekYear?.()).toBe(2025);
+      expect(date.isoWeekYear()).toBe(2025);
     });
 
     it("should return next year when ISO week 1 falls in December", () => {
       const date = fdu("2024-12-30"); // ISO week 1 of 2025
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       if (isoWeek === 1) {
-        expect(date.isoWeekYear?.()).toBe(2025);
+        expect(date.isoWeekYear()).toBe(2025);
       }
     });
 
     it("should return previous year when ISO week 52/53 falls in January", () => {
       const date = fdu("2026-01-01");
-      const isoWeek = date.isoWeek?.();
+      const isoWeek = date.isoWeek();
       if (isoWeek && isoWeek >= 52) {
-        expect(date.isoWeekYear?.()).toBe(2025);
+        expect(date.isoWeekYear()).toBe(2025);
       }
     });
 
     it("should handle normal year boundaries", () => {
       const date = fdu("2025-01-15");
-      expect(date.isoWeekYear?.()).toBe(2025);
+      expect(date.isoWeekYear()).toBe(2025);
     });
   });
 
   describe("isoWeeksInYear()", () => {
     it("should return 52 or 53 for any year", () => {
       const date = fdu("2025-06-15");
-      const weeks = date.isoWeeksInYear?.();
+      const weeks = date.isoWeeksInYear();
       expect(weeks).toBeGreaterThanOrEqual(52);
       expect(weeks).toBeLessThanOrEqual(53);
     });
 
     it("should return 52 when last week is 1 (belongs to next year)", () => {
       const date = fdu("2025-01-01");
-      const weeks = date.isoWeeksInYear?.();
+      const weeks = date.isoWeeksInYear();
       expect([52, 53]).toContain(weeks);
     });
 
     it("should handle leap years correctly", () => {
       const date = fdu("2024-06-15");
-      const weeks = date.isoWeeksInYear?.();
+      const weeks = date.isoWeeksInYear();
       expect(weeks).toBeGreaterThanOrEqual(52);
       expect(weeks).toBeLessThanOrEqual(53);
     });
 
     it("should handle non-leap years correctly", () => {
       const date = fdu("2025-06-15");
-      const weeks = date.isoWeeksInYear?.();
+      const weeks = date.isoWeeksInYear();
       expect(weeks).toBeGreaterThanOrEqual(52);
       expect(weeks).toBeLessThanOrEqual(53);
     });
@@ -232,62 +232,62 @@ describe("Advanced Format Plugin", () => {
   describe("quarter()", () => {
     it("should return 1 for Q1 (January)", () => {
       const date = fdu("2025-01-15");
-      expect(date.quarter?.()).toBe(1);
+      expect(date.quarter()).toBe(1);
     });
 
     it("should return 1 for Q1 (February)", () => {
       const date = fdu("2025-02-15");
-      expect(date.quarter?.()).toBe(1);
+      expect(date.quarter()).toBe(1);
     });
 
     it("should return 1 for Q1 (March)", () => {
       const date = fdu("2025-03-15");
-      expect(date.quarter?.()).toBe(1);
+      expect(date.quarter()).toBe(1);
     });
 
     it("should return 2 for Q2 (April)", () => {
       const date = fdu("2025-04-15");
-      expect(date.quarter?.()).toBe(2);
+      expect(date.quarter()).toBe(2);
     });
 
     it("should return 2 for Q2 (May)", () => {
       const date = fdu("2025-05-15");
-      expect(date.quarter?.()).toBe(2);
+      expect(date.quarter()).toBe(2);
     });
 
     it("should return 2 for Q2 (June)", () => {
       const date = fdu("2025-06-15");
-      expect(date.quarter?.()).toBe(2);
+      expect(date.quarter()).toBe(2);
     });
 
     it("should return 3 for Q3 (July)", () => {
       const date = fdu("2025-07-15");
-      expect(date.quarter?.()).toBe(3);
+      expect(date.quarter()).toBe(3);
     });
 
     it("should return 3 for Q3 (August)", () => {
       const date = fdu("2025-08-15");
-      expect(date.quarter?.()).toBe(3);
+      expect(date.quarter()).toBe(3);
     });
 
     it("should return 3 for Q3 (September)", () => {
       const date = fdu("2025-09-15");
-      expect(date.quarter?.()).toBe(3);
+      expect(date.quarter()).toBe(3);
     });
 
     it("should return 4 for Q4 (October)", () => {
       const date = fdu("2025-10-15");
-      expect(date.quarter?.()).toBe(4);
+      expect(date.quarter()).toBe(4);
     });
 
     it("should return 4 for Q4 (November)", () => {
       const date = fdu("2025-11-15");
-      expect(date.quarter?.()).toBe(4);
+      expect(date.quarter()).toBe(4);
     });
 
     it("should return 4 for Q4 (December)", () => {
       const date = fdu("2025-12-15");
-      expect(date.quarter?.()).toBe(4);
+      expect(date.quarter()).toBe(4);
     });
   });
 

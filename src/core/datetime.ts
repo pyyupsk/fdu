@@ -33,7 +33,7 @@ import type { FduInput, FduInstance, Plugin, UnitType } from "./types";
  */
 export function fdu(input?: FduInput): FduInstance {
   const date = parseInput(input);
-  return new DateTimeImpl(date, getGlobalLocale());
+  return new DateTimeImpl(date, getGlobalLocale()) as unknown as FduInstance;
 }
 
 /**
@@ -133,7 +133,7 @@ class DateTimeImpl {
     if (name === undefined) {
       return this._locale || getGlobalLocale();
     }
-    return new DateTimeImpl(this._date, name);
+    return new DateTimeImpl(this._date, name) as unknown as FduInstance;
   }
 
   format(pattern: string): string {
@@ -143,12 +143,12 @@ class DateTimeImpl {
 
   add(value: number, unit: UnitType): FduInstance {
     const newDate = addToDate(this._date, value, unit);
-    return new DateTimeImpl(newDate, this._locale);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
   subtract(value: number, unit: UnitType): FduInstance {
     const newDate = subtractFromDate(this._date, value, unit);
-    return new DateTimeImpl(newDate, this._locale);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
   isBefore(other: FduInstance): boolean {

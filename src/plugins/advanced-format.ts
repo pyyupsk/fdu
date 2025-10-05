@@ -162,14 +162,14 @@ declare module "../core/types" {
      * Requires advancedFormat plugin to be registered
      * @returns Day number (1 = Jan 1, 365/366 = Dec 31)
      */
-    dayOfYear?(): number;
+    dayOfYear(): number;
 
     /**
      * Get ISO day of week (1-7, Monday=1, Sunday=7)
      * Requires advancedFormat plugin to be registered
      * @returns ISO day of week number
      */
-    isoWeekday?(): number;
+    isoWeekday(): number;
 
     /**
      * Get the week number of the year (1-53)
@@ -177,7 +177,7 @@ declare module "../core/types" {
      * Requires advancedFormat plugin to be registered
      * @returns Week number of the year
      */
-    weekOfYear?(): number;
+    weekOfYear(): number;
 
     /**
      * Get ISO week number of the year (1-53)
@@ -185,34 +185,34 @@ declare module "../core/types" {
      * Requires advancedFormat plugin to be registered
      * @returns ISO week number
      */
-    isoWeek?(): number;
+    isoWeek(): number;
 
     /**
      * Get the year that the week belongs to
      * Requires advancedFormat plugin to be registered
      * @returns Week year
      */
-    weekYear?(): number;
+    weekYear(): number;
 
     /**
      * Get ISO week-numbering year
      * Requires advancedFormat plugin to be registered
      * @returns ISO week year
      */
-    isoWeekYear?(): number;
+    isoWeekYear(): number;
 
     /**
      * Get number of ISO weeks in the year (52 or 53)
      * Requires advancedFormat plugin to be registered
      * @returns Number of ISO weeks in year
      */
-    isoWeeksInYear?(): number;
+    isoWeeksInYear(): number;
 
     /**
      * Get the quarter of the year (1-4)
      * Requires advancedFormat plugin to be registered
      * @returns Quarter number (1 = Q1, 2 = Q2, 3 = Q3, 4 = Q4)
      */
-    quarter?(): number;
+    quarter(): number;
   }
 }
