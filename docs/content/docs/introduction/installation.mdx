@@ -38,10 +38,10 @@ You can also use fdu via CDN for quick prototyping:
 
 ```html
 <script type="module">
-  import { fdu } from 'https://esm.sh/@pyyupsk/fdu';
+  import { fdu } from "https://esm.sh/@pyyupsk/fdu";
 
   const date = fdu();
-  console.log(date.format('YYYY-MM-DD'));
+  console.log(date.format("YYYY-MM-DD"));
 </script>
 ```
 
@@ -52,14 +52,16 @@ You can also use fdu via CDN for quick prototyping:
 <script>
   const { fdu } = window.fdu;
   const date = fdu();
-  console.log(date.format('YYYY-MM-DD'));
+  console.log(date.format("YYYY-MM-DD"));
 </script>
 ```
 
 ## Version Status
 
 <Callout type="warn" title="Beta Version">
-  This library is currently in **beta** (v0.0.0-beta.3). The API is stable but may change before v1.0.0. Production use is acceptable, but consider pinning to a specific version.
+  This library is currently in **beta** (v0.0.0-beta.3). The API is stable but
+  may change before v1.0.0. Production use is acceptable, but consider pinning
+  to a specific version.
 </Callout>
 
 ### Versioning
@@ -79,7 +81,9 @@ See the [CHANGELOG](https://github.com/pyyupsk/fdu/blob/main/CHANGELOG.md) for d
 ### Runtime
 
 <Callout type="info">
-**Note:** Specific runtime compatibility has not been thoroughly tested yet. The library is built with ESNext target and should work in modern environments with ESM support.
+  **Note:** Specific runtime compatibility has not been thoroughly tested yet.
+  The library is built with ESNext target and should work in modern environments
+  with ESM support.
 </Callout>
 
 - **Node.js**: Modern version with ESM support recommended
@@ -100,8 +104,8 @@ To contribute or build from source, you'll need:
 After installation, verify fdu is working:
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-console.log(fdu().format('YYYY-MM-DD HH:mm:ss'));
+console.log(fdu().format("YYYY-MM-DD HH:mm:ss"));
 // Output: "2025-10-05 15:30:00" (current date/time)
 ```

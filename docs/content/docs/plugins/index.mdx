@@ -8,14 +8,14 @@ description: Extend @pyyupsk/fdu with custom functionality using the plugin syst
 ## Quick Start
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 // Register the plugin
 fdu.extend(advancedFormat);
 
 // Use the plugin methods
-const date = fdu('2025-10-05');
+const date = fdu("2025-10-05");
 console.log(date.quarter()); // 4
 ```
 
@@ -25,10 +25,10 @@ console.log(date.quarter()); // 4
 
 `@pyyupsk/fdu` includes two built-in plugins:
 
-| Plugin | Description | Import Path |
-|--------|-------------|-------------|
+| Plugin          | Description                                                     | Import Path                            |
+| --------------- | --------------------------------------------------------------- | -------------------------------------- |
 | Advanced Format | Additional date utilities (quarters, week numbers, day of year) | `@pyyupsk/fdu/plugins/advanced-format` |
-| Relative Time | Human-readable time differences | `@pyyupsk/fdu/plugins/relative-time` |
+| Relative Time   | Human-readable time differences                                 | `@pyyupsk/fdu/plugins/relative-time`   |
 
 For a complete list of all available plugins, see the [plugins directory on GitHub](https://github.com/pyyupsk/fdu/tree/main/src/plugins).
 
@@ -41,16 +41,16 @@ For a complete list of all available plugins, see the [plugins directory on GitH
 To use a plugin, import it and register it with the `extend()` method:
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 // Register the plugin
 fdu.extend(advancedFormat);
 
 // Now you can use the plugin methods
-const date = fdu('2025-10-05');
+const date = fdu("2025-10-05");
 console.log(date.dayOfYear()); // 278
-console.log(date.quarter());   // 4
+console.log(date.quarter()); // 4
 ```
 
 ### Plugin Options
@@ -58,13 +58,13 @@ console.log(date.quarter());   // 4
 Some plugins accept configuration options:
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+import { fdu } from "@pyyupsk/fdu";
+import { relativeTime } from "@pyyupsk/fdu/plugins/relative-time";
 
 // Register with options
-fdu.extend(relativeTime, { style: 'short' });
+fdu.extend(relativeTime, { style: "short" });
 
-const date = fdu().subtract(2, 'hours');
+const date = fdu().subtract(2, "hours");
 console.log(date.fromNow()); // "2h"
 ```
 
@@ -73,19 +73,19 @@ console.log(date.fromNow()); // "2h"
 You can register multiple plugins to combine their functionality:
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
-import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
+import { relativeTime } from "@pyyupsk/fdu/plugins/relative-time";
 
 // Register multiple plugins
 fdu.extend(advancedFormat);
 fdu.extend(relativeTime);
 
-const date = fdu('2025-10-05');
+const date = fdu("2025-10-05");
 
 // Use methods from both plugins
-console.log(date.quarter());  // 4
-console.log(date.fromNow());  // "4 days ago"
+console.log(date.quarter()); // 4
+console.log(date.fromNow()); // "4 days ago"
 ```
 
 ---
@@ -97,17 +97,17 @@ You can create your own plugins to extend `@pyyupsk/fdu` with custom functionali
 ### Plugin Structure
 
 ```typescript
-import type { Plugin, PluginAPI, FduInstance } from '@pyyupsk/fdu';
+import type { Plugin, PluginAPI, FduInstance } from "@pyyupsk/fdu";
 
 export const myPlugin: Plugin = {
-  name: 'my-plugin',
-  version: '1.0.0',
+  name: "my-plugin",
+  version: "1.0.0",
   install(api: PluginAPI) {
     // Add custom methods here
-    api.extendPrototype('myMethod', function(this: FduInstance) {
-      return this.format('YYYY-MM-DD');
+    api.extendPrototype("myMethod", function (this: FduInstance) {
+      return this.format("YYYY-MM-DD");
     });
-  }
+  },
 };
 ```
 
@@ -116,7 +116,7 @@ export const myPlugin: Plugin = {
 For full type safety, add TypeScript declaration merging:
 
 ```typescript
-declare module '@pyyupsk/fdu' {
+declare module "@pyyupsk/fdu" {
   interface FduInstance {
     myMethod?(): string;
   }
@@ -126,28 +126,28 @@ declare module '@pyyupsk/fdu' {
 ### Complete Example
 
 ```typescript
-import type { Plugin, PluginAPI, FduInstance } from '@pyyupsk/fdu';
+import type { Plugin, PluginAPI, FduInstance } from "@pyyupsk/fdu";
 
 // Define the plugin
 export const customPlugin: Plugin = {
-  name: 'custom-plugin',
-  version: '1.0.0',
+  name: "custom-plugin",
+  version: "1.0.0",
   install(api: PluginAPI) {
     // Add a method to get the day name
-    api.extendPrototype('dayName', function(this: FduInstance) {
-      return this.format('dddd');
+    api.extendPrototype("dayName", function (this: FduInstance) {
+      return this.format("dddd");
     });
 
     // Add a method to check if it's a weekend
-    api.extendPrototype('isWeekend', function(this: FduInstance) {
+    api.extendPrototype("isWeekend", function (this: FduInstance) {
       const day = this.day();
       return day === 0 || day === 6;
     });
-  }
+  },
 };
 
 // Add TypeScript types
-declare module '@pyyupsk/fdu' {
+declare module "@pyyupsk/fdu" {
   interface FduInstance {
     dayName?(): string;
     isWeekend?(): boolean;
@@ -155,12 +155,12 @@ declare module '@pyyupsk/fdu' {
 }
 
 // Use the plugin
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
 fdu.extend(customPlugin);
 
-const date = fdu('2025-10-05');
-console.log(date.dayName());   // "Sunday"
+const date = fdu("2025-10-05");
+console.log(date.dayName()); // "Sunday"
 console.log(date.isWeekend()); // true
 ```
 
@@ -190,8 +190,8 @@ Each plugin must follow this structure:
 
 ```typescript
 interface Plugin<Options = unknown> {
-  name: string;        // Unique plugin identifier
-  version: string;     // Semantic version
+  name: string; // Unique plugin identifier
+  version: string; // Semantic version
   install(api: PluginAPI, options?: Options): void;
 }
 ```
@@ -227,13 +227,13 @@ Each plugin should have a single, clear responsibility:
 ```typescript
 // ✅ Good - focused on one feature
 export const quarterPlugin: Plugin = {
-  name: 'quarter',
-  version: '1.0.0',
+  name: "quarter",
+  version: "1.0.0",
   install(api: PluginAPI) {
-    api.extendPrototype('quarter', function(this: FduInstance) {
+    api.extendPrototype("quarter", function (this: FduInstance) {
       return Math.floor(this.month() / 3) + 1;
     });
-  }
+  },
 };
 
 // ❌ Avoid - too many unrelated features
@@ -246,7 +246,7 @@ export const everythingPlugin: Plugin = {
 
 Document your plugin's API and provide usage examples:
 
-```typescript
+````typescript
 /**
  * Quarter Plugin
  *
@@ -266,7 +266,7 @@ Document your plugin's API and provide usage examples:
 export const quarterPlugin: Plugin = {
   // ...
 };
-```
+````
 
 ### Follow Semantic Versioning
 

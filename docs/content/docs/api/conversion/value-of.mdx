@@ -20,23 +20,23 @@ Gets the Unix timestamp in milliseconds (milliseconds since January 1, 1970 00:0
 ### Basic Usage
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15T00:00:00Z');
-date.valueOf();  // 1705276800000
+const date = fdu("2024-01-15T00:00:00Z");
+date.valueOf(); // 1705276800000
 
 const now = fdu();
-console.log(now.valueOf());  // Current timestamp
+console.log(now.valueOf()); // Current timestamp
 ```
 
 ### Timestamp for Specific Dates
 
 ```typescript
-const date1 = fdu('2024-01-01T00:00:00Z');
-date1.valueOf();  // 1704067200000
+const date1 = fdu("2024-01-01T00:00:00Z");
+date1.valueOf(); // 1704067200000
 
-const date2 = fdu('2024-12-31T23:59:59Z');
-date2.valueOf();  // 1735689599000
+const date2 = fdu("2024-12-31T23:59:59Z");
+date2.valueOf(); // 1735689599000
 ```
 
 ## Common Patterns
@@ -44,41 +44,41 @@ date2.valueOf();  // 1735689599000
 ### Numeric Comparison
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-20');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
 
 if (date1.valueOf() < date2.valueOf()) {
-  console.log('date1 is earlier');
+  console.log("date1 is earlier");
 }
 
 // Or use isBefore() method (recommended)
 if (date1.isBefore(date2)) {
-  console.log('date1 is earlier');
+  console.log("date1 is earlier");
 }
 ```
 
 ### Calculate Difference
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-20');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
 
 const diffMs = date2.valueOf() - date1.valueOf();
 const diffDays = diffMs / (24 * 60 * 60 * 1000);
 
 console.log(`Difference: ${diffDays} days`);
 // Or use diff() method (recommended)
-console.log(`Difference: ${date2.diff(date1, 'day')} days`);
+console.log(`Difference: ${date2.diff(date1, "day")} days`);
 ```
 
 ### Store as Number
 
 ```typescript
-const date = fdu('2024-01-15T14:30:00');
+const date = fdu("2024-01-15T14:30:00");
 
 // Store timestamp in database
 db.insert({
-  timestamp: date.valueOf()
+  timestamp: date.valueOf(),
 });
 
 // Retrieve and recreate
@@ -120,8 +120,8 @@ function randomDate(start: FduInstance, end: FduInstance): FduInstance {
   return fdu(randomMs);
 }
 
-const start = fdu('2024-01-01');
-const end = fdu('2024-12-31');
+const start = fdu("2024-01-01");
+const end = fdu("2024-12-31");
 const random = randomDate(start, end);
 ```
 
@@ -130,24 +130,20 @@ const random = randomDate(start, end);
 `.valueOf()` is called automatically in numeric contexts:
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-20');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
 
 // These work without explicitly calling valueOf()
-console.log(date1 < date2);           // true
-console.log(date2 - date1);           // difference in ms
-console.log(+date1);                  // valueOf() result
-console.log(Number(date1));           // valueOf() result
+console.log(date1 < date2); // true
+console.log(date2 - date1); // difference in ms
+console.log(+date1); // valueOf() result
+console.log(Number(date1)); // valueOf() result
 ```
 
 ### Sorting
 
 ```typescript
-const dates = [
-  fdu('2024-03-15'),
-  fdu('2024-01-20'),
-  fdu('2024-02-10')
-];
+const dates = [fdu("2024-03-15"), fdu("2024-01-20"), fdu("2024-02-10")];
 
 // Sort by timestamp
 dates.sort((a, b) => a.valueOf() - b.valueOf());

@@ -16,10 +16,10 @@ Gets the 4-digit year value.
 ### Example
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15');
-date.year();  // 2024
+const date = fdu("2024-01-15");
+date.year(); // 2024
 ```
 
 ---
@@ -33,17 +33,18 @@ Gets the month value (0-11, where 0 = January).
 ```
 
 <Callout type="warn">
-Months are **zero-indexed** like JavaScript's native Date object. January is 0, February is 1, etc.
+  Months are **zero-indexed** like JavaScript's native Date object. January is
+  0, February is 1, etc.
 </Callout>
 
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15');
-date.month();  // 0 (January)
+const date = fdu("2024-01-15");
+date.month(); // 0 (January)
 
-const date2 = fdu('2024-12-25');
-date2.month();  // 11 (December)
+const date2 = fdu("2024-12-25");
+date2.month(); // 11 (December)
 ```
 
 ---
@@ -59,11 +60,11 @@ Gets the day of the month (1-31).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15');
-date.date();  // 15
+const date = fdu("2024-01-15");
+date.date(); // 15
 
-const date2 = fdu('2024-01-01');
-date2.date();  // 1
+const date2 = fdu("2024-01-01");
+date2.date(); // 1
 ```
 
 ---
@@ -79,27 +80,27 @@ Gets the day of the week (0-6, where 0 = Sunday).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15'); // Monday
-date.day();  // 1
+const date = fdu("2024-01-15"); // Monday
+date.day(); // 1
 
-const sunday = fdu('2024-01-14');
-sunday.day();  // 0
+const sunday = fdu("2024-01-14");
+sunday.day(); // 0
 
-const saturday = fdu('2024-01-20');
-saturday.day();  // 6
+const saturday = fdu("2024-01-20");
+saturday.day(); // 6
 ```
 
 ### Day Values
 
-| Value | Day |
-|-------|-----|
-| 0 | Sunday |
-| 1 | Monday |
-| 2 | Tuesday |
-| 3 | Wednesday |
-| 4 | Thursday |
-| 5 | Friday |
-| 6 | Saturday |
+| Value | Day       |
+| ----- | --------- |
+| 0     | Sunday    |
+| 1     | Monday    |
+| 2     | Tuesday   |
+| 3     | Wednesday |
+| 4     | Thursday  |
+| 5     | Friday    |
+| 6     | Saturday  |
 
 ---
 
@@ -114,14 +115,14 @@ Gets the hour in 24-hour format (0-23).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15T14:30:00');
-date.hour();  // 14
+const date = fdu("2024-01-15T14:30:00");
+date.hour(); // 14
 
-const midnight = fdu('2024-01-15T00:00:00');
-midnight.hour();  // 0
+const midnight = fdu("2024-01-15T00:00:00");
+midnight.hour(); // 0
 
-const noon = fdu('2024-01-15T12:00:00');
-noon.hour();  // 12
+const noon = fdu("2024-01-15T12:00:00");
+noon.hour(); // 12
 ```
 
 ---
@@ -137,11 +138,11 @@ Gets the minutes (0-59).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15T14:30:00');
-date.minute();  // 30
+const date = fdu("2024-01-15T14:30:00");
+date.minute(); // 30
 
-const date2 = fdu('2024-01-15T14:05:00');
-date2.minute();  // 5
+const date2 = fdu("2024-01-15T14:05:00");
+date2.minute(); // 5
 ```
 
 ---
@@ -157,11 +158,11 @@ Gets the seconds (0-59).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
-date.second();  // 45
+const date = fdu("2024-01-15T14:30:45");
+date.second(); // 45
 
-const date2 = fdu('2024-01-15T14:30:08');
-date2.second();  // 8
+const date2 = fdu("2024-01-15T14:30:08");
+date2.second(); // 8
 ```
 
 ---
@@ -177,11 +178,11 @@ Gets the milliseconds (0-999).
 ### Example
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45.123');
-date.millisecond();  // 123
+const date = fdu("2024-01-15T14:30:45.123");
+date.millisecond(); // 123
 
-const date2 = fdu('2024-01-15T14:30:45.005');
-date2.millisecond();  // 5
+const date2 = fdu("2024-01-15T14:30:45.005");
+date2.millisecond(); // 5
 ```
 
 ---
@@ -189,17 +190,17 @@ date2.millisecond();  // 5
 ## Complete Example
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15T14:30:45.123');
+const date = fdu("2024-01-15T14:30:45.123");
 
-console.log(date.year());        // 2024
-console.log(date.month());       // 0 (January)
-console.log(date.date());        // 15
-console.log(date.day());         // 1 (Monday, 0=Sunday)
-console.log(date.hour());        // 14
-console.log(date.minute());      // 30
-console.log(date.second());      // 45
+console.log(date.year()); // 2024
+console.log(date.month()); // 0 (January)
+console.log(date.date()); // 15
+console.log(date.day()); // 1 (Monday, 0=Sunday)
+console.log(date.hour()); // 14
+console.log(date.minute()); // 30
+console.log(date.second()); // 45
 console.log(date.millisecond()); // 123
 ```
 
@@ -210,15 +211,15 @@ console.log(date.millisecond()); // 123
 ### Check if weekend
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 const day = date.day();
-const isWeekend = day === 0 || day === 6;  // Sunday or Saturday
+const isWeekend = day === 0 || day === 6; // Sunday or Saturday
 ```
 
 ### Check if specific day of week
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 const isMonday = date.day() === 1;
 const isFriday = date.day() === 5;
 ```
@@ -226,7 +227,7 @@ const isFriday = date.day() === 5;
 ### Check if morning/afternoon/evening
 
 ```typescript
-const date = fdu('2024-01-15T14:30:00');
+const date = fdu("2024-01-15T14:30:00");
 const hour = date.hour();
 
 const isMorning = hour >= 6 && hour < 12;
@@ -238,21 +239,21 @@ const isNight = hour >= 22 || hour < 6;
 ### Check if specific month
 
 ```typescript
-const date = fdu('2024-12-25');
-const isDecember = date.month() === 11;  // Remember: 0-indexed!
+const date = fdu("2024-12-25");
+const isDecember = date.month() === 11; // Remember: 0-indexed!
 const isJanuary = date.month() === 0;
 ```
 
 ### Extract time components
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45.123');
+const date = fdu("2024-01-15T14:30:45.123");
 
 const timeObj = {
   hours: date.hour(),
   minutes: date.minute(),
   seconds: date.second(),
-  milliseconds: date.millisecond()
+  milliseconds: date.millisecond(),
 };
 // { hours: 14, minutes: 30, seconds: 45, milliseconds: 123 }
 ```
@@ -260,16 +261,16 @@ const timeObj = {
 ### Build date object
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
+const date = fdu("2024-01-15T14:30:45");
 
 const dateObj = {
   year: date.year(),
-  month: date.month() + 1,  // Convert to 1-12
+  month: date.month() + 1, // Convert to 1-12
   day: date.date(),
   dayOfWeek: date.day(),
   hour: date.hour(),
   minute: date.minute(),
-  second: date.second()
+  second: date.second(),
 };
 ```
 

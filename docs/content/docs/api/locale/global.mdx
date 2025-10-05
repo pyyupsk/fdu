@@ -22,6 +22,7 @@ locale(name: string): string
 ```
 
 **Parameters:**
+
 - `name: string` - Locale identifier to set as global
 
 **Returns:** `string` - The new global locale name
@@ -31,43 +32,43 @@ locale(name: string): string
 ### Get Current Global Locale
 
 ```typescript
-import { locale } from '@pyyupsk/fdu';
+import { locale } from "@pyyupsk/fdu";
 
-console.log(locale());  // 'en' (default)
+console.log(locale()); // 'en' (default)
 ```
 
 ### Set Global Locale
 
 ```typescript
-import { fdu, locale } from '@pyyupsk/fdu';
+import { fdu, locale } from "@pyyupsk/fdu";
 
 // Set global locale to Spanish
-locale('es');
+locale("es");
 
 // All new instances use Spanish
-const date = fdu('2024-01-15');
-date.format('MMMM');  // 'enero'
+const date = fdu("2024-01-15");
+date.format("MMMM"); // 'enero'
 ```
 
 ### Change Global Locale
 
 ```typescript
-import { fdu, locale } from '@pyyupsk/fdu';
+import { fdu, locale } from "@pyyupsk/fdu";
 
 // Initially English
-locale();  // 'en'
+locale(); // 'en'
 
-const date1 = fdu('2024-01-15');
-date1.format('MMMM');  // 'January'
+const date1 = fdu("2024-01-15");
+date1.format("MMMM"); // 'January'
 
 // Change to Spanish
-locale('es');
+locale("es");
 
-const date2 = fdu('2024-01-15');
-date2.format('MMMM');  // 'enero'
+const date2 = fdu("2024-01-15");
+date2.format("MMMM"); // 'enero'
 
 // Previous instances unchanged
-date1.format('MMMM');  // 'January' (still English)
+date1.format("MMMM"); // 'January' (still English)
 ```
 
 ## Common Patterns
@@ -75,13 +76,13 @@ date1.format('MMMM');  // 'January' (still English)
 ### Multi-language Application
 
 ```typescript
-import { locale, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { locale, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 // Register all supported locales at startup
-registerLocale('es', es);
-registerLocale('fr', fr);
+registerLocale("es", es);
+registerLocale("fr", fr);
 
 // Switch based on user preference
 function setUserLanguage(lang: string) {
@@ -89,11 +90,11 @@ function setUserLanguage(lang: string) {
 }
 
 // User selects Spanish
-setUserLanguage('es');
+setUserLanguage("es");
 
 // All new dates use Spanish
 const date = fdu();
-date.format('dddd, MMMM D');  // 'lunes, enero 15'
+date.format("dddd, MMMM D"); // 'lunes, enero 15'
 ```
 
 ### Language Switcher
@@ -107,23 +108,23 @@ function switchLanguage(newLocale: string) {
   return previousLocale;
 }
 
-switchLanguage('es');  // 'Switched from en to es'
+switchLanguage("es"); // 'Switched from en to es'
 ```
 
 ### Application Initialization
 
 ```typescript
 // app-init.ts
-import { locale, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
-import { de } from '@pyyupsk/fdu/locale/de';
+import { locale, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
 
-export function initializeLocales(userLocale: string = 'en') {
+export function initializeLocales(userLocale: string = "en") {
   // Register all locales
-  registerLocale('es', es);
-  registerLocale('fr', fr);
-  registerLocale('de', de);
+  registerLocale("es", es);
+  registerLocale("fr", fr);
+  registerLocale("de", de);
 
   // Set user's preferred locale
   locale(userLocale);
@@ -136,19 +137,19 @@ initializeLocales(getUserPreferredLanguage());
 ### Browser Language Detection
 
 ```typescript
-import { locale, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { locale, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 // Register locales
-registerLocale('es', es);
-registerLocale('fr', fr);
+registerLocale("es", es);
+registerLocale("fr", fr);
 
 // Detect browser language
-const browserLang = navigator.language.split('-')[0]; // 'en', 'es', 'fr', etc.
+const browserLang = navigator.language.split("-")[0]; // 'en', 'es', 'fr', etc.
 
 // Set global locale based on browser
-if (['es', 'fr', 'de'].includes(browserLang)) {
+if (["es", "fr", "de"].includes(browserLang)) {
   locale(browserLang);
 }
 ```
@@ -168,13 +169,13 @@ function withLocale<T>(localeName: string, fn: () => T): T {
 }
 
 // Usage
-const spanishDate = withLocale('es', () => {
-  return fdu('2024-01-15').format('MMMM D, YYYY');
+const spanishDate = withLocale("es", () => {
+  return fdu("2024-01-15").format("MMMM D, YYYY");
 });
 // 'enero 15, 2024'
 
 // Global locale restored after function
-locale();  // back to previous locale
+locale(); // back to previous locale
 ```
 
 ## Best Practices
@@ -184,27 +185,27 @@ locale();  // back to previous locale
 ```typescript
 // ✅ Good - set at application start
 // main.ts
-import { locale } from '@pyyupsk/fdu';
+import { locale } from "@pyyupsk/fdu";
 
-locale('es');  // Set once at startup
+locale("es"); // Set once at startup
 
 // ❌ Avoid - setting repeatedly
 function formatDate(date: FduInstance) {
-  locale('es');  // Don't do this on every call
-  return date.format('YYYY-MM-DD');
+  locale("es"); // Don't do this on every call
+  return date.format("YYYY-MM-DD");
 }
 ```
 
 ### Handle Missing Locales
 
 ```typescript
-import { locale, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
+import { locale, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
 
 function setAppLocale(localeName: string) {
   // Ensure locale is registered
-  if (localeName === 'es') {
-    registerLocale('es', es);
+  if (localeName === "es") {
+    registerLocale("es", es);
   }
 
   locale(localeName);
@@ -212,7 +213,8 @@ function setAppLocale(localeName: string) {
 ```
 
 <Callout type="warn">
-If you try to use an unregistered locale, `@pyyupsk/fdu` will log a warning and fall back to English ('en').
+  If you try to use an unregistered locale, `@pyyupsk/fdu` will log a warning
+  and fall back to English ('en').
 </Callout>
 
 ## See Also

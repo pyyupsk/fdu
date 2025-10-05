@@ -8,8 +8,8 @@ The Advanced Format plugin provides utility methods for advanced date calculatio
 ## Installation
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 fdu.extend(advancedFormat);
 ```
@@ -35,13 +35,13 @@ dayOfYear(): number
 #### Examples
 
 ```typescript
-const date = fdu('2025-01-01');
+const date = fdu("2025-01-01");
 date.dayOfYear(); // 1
 
-const date2 = fdu('2025-10-05');
+const date2 = fdu("2025-10-05");
 date2.dayOfYear(); // 278
 
-const date3 = fdu('2025-12-31');
+const date3 = fdu("2025-12-31");
 date3.dayOfYear(); // 365
 ```
 
@@ -62,10 +62,10 @@ isoWeekday(): number
 #### Examples
 
 ```typescript
-const monday = fdu('2025-10-06');
+const monday = fdu("2025-10-06");
 monday.isoWeekday(); // 1
 
-const sunday = fdu('2025-10-05');
+const sunday = fdu("2025-10-05");
 sunday.isoWeekday(); // 7
 ```
 
@@ -90,10 +90,10 @@ weekOfYear(): number
 #### Examples
 
 ```typescript
-const date = fdu('2025-01-01');
+const date = fdu("2025-01-01");
 date.weekOfYear(); // 1
 
-const date2 = fdu('2025-10-05');
+const date2 = fdu("2025-10-05");
 date2.weekOfYear(); // 40
 ```
 
@@ -114,7 +114,7 @@ isoWeek(): number
 #### Examples
 
 ```typescript
-const date = fdu('2025-10-05');
+const date = fdu("2025-10-05");
 date.isoWeek(); // 40
 ```
 
@@ -140,10 +140,10 @@ weekYear(): number
 
 ```typescript
 // Week 1 of 2025 might start in December 2024
-const date1 = fdu('2024-12-30');
+const date1 = fdu("2024-12-30");
 date1.weekYear(); // 2025 (if it's part of week 1 of 2025)
 
-const date2 = fdu('2025-01-05');
+const date2 = fdu("2025-01-05");
 date2.weekYear(); // 2025
 ```
 
@@ -164,7 +164,7 @@ isoWeekYear(): number
 #### Examples
 
 ```typescript
-const date = fdu('2025-01-01');
+const date = fdu("2025-01-01");
 date.isoWeekYear(); // 2025
 ```
 
@@ -185,10 +185,10 @@ isoWeeksInYear(): number
 #### Examples
 
 ```typescript
-const date2025 = fdu('2025-01-01');
+const date2025 = fdu("2025-01-01");
 date2025.isoWeeksInYear(); // 52
 
-const date2020 = fdu('2020-01-01');
+const date2020 = fdu("2020-01-01");
 date2020.isoWeeksInYear(); // 53
 ```
 
@@ -213,16 +213,16 @@ quarter(): number
 #### Examples
 
 ```typescript
-const q1 = fdu('2025-02-15');
+const q1 = fdu("2025-02-15");
 q1.quarter(); // 1
 
-const q2 = fdu('2025-05-20');
+const q2 = fdu("2025-05-20");
 q2.quarter(); // 2
 
-const q3 = fdu('2025-08-10');
+const q3 = fdu("2025-08-10");
 q3.quarter(); // 3
 
-const q4 = fdu('2025-10-05');
+const q4 = fdu("2025-10-05");
 q4.quarter(); // 4
 ```
 
@@ -231,29 +231,29 @@ q4.quarter(); // 4
 ## Complete Example
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 // Register the plugin
 fdu.extend(advancedFormat);
 
-const date = fdu('2025-10-05');
+const date = fdu("2025-10-05");
 
 // Day calculations
-console.log(`Day of year: ${date.dayOfYear()}`);        // Day of year: 278
-console.log(`ISO weekday: ${date.isoWeekday()}`);       // ISO weekday: 7
+console.log(`Day of year: ${date.dayOfYear()}`); // Day of year: 278
+console.log(`ISO weekday: ${date.isoWeekday()}`); // ISO weekday: 7
 
 // Week calculations
-console.log(`Week of year: ${date.weekOfYear()}`);      // Week of year: 40
-console.log(`ISO week: ${date.isoWeek()}`);             // ISO week: 40
+console.log(`Week of year: ${date.weekOfYear()}`); // Week of year: 40
+console.log(`ISO week: ${date.isoWeek()}`); // ISO week: 40
 
 // Year calculations
-console.log(`Week year: ${date.weekYear()}`);           // Week year: 2025
-console.log(`ISO week year: ${date.isoWeekYear()}`);    // ISO week year: 2025
+console.log(`Week year: ${date.weekYear()}`); // Week year: 2025
+console.log(`ISO week year: ${date.isoWeekYear()}`); // ISO week year: 2025
 console.log(`ISO weeks in year: ${date.isoWeeksInYear()}`); // ISO weeks in year: 52
 
 // Quarter
-console.log(`Quarter: Q${date.quarter()}`);             // Quarter: Q4
+console.log(`Quarter: Q${date.quarter()}`); // Quarter: Q4
 ```
 
 ---
@@ -263,8 +263,8 @@ console.log(`Quarter: Q${date.quarter()}`);             // Quarter: Q4
 ### Calendar Applications
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 fdu.extend(advancedFormat);
 
@@ -284,8 +284,8 @@ console.log(`${progress}% of the year complete`);
 ### Financial Reporting
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 fdu.extend(advancedFormat);
 
@@ -305,13 +305,13 @@ function getFiscalYear(date: typeof today) {
 ### Week-based Planning
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
-import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { fdu } from "@pyyupsk/fdu";
+import { advancedFormat } from "@pyyupsk/fdu/plugins/advanced-format";
 
 fdu.extend(advancedFormat);
 
 // Plan by ISO week
-const project = fdu('2025-10-05');
+const project = fdu("2025-10-05");
 console.log(`Week ${project.isoWeek()}: Start project planning`);
 // "Week 40: Start project planning"
 
@@ -319,7 +319,7 @@ console.log(`Week ${project.isoWeek()}: Start project planning`);
 const date = fdu();
 const isoDay = date.isoWeekday();
 const isWeekday = isoDay >= 1 && isoDay <= 5;
-console.log(isWeekday ? 'Weekday' : 'Weekend');
+console.log(isWeekday ? "Weekday" : "Weekend");
 ```
 
 ---
@@ -328,19 +328,21 @@ console.log(isWeekday ? 'Weekday' : 'Weekend');
 
 All methods are added to the `FduInstance` interface and are available after registering the plugin:
 
-| Method | Return Type | Description |
-|--------|-------------|-------------|
-| `dayOfYear()` | `number` | Day number of the year (1-366) |
-| `isoWeekday()` | `number` | ISO day of week (1-7, Monday=1, Sunday=7) |
-| `weekOfYear()` | `number` | Week number of the year (1-53) |
-| `isoWeek()` | `number` | ISO week number (1-53) |
-| `weekYear()` | `number` | Year that the week belongs to |
-| `isoWeekYear()` | `number` | ISO week-numbering year |
-| `isoWeeksInYear()` | `number` | Number of ISO weeks in year (52 or 53) |
-| `quarter()` | `number` | Quarter of the year (1-4) |
+| Method             | Return Type | Description                               |
+| ------------------ | ----------- | ----------------------------------------- |
+| `dayOfYear()`      | `number`    | Day number of the year (1-366)            |
+| `isoWeekday()`     | `number`    | ISO day of week (1-7, Monday=1, Sunday=7) |
+| `weekOfYear()`     | `number`    | Week number of the year (1-53)            |
+| `isoWeek()`        | `number`    | ISO week number (1-53)                    |
+| `weekYear()`       | `number`    | Year that the week belongs to             |
+| `isoWeekYear()`    | `number`    | ISO week-numbering year                   |
+| `isoWeeksInYear()` | `number`    | Number of ISO weeks in year (52 or 53)    |
+| `quarter()`        | `number`    | Quarter of the year (1-4)                 |
 
 <Callout type="warn">
-Plugin methods are only available after the plugin has been registered with `fdu.extend()`. Attempting to use them before registration will result in an error.
+  Plugin methods are only available after the plugin has been registered with
+  `fdu.extend()`. Attempting to use them before registration will result in an
+  error.
 </Callout>
 
 ---

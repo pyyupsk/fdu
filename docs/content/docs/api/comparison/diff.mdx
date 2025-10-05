@@ -25,40 +25,40 @@ Calculates the difference between this date and another date.
 ### Basic Difference
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-20');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
 
 // Days
-date1.diff(date2, 'day');     // -5
-date2.diff(date1, 'day');     // 5
+date1.diff(date2, "day"); // -5
+date2.diff(date1, "day"); // 5
 
 // Default (milliseconds)
-date1.diff(date2);            // -432000000
+date1.diff(date2); // -432000000
 ```
 
 ### Different Units
 
 ```typescript
-const start = fdu('2024-01-01');
-const end = fdu('2024-03-15');
+const start = fdu("2024-01-01");
+const end = fdu("2024-03-15");
 
-end.diff(start, 'year');      // 0 (less than a year)
-end.diff(start, 'month');     // 2 (2 months and 14 days)
-end.diff(start, 'week');      // 10 (10 full weeks)
-end.diff(start, 'day');       // 74
+end.diff(start, "year"); // 0 (less than a year)
+end.diff(start, "month"); // 2 (2 months and 14 days)
+end.diff(start, "week"); // 10 (10 full weeks)
+end.diff(start, "day"); // 74
 ```
 
 ### Time Differences
 
 ```typescript
-const morning = fdu('2024-01-15T09:00:00');
-const afternoon = fdu('2024-01-15T14:30:00');
+const morning = fdu("2024-01-15T09:00:00");
+const afternoon = fdu("2024-01-15T14:30:00");
 
-afternoon.diff(morning, 'hour');      // 5
-afternoon.diff(morning, 'minute');    // 330 (5.5 hours = 330 minutes)
-afternoon.diff(morning, 'second');    // 19800
+afternoon.diff(morning, "hour"); // 5
+afternoon.diff(morning, "minute"); // 330 (5.5 hours = 330 minutes)
+afternoon.diff(morning, "second"); // 19800
 ```
 
 ### Year and Month Differences
@@ -66,63 +66,63 @@ afternoon.diff(morning, 'second');    // 19800
 For years and months, the difference is calculated based on calendar units:
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2025-01-10');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2025-01-10");
 
 // Year difference (calendar years)
-date2.diff(date1, 'year');    // 1 (different calendar years)
+date2.diff(date1, "year"); // 1 (different calendar years)
 
-const date3 = fdu('2024-01-15');
-const date4 = fdu('2024-03-20');
+const date3 = fdu("2024-01-15");
+const date4 = fdu("2024-03-20");
 
 // Month difference (calendar months)
-date4.diff(date3, 'month');   // 2 (from January to March)
+date4.diff(date3, "month"); // 2 (from January to March)
 ```
 
 ## Supported Units
 
-| Unit | Description |
-|------|-------------|
-| `year` / `y` | Calendar years |
-| `month` / `M` | Calendar months |
-| `week` / `w` | 7-day periods |
-| `day` / `d` | 24-hour periods |
-| `hour` / `h` | 60-minute periods |
-| `minute` / `m` | 60-second periods |
-| `second` / `s` | 1000-millisecond periods |
-| `millisecond` / `ms` | Milliseconds (default) |
+| Unit                 | Description              |
+| -------------------- | ------------------------ |
+| `year` / `y`         | Calendar years           |
+| `month` / `M`        | Calendar months          |
+| `week` / `w`         | 7-day periods            |
+| `day` / `d`          | 24-hour periods          |
+| `hour` / `h`         | 60-minute periods        |
+| `minute` / `m`       | 60-second periods        |
+| `second` / `s`       | 1000-millisecond periods |
+| `millisecond` / `ms` | Milliseconds (default)   |
 
 ## Common Patterns
 
 ### Calculate age
 
 ```typescript
-const birthdate = fdu('1990-05-15');
+const birthdate = fdu("1990-05-15");
 const today = fdu();
 
-const age = today.diff(birthdate, 'year');
+const age = today.diff(birthdate, "year");
 console.log(`Age: ${age} years`);
 ```
 
 ### Days until event
 
 ```typescript
-const event = fdu('2024-12-25');
+const event = fdu("2024-12-25");
 const now = fdu();
 
-const daysUntil = event.diff(now, 'day');
+const daysUntil = event.diff(now, "day");
 console.log(`${daysUntil} days until Christmas`);
 ```
 
 ### Time elapsed
 
 ```typescript
-const start = fdu('2024-01-15T09:00:00');
-const end = fdu('2024-01-15T14:30:45');
+const start = fdu("2024-01-15T09:00:00");
+const end = fdu("2024-01-15T14:30:45");
 
-const hours = end.diff(start, 'hour');
-const minutes = end.diff(start, 'minute');
-const seconds = end.diff(start, 'second');
+const hours = end.diff(start, "hour");
+const minutes = end.diff(start, "minute");
+const seconds = end.diff(start, "second");
 
 console.log(`Elapsed: ${hours}h ${minutes % 60}m ${seconds % 60}s`);
 // Elapsed: 5h 30m 45s
@@ -132,17 +132,17 @@ console.log(`Elapsed: ${hours}h ${minutes % 60}m ${seconds % 60}s`);
 
 ```typescript
 function formatDuration(start: FduInstance, end: FduInstance): string {
-  const days = end.diff(start, 'day');
-  const hours = end.diff(start, 'hour') % 24;
-  const minutes = end.diff(start, 'minute') % 60;
+  const days = end.diff(start, "day");
+  const hours = end.diff(start, "hour") % 24;
+  const minutes = end.diff(start, "minute") % 60;
 
   return `${days}d ${hours}h ${minutes}m`;
 }
 
-const start = fdu('2024-01-15T09:00:00');
-const end = fdu('2024-01-17T14:30:00');
+const start = fdu("2024-01-15T09:00:00");
+const end = fdu("2024-01-17T14:30:00");
 
-formatDuration(start, end);  // '2d 5h 30m'
+formatDuration(start, end); // '2d 5h 30m'
 ```
 
 ### Relative time
@@ -150,35 +150,35 @@ formatDuration(start, end);  // '2d 5h 30m'
 ```typescript
 function getRelativeTime(date: FduInstance): string {
   const now = fdu();
-  const diffMinutes = now.diff(date, 'minute');
+  const diffMinutes = now.diff(date, "minute");
 
-  if (diffMinutes < 1) return 'just now';
+  if (diffMinutes < 1) return "just now";
   if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
 
-  const diffHours = now.diff(date, 'hour');
+  const diffHours = now.diff(date, "hour");
   if (diffHours < 24) return `${diffHours} hours ago`;
 
-  const diffDays = now.diff(date, 'day');
+  const diffDays = now.diff(date, "day");
   if (diffDays < 7) return `${diffDays} days ago`;
 
-  const diffWeeks = now.diff(date, 'week');
+  const diffWeeks = now.diff(date, "week");
   if (diffWeeks < 4) return `${diffWeeks} weeks ago`;
 
-  const diffMonths = now.diff(date, 'month');
+  const diffMonths = now.diff(date, "month");
   return `${diffMonths} months ago`;
 }
 
-const pastDate = fdu('2024-01-10');
-getRelativeTime(pastDate);  // e.g., '5 days ago'
+const pastDate = fdu("2024-01-10");
+getRelativeTime(pastDate); // e.g., '5 days ago'
 ```
 
 ### Deadline warning
 
 ```typescript
-const deadline = fdu('2024-12-31');
+const deadline = fdu("2024-12-31");
 const now = fdu();
 
-const daysRemaining = deadline.diff(now, 'day');
+const daysRemaining = deadline.diff(now, "day");
 
 if (daysRemaining < 0) {
   console.log(`Overdue by ${Math.abs(daysRemaining)} days`);
@@ -192,11 +192,11 @@ if (daysRemaining < 0) {
 ### Working hours calculation
 
 ```typescript
-const clockIn = fdu('2024-01-15T09:00:00');
-const clockOut = fdu('2024-01-15T17:30:00');
+const clockIn = fdu("2024-01-15T09:00:00");
+const clockOut = fdu("2024-01-15T17:30:00");
 
-const hoursWorked = clockOut.diff(clockIn, 'hour');
-const minutesWorked = clockOut.diff(clockIn, 'minute') % 60;
+const hoursWorked = clockOut.diff(clockIn, "hour");
+const minutesWorked = clockOut.diff(clockIn, "minute") % 60;
 
 console.log(`Worked: ${hoursWorked} hours ${minutesWorked} minutes`);
 // Worked: 8 hours 30 minutes
@@ -205,27 +205,31 @@ console.log(`Worked: ${hoursWorked} hours ${minutesWorked} minutes`);
 ### Subscription duration
 
 ```typescript
-const subscriptionStart = fdu('2023-01-15');
+const subscriptionStart = fdu("2023-01-15");
 const now = fdu();
 
-const monthsSubscribed = now.diff(subscriptionStart, 'month');
-const daysSubscribed = now.diff(subscriptionStart, 'day');
+const monthsSubscribed = now.diff(subscriptionStart, "month");
+const daysSubscribed = now.diff(subscriptionStart, "day");
 
-console.log(`Subscribed for ${monthsSubscribed} months (${daysSubscribed} days)`);
+console.log(
+  `Subscribed for ${monthsSubscribed} months (${daysSubscribed} days)`,
+);
 ```
 
 ## Precision Notes
 
 <Callout type="info">
-For `year` and `month` units, `.diff()` calculates based on calendar units, not elapsed time. For example, the difference between Dec 31, 2023 and Jan 1, 2024 is 1 year, even though it's only 1 day apart.
+  For `year` and `month` units, `.diff()` calculates based on calendar units,
+  not elapsed time. For example, the difference between Dec 31, 2023 and Jan 1,
+  2024 is 1 year, even though it's only 1 day apart.
 </Callout>
 
 ```typescript
-const date1 = fdu('2023-12-31');
-const date2 = fdu('2024-01-01');
+const date1 = fdu("2023-12-31");
+const date2 = fdu("2024-01-01");
 
-date2.diff(date1, 'year');   // 1 (different calendar years)
-date2.diff(date1, 'day');    // 1 (actual days)
+date2.diff(date1, "year"); // 1 (different calendar years)
+date2.diff(date1, "day"); // 1 (actual days)
 ```
 
 ## See Also

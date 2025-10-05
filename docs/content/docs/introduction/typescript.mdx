@@ -20,14 +20,14 @@ npm install @pyyupsk/fdu
 The main date instance type:
 
 ```typescript
-import { fdu, type FduInstance } from '@pyyupsk/fdu';
+import { fdu, type FduInstance } from "@pyyupsk/fdu";
 
-const date: FduInstance = fdu('2025-09-30');
+const date: FduInstance = fdu("2025-09-30");
 
 // Full IntelliSense support
-date.format('YYYY-MM-DD');  // ✅
-date.add(1, 'day');         // ✅
-date.unknown();             // ❌ TypeScript error
+date.format("YYYY-MM-DD"); // ✅
+date.add(1, "day"); // ✅
+date.unknown(); // ❌ TypeScript error
 ```
 
 ### Input Types
@@ -35,15 +35,15 @@ date.unknown();             // ❌ TypeScript error
 fdu accepts multiple input types, all fully typed:
 
 ```typescript
-import { fdu, type FduInput } from '@pyyupsk/fdu';
+import { fdu, type FduInput } from "@pyyupsk/fdu";
 
 // All valid inputs
-const date1: FduInstance = fdu();                    // undefined
-const date2: FduInstance = fdu('2025-09-30');        // string
-const date3: FduInstance = fdu(1727704200000);       // number
-const date4: FduInstance = fdu(new Date());          // Date
-const date5: FduInstance = fdu(date1);               // FduInstance
-const date6: FduInstance = fdu({ year: 2025 });      // ObjectInput
+const date1: FduInstance = fdu(); // undefined
+const date2: FduInstance = fdu("2025-09-30"); // string
+const date3: FduInstance = fdu(1727704200000); // number
+const date4: FduInstance = fdu(new Date()); // Date
+const date5: FduInstance = fdu(date1); // FduInstance
+const date6: FduInstance = fdu({ year: 2025 }); // ObjectInput
 
 // Type-safe helper
 function processDate(input: FduInput): FduInstance {
@@ -56,24 +56,24 @@ function processDate(input: FduInput): FduInstance {
 Type-safe object input for date creation:
 
 ```typescript
-import { type ObjectInput } from '@pyyupsk/fdu';
+import { type ObjectInput } from "@pyyupsk/fdu";
 
 const dateObj: ObjectInput = {
   year: 2025,
-  month: 9,       // Optional
-  day: 30,        // Optional
-  hour: 14,       // Optional
-  minute: 30,     // Optional
-  second: 0,      // Optional
-  millisecond: 0  // Optional
+  month: 9, // Optional
+  day: 30, // Optional
+  hour: 14, // Optional
+  minute: 30, // Optional
+  second: 0, // Optional
+  millisecond: 0, // Optional
 };
 
 const date = fdu(dateObj);
 
 // TypeScript catches errors
 const invalid: ObjectInput = {
-  year: '2025',  // ❌ Error: string not assignable to number
-  month: 13,     // ⚠️ Type allows it, but runtime will create invalid date
+  year: "2025", // ❌ Error: string not assignable to number
+  month: 13, // ⚠️ Type allows it, but runtime will create invalid date
 };
 ```
 
@@ -82,34 +82,42 @@ const invalid: ObjectInput = {
 All manipulation and comparison methods use typed units:
 
 ```typescript
-import { type UnitType } from '@pyyupsk/fdu';
+import { type UnitType } from "@pyyupsk/fdu";
 
-const date = fdu('2025-09-30');
+const date = fdu("2025-09-30");
 
 // Type-safe units
-date.add(1, 'day');      // ✅
-date.add(2, 'month');    // ✅
-date.add(1, 'invalid');  // ❌ TypeScript error
+date.add(1, "day"); // ✅
+date.add(2, "month"); // ✅
+date.add(1, "invalid"); // ❌ TypeScript error
 
 // Unit abbreviations also typed
-date.add(1, 'y');   // ✅ year
-date.add(1, 'M');   // ✅ month
-date.add(1, 'd');   // ✅ day
-date.add(1, 'h');   // ✅ hour
-date.add(1, 'm');   // ✅ minute
-date.add(1, 's');   // ✅ second
-date.add(1, 'ms');  // ✅ millisecond
+date.add(1, "y"); // ✅ year
+date.add(1, "M"); // ✅ month
+date.add(1, "d"); // ✅ day
+date.add(1, "h"); // ✅ hour
+date.add(1, "m"); // ✅ minute
+date.add(1, "s"); // ✅ second
+date.add(1, "ms"); // ✅ millisecond
 
 // Type definition
 type UnitType =
-  | 'year' | 'y'
-  | 'month' | 'M'
-  | 'week' | 'w'
-  | 'day' | 'd'
-  | 'hour' | 'h'
-  | 'minute' | 'm'
-  | 'second' | 's'
-  | 'millisecond' | 'ms';
+  | "year"
+  | "y"
+  | "month"
+  | "M"
+  | "week"
+  | "w"
+  | "day"
+  | "d"
+  | "hour"
+  | "h"
+  | "minute"
+  | "m"
+  | "second"
+  | "s"
+  | "millisecond"
+  | "ms";
 ```
 
 ## Locale Types
@@ -117,40 +125,68 @@ type UnitType =
 Type-safe locale configuration:
 
 ```typescript
-import { type LocaleConfig } from '@pyyupsk/fdu';
+import { type LocaleConfig } from "@pyyupsk/fdu";
 
 const customLocale: LocaleConfig = {
-  name: 'custom',
+  name: "custom",
   months: [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
-  monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-  weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
-             'Thursday', 'Friday', 'Saturday'],
-  weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  weekStart: 0,  // 0 = Sunday, 1 = Monday
+  monthsShort: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  weekdays: [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ],
+  weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  weekStart: 0, // 0 = Sunday, 1 = Monday
   formats: {
-    LT: 'h:mm A',
-    LTS: 'h:mm:ss A',
-    L: 'MM/DD/YYYY',
-    LL: 'MMMM D, YYYY',
-    LLL: 'MMMM D, YYYY h:mm A',
-    LLLL: 'dddd, MMMM D, YYYY h:mm A'
+    LT: "h:mm A",
+    LTS: "h:mm:ss A",
+    L: "MM/DD/YYYY",
+    LL: "MMMM D, YYYY",
+    LLL: "MMMM D, YYYY h:mm A",
+    LLLL: "dddd, MMMM D, YYYY h:mm A",
   },
   ordinal: (n: number) => {
-    const s = ['th', 'st', 'nd', 'rd'];
+    const s = ["th", "st", "nd", "rd"];
     const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0] || 'th');
+    return n + (s[(v - 20) % 10] || s[v] || s[0] || "th");
   },
   meridiem: (hour: number, minute: number, isLowercase: boolean) => {
-    return hour < 12 ? (isLowercase ? 'am' : 'AM') : (isLowercase ? 'pm' : 'PM');
+    return hour < 12 ? (isLowercase ? "am" : "AM") : isLowercase ? "pm" : "PM";
   },
   // Optional: For non-Gregorian calendars
-  yearOffset: 543  // e.g., Buddhist Era
+  yearOffset: 543, // e.g., Buddhist Era
 };
 ```
 
@@ -159,7 +195,7 @@ const customLocale: LocaleConfig = {
 Type-safe plugin development:
 
 ```typescript
-import { type Plugin, type PluginAPI } from '@pyyupsk/fdu';
+import { type Plugin, type PluginAPI } from "@pyyupsk/fdu";
 
 // Define plugin with options
 interface MyPluginOptions {
@@ -167,31 +203,31 @@ interface MyPluginOptions {
 }
 
 const myPlugin: Plugin<MyPluginOptions> = {
-  name: 'my-plugin',
-  version: '1.0.0',  // Optional
+  name: "my-plugin",
+  version: "1.0.0", // Optional
   install(api: PluginAPI, options?: MyPluginOptions) {
-    const prefix = options?.prefix ?? 'Date: ';
+    const prefix = options?.prefix ?? "Date: ";
 
     // Extend prototype with full type safety
-    api.extendPrototype('customFormat', function() {
-      return prefix + this.format('YYYY-MM-DD');
+    api.extendPrototype("customFormat", function () {
+      return prefix + this.format("YYYY-MM-DD");
     });
-  }
+  },
 };
 
 // Use plugin
-fdu.extend(myPlugin, { prefix: 'Today: ' });
+fdu.extend(myPlugin, { prefix: "Today: " });
 
 // Extend FduInstance interface for IntelliSense
-declare module '@pyyupsk/fdu' {
+declare module "@pyyupsk/fdu" {
   interface FduInstance {
     customFormat(): string;
   }
 }
 
 // Now TypeScript knows about the method
-const date = fdu('2025-09-30');
-date.customFormat();  // ✅ TypeScript recognizes this
+const date = fdu("2025-09-30");
+date.customFormat(); // ✅ TypeScript recognizes this
 ```
 
 ## Strict Null Safety
@@ -209,16 +245,16 @@ fdu is designed for `strictNullChecks`:
 ```
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
 // All methods return non-nullable types
-const date = fdu('2025-09-30');
-const formatted: string = date.format('YYYY-MM-DD');  // ✅ never null
-const year: number = date.year();                     // ✅ never null
+const date = fdu("2025-09-30");
+const formatted: string = date.format("YYYY-MM-DD"); // ✅ never null
+const year: number = date.year(); // ✅ never null
 
 // Invalid dates are still FduInstance
-const invalid = fdu('invalid');
-invalid.isValid();  // false, but instance is valid
+const invalid = fdu("invalid");
+invalid.isValid(); // false, but instance is valid
 ```
 
 ## Type Guards
@@ -226,23 +262,23 @@ invalid.isValid();  // false, but instance is valid
 Create custom type guards:
 
 ```typescript
-import { type FduInstance } from '@pyyupsk/fdu';
+import { type FduInstance } from "@pyyupsk/fdu";
 
 function isFduInstance(value: unknown): value is FduInstance {
   return (
-    typeof value === 'object' &&
+    typeof value === "object" &&
     value !== null &&
-    'format' in value &&
-    'isValid' in value
+    "format" in value &&
+    "isValid" in value
   );
 }
 
 function processDate(input: unknown) {
   if (isFduInstance(input)) {
     // TypeScript knows input is FduInstance
-    return input.format('YYYY-MM-DD');
+    return input.format("YYYY-MM-DD");
   }
-  return 'Not a date';
+  return "Not a date";
 }
 ```
 
@@ -251,18 +287,18 @@ function processDate(input: unknown) {
 Type-safe date utilities:
 
 ```typescript
-import { fdu, type FduInstance } from '@pyyupsk/fdu';
+import { fdu, type FduInstance } from "@pyyupsk/fdu";
 
 // Generic date processor
 function processDates<T extends Record<string, unknown>>(
   obj: T,
-  dateKeys: (keyof T)[]
+  dateKeys: (keyof T)[],
 ): T {
   const result = { ...obj };
 
   for (const key of dateKeys) {
     const value = result[key];
-    if (typeof value === 'string' || typeof value === 'number') {
+    if (typeof value === "string" || typeof value === "number") {
       result[key] = fdu(value) as T[typeof key];
     }
   }
@@ -277,12 +313,12 @@ interface User {
 }
 
 const user: User = {
-  name: 'John',
-  createdAt: '2025-01-01',
-  updatedAt: '2025-09-30'
+  name: "John",
+  createdAt: "2025-01-01",
+  updatedAt: "2025-09-30",
 };
 
-const processed = processDates(user, ['createdAt', 'updatedAt']);
+const processed = processDates(user, ["createdAt", "updatedAt"]);
 ```
 
 ## Advanced Patterns
@@ -292,8 +328,8 @@ const processed = processDates(user, ['createdAt', 'updatedAt']);
 Create domain-specific date types:
 
 ```typescript
-type BirthDate = FduInstance & { readonly __brand: 'BirthDate' };
-type EventDate = FduInstance & { readonly __brand: 'EventDate' };
+type BirthDate = FduInstance & { readonly __brand: "BirthDate" };
+type EventDate = FduInstance & { readonly __brand: "EventDate" };
 
 function createBirthDate(input: FduInput): BirthDate {
   return fdu(input) as BirthDate;
@@ -303,16 +339,16 @@ function createEventDate(input: FduInput): EventDate {
   return fdu(input) as EventDate;
 }
 
-const birth = createBirthDate('1990-01-01');
-const event = createEventDate('2025-09-30');
+const birth = createBirthDate("1990-01-01");
+const event = createEventDate("2025-09-30");
 
 // Type-safe functions
 function calculateAge(birthDate: BirthDate): number {
-  return fdu().diff(birthDate, 'year');
+  return fdu().diff(birthDate, "year");
 }
 
-calculateAge(birth);  // ✅
-calculateAge(event);  // ❌ TypeScript error
+calculateAge(birth); // ✅
+calculateAge(event); // ❌ TypeScript error
 ```
 
 ### Readonly Dates
@@ -326,11 +362,11 @@ function freezeDate(date: FduInstance): ReadonlyFduInstance {
   return Object.freeze(date) as ReadonlyFduInstance;
 }
 
-const date = fdu('2025-09-30');
+const date = fdu("2025-09-30");
 const frozen = freezeDate(date);
 
-frozen.format('YYYY-MM-DD');  // ✅ Getters work
-frozen.add(1, 'day');         // ✅ Returns new instance (still immutable)
+frozen.format("YYYY-MM-DD"); // ✅ Getters work
+frozen.add(1, "day"); // ✅ Returns new instance (still immutable)
 ```
 
 ## Configuration
@@ -366,11 +402,11 @@ Always import types separately for better tree-shaking:
 
 ```typescript
 // ✅ Good - tree-shakeable
-import { fdu } from '@pyyupsk/fdu';
-import type { FduInstance, FduInput } from '@pyyupsk/fdu/types';
+import { fdu } from "@pyyupsk/fdu";
+import type { FduInstance, FduInput } from "@pyyupsk/fdu/types";
 
 // ❌ Avoid - may impact bundle size
-import { fdu, FduInstance, FduInput } from '@pyyupsk/fdu';
+import { fdu, FduInstance, FduInput } from "@pyyupsk/fdu";
 ```
 
 ### Module Augmentation
@@ -379,7 +415,7 @@ When adding plugin methods, use module augmentation:
 
 ```typescript
 // types.d.ts or in your plugin file
-declare module '@pyyupsk/fdu' {
+declare module "@pyyupsk/fdu" {
   interface FduInstance {
     myCustomMethod(): string;
   }

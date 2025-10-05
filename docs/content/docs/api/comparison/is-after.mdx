@@ -24,35 +24,35 @@ Checks if this date is after another date.
 ### Basic Comparison
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-20');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
 
-date1.isAfter(date2);  // false
-date2.isAfter(date1);  // true
+date1.isAfter(date2); // false
+date2.isAfter(date1); // true
 ```
 
 ### Same Date
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-01-15');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-15");
 
-date1.isAfter(date2);  // false (same date)
+date1.isAfter(date2); // false (same date)
 ```
 
 ### With Time
 
 ```typescript
-const morning = fdu('2024-01-15T09:00:00');
-const afternoon = fdu('2024-01-15T14:00:00');
+const morning = fdu("2024-01-15T09:00:00");
+const afternoon = fdu("2024-01-15T14:00:00");
 
-afternoon.isAfter(morning);  // true
-morning.isAfter(afternoon);  // false
+afternoon.isAfter(morning); // true
+morning.isAfter(afternoon); // false
 
-const sameTime = fdu('2024-01-15T09:00:00');
-morning.isAfter(sameTime);   // false (exact same time)
+const sameTime = fdu("2024-01-15T09:00:00");
+morning.isAfter(sameTime); // false (exact same time)
 ```
 
 ## Common Patterns
@@ -60,11 +60,11 @@ morning.isAfter(sameTime);   // false (exact same time)
 ### Check if date is in the future
 
 ```typescript
-const date = fdu('2025-01-15');
+const date = fdu("2025-01-15");
 const now = fdu();
 
 if (date.isAfter(now)) {
-  console.log('This date is in the future');
+  console.log("This date is in the future");
 }
 ```
 
@@ -75,10 +75,10 @@ function isChronological(start: FduInstance, end: FduInstance): boolean {
   return end.isAfter(start);
 }
 
-const start = fdu('2024-01-01');
-const end = fdu('2024-12-31');
+const start = fdu("2024-01-01");
+const end = fdu("2024-12-31");
 
-isChronological(start, end);  // true
+isChronological(start, end); // true
 ```
 
 ### Find latest date
@@ -86,53 +86,53 @@ isChronological(start, end);  // true
 ```typescript
 function getLatest(...dates: FduInstance[]): FduInstance {
   return dates.reduce((latest, current) =>
-    current.isAfter(latest) ? current : latest
+    current.isAfter(latest) ? current : latest,
   );
 }
 
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-03-20');
-const date3 = fdu('2024-02-10');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-03-20");
+const date3 = fdu("2024-02-10");
 
 const latest = getLatest(date1, date2, date3);
-latest.format('YYYY-MM-DD');  // '2024-03-20'
+latest.format("YYYY-MM-DD"); // '2024-03-20'
 ```
 
 ### Check if event has passed
 
 ```typescript
-const eventDate = fdu('2024-01-15');
+const eventDate = fdu("2024-01-15");
 const today = fdu();
 
 if (today.isAfter(eventDate)) {
-  console.log('Event has already passed');
+  console.log("Event has already passed");
 } else {
-  console.log('Event is upcoming or today');
+  console.log("Event is upcoming or today");
 }
 ```
 
 ### Expiration check
 
 ```typescript
-const expirationDate = fdu('2024-12-31');
+const expirationDate = fdu("2024-12-31");
 const now = fdu();
 
 if (now.isAfter(expirationDate)) {
-  console.log('Expired');
+  console.log("Expired");
 } else {
-  console.log('Still valid');
+  console.log("Still valid");
 }
 ```
 
 ### Time tracking
 
 ```typescript
-const startTime = fdu('2024-01-15T09:00:00');
-const endTime = fdu('2024-01-15T17:00:00');
+const startTime = fdu("2024-01-15T09:00:00");
+const endTime = fdu("2024-01-15T17:00:00");
 const currentTime = fdu();
 
 if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
-  console.log('Within working hours');
+  console.log("Within working hours");
 }
 ```
 

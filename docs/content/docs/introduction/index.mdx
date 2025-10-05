@@ -32,11 +32,11 @@ Unlike libraries where TypeScript types are added later, fdu is **designed in Ty
 Every operation returns a new instance, preventing unexpected mutations:
 
 ```typescript
-const date = fdu('2025-10-05');
-const tomorrow = date.add(1, 'day');
+const date = fdu("2025-10-05");
+const tomorrow = date.add(1, "day");
 
-console.log(date.format('YYYY-MM-DD'));      // '2025-10-05' (unchanged)
-console.log(tomorrow.format('YYYY-MM-DD'));  // '2025-10-06'
+console.log(date.format("YYYY-MM-DD")); // '2025-10-05' (unchanged)
+console.log(tomorrow.format("YYYY-MM-DD")); // '2025-10-06'
 ```
 
 ### ⚙️ Zero Dependencies
@@ -54,9 +54,9 @@ Modern ESM design ensures you only bundle what you use:
 
 ```typescript
 // Only imports what you need
-import { fdu } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+import { fdu } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { relativeTime } from "@pyyupsk/fdu/plugins/relative-time";
 ```
 
 ## Philosophy

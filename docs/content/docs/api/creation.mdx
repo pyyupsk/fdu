@@ -31,7 +31,7 @@ fdu(input?: FduInput): FduInstance
 #### Current Date/Time
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
 const now = fdu();
 ```
@@ -40,21 +40,21 @@ const now = fdu();
 
 ```typescript
 const date = fdu(new Date());
-const specificDate = fdu(new Date('2024-01-15'));
+const specificDate = fdu(new Date("2024-01-15"));
 ```
 
 #### From ISO String
 
 ```typescript
 // Date only
-const date1 = fdu('2024-01-15');
+const date1 = fdu("2024-01-15");
 
 // Date and time
-const date2 = fdu('2024-01-15T14:30:00');
+const date2 = fdu("2024-01-15T14:30:00");
 
 // With timezone
-const date3 = fdu('2024-01-15T14:30:00Z');
-const date4 = fdu('2024-01-15T14:30:00+05:30');
+const date3 = fdu("2024-01-15T14:30:00Z");
+const date4 = fdu("2024-01-15T14:30:00+05:30");
 ```
 
 #### From Timestamp
@@ -67,11 +67,11 @@ const date = fdu(1705329600000);
 #### Copy Instance
 
 ```typescript
-const original = fdu('2024-01-15');
+const original = fdu("2024-01-15");
 const copy = fdu(original);
 
 // Both are independent instances
-original.add(1, 'day'); // doesn't affect copy
+original.add(1, "day"); // doesn't affect copy
 ```
 
 ### Invalid Dates
@@ -79,10 +79,10 @@ original.add(1, 'day'); // doesn't affect copy
 When given invalid input, `@pyyupsk/fdu` creates an invalid date instance:
 
 ```typescript
-const invalid = fdu('not-a-date');
+const invalid = fdu("not-a-date");
 invalid.isValid(); // false
 
-const valid = fdu('2024-01-15');
+const valid = fdu("2024-01-15");
 valid.isValid(); // true
 ```
 

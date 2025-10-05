@@ -8,23 +8,23 @@ description: Comprehensive guide to internationalization in @pyyupsk/fdu. Learn 
 ## Quick Start
 
 ```typescript
-import { fdu, registerLocale, locale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { fdu, registerLocale, locale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 // Register locales
-registerLocale('es', es);
-registerLocale('fr', fr);
+registerLocale("es", es);
+registerLocale("fr", fr);
 
 // Set global locale
-locale('es');
+locale("es");
 
-const date = fdu('2024-01-15');
-date.format('dddd, D [de] MMMM [de] YYYY');
+const date = fdu("2024-01-15");
+date.format("dddd, D [de] MMMM [de] YYYY");
 // 'lunes, 15 de enero de 2024'
 
 // Or use locale per instance
-date.locale('fr').format('dddd D MMMM YYYY');
+date.locale("fr").format("dddd D MMMM YYYY");
 // 'lundi 15 janvier 2024'
 ```
 
@@ -34,14 +34,14 @@ date.locale('fr').format('dddd D MMMM YYYY');
 
 `@pyyupsk/fdu` includes multiple built-in locales:
 
-| Locale Code | Language | Import Path |
-|-------------|----------|-------------|
-| `en` | English (default) | `@pyyupsk/fdu/locale/en` |
-| `es` | Spanish | `@pyyupsk/fdu/locale/es` |
-| `fr` | French | `@pyyupsk/fdu/locale/fr` |
-| `de` | German | `@pyyupsk/fdu/locale/de` |
-| `ja` | Japanese | `@pyyupsk/fdu/locale/ja` |
-| `zh-cn` | Chinese (Simplified) | `@pyyupsk/fdu/locale/zh-cn` |
+| Locale Code | Language             | Import Path                 |
+| ----------- | -------------------- | --------------------------- |
+| `en`        | English (default)    | `@pyyupsk/fdu/locale/en`    |
+| `es`        | Spanish              | `@pyyupsk/fdu/locale/es`    |
+| `fr`        | French               | `@pyyupsk/fdu/locale/fr`    |
+| `de`        | German               | `@pyyupsk/fdu/locale/de`    |
+| `ja`        | Japanese             | `@pyyupsk/fdu/locale/ja`    |
+| `zh-cn`     | Chinese (Simplified) | `@pyyupsk/fdu/locale/zh-cn` |
 
 For a complete list of all available locales, see the [locales directory on GitHub](https://github.com/pyyupsk/fdu/tree/main/src/locale/locales).
 
@@ -52,19 +52,20 @@ For a complete list of all available locales, see the [locales directory on GitH
 Before using a locale, you must register it with `registerLocale()`:
 
 ```typescript
-import { registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
-import { de } from '@pyyupsk/fdu/locale/de';
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
 
 // Register individual locales
-registerLocale('es', es);
-registerLocale('fr', fr);
-registerLocale('de', de);
+registerLocale("es", es);
+registerLocale("fr", fr);
+registerLocale("de", de);
 ```
 
 <Callout type="info">
-The English locale (`en`) is automatically registered and set as the default global locale.
+  The English locale (`en`) is automatically registered and set as the default
+  global locale.
 </Callout>
 
 ---
@@ -78,17 +79,17 @@ There are two ways to use locales:
 Set a global locale that applies to all new date instances:
 
 ```typescript
-import { locale } from '@pyyupsk/fdu';
+import { locale } from "@pyyupsk/fdu";
 
 // Get current global locale
-locale();  // 'en'
+locale(); // 'en'
 
 // Set global locale
-locale('es');  // 'es'
+locale("es"); // 'es'
 
 // All new instances use Spanish
-const date = fdu('2024-01-15');
-date.format('MMMM');  // 'enero'
+const date = fdu("2024-01-15");
+date.format("MMMM"); // 'enero'
 ```
 
 ### 2. Instance Locale
@@ -96,21 +97,21 @@ date.format('MMMM');  // 'enero'
 Set a locale for a specific instance (immutable - returns a new instance):
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
 // English (default)
-date.format('MMMM');  // 'January'
+date.format("MMMM"); // 'January'
 
 // Spanish
-date.locale('es').format('MMMM');  // 'enero'
+date.locale("es").format("MMMM"); // 'enero'
 
 // French
-date.locale('fr').format('MMMM');  // 'janvier'
+date.locale("fr").format("MMMM"); // 'janvier'
 
 // Original instance unchanged
-date.format('MMMM');  // 'January'
+date.format("MMMM"); // 'January'
 ```
 
 ---
@@ -122,73 +123,73 @@ The following format tokens change their output based on the current locale:
 ### Month Names
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
 // Full month name (MMMM)
-date.format('MMMM');                    // 'January'
-date.locale('es').format('MMMM');       // 'enero'
-date.locale('fr').format('MMMM');       // 'janvier'
-date.locale('de').format('MMMM');       // 'Januar'
-date.locale('ja').format('MMMM');       // '1月'
-date.locale('zh-cn').format('MMMM');    // '一月'
+date.format("MMMM"); // 'January'
+date.locale("es").format("MMMM"); // 'enero'
+date.locale("fr").format("MMMM"); // 'janvier'
+date.locale("de").format("MMMM"); // 'Januar'
+date.locale("ja").format("MMMM"); // '1月'
+date.locale("zh-cn").format("MMMM"); // '一月'
 
 // Abbreviated month name (MMM)
-date.format('MMM');                     // 'Jan'
-date.locale('es').format('MMM');        // 'ene'
-date.locale('fr').format('MMM');        // 'janv'
+date.format("MMM"); // 'Jan'
+date.locale("es").format("MMM"); // 'ene'
+date.locale("fr").format("MMM"); // 'janv'
 ```
 
 ### Weekday Names
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15'); // Monday
+const date = fdu("2024-01-15"); // Monday
 
 // Full weekday (dddd)
-date.format('dddd');                    // 'Monday'
-date.locale('es').format('dddd');       // 'lunes'
-date.locale('fr').format('dddd');       // 'lundi'
-date.locale('de').format('dddd');       // 'Montag'
-date.locale('ja').format('dddd');       // '月曜日'
-date.locale('zh-cn').format('dddd');    // '星期一'
+date.format("dddd"); // 'Monday'
+date.locale("es").format("dddd"); // 'lunes'
+date.locale("fr").format("dddd"); // 'lundi'
+date.locale("de").format("dddd"); // 'Montag'
+date.locale("ja").format("dddd"); // '月曜日'
+date.locale("zh-cn").format("dddd"); // '星期一'
 
 // Short weekday (ddd)
-date.format('ddd');                     // 'Mon'
-date.locale('es').format('ddd');        // 'lun'
-date.locale('fr').format('ddd');        // 'lun'
+date.format("ddd"); // 'Mon'
+date.locale("es").format("ddd"); // 'lun'
+date.locale("fr").format("ddd"); // 'lun'
 
 // Minimal weekday (dd)
-date.format('dd');                      // 'Mo'
-date.locale('es').format('dd');         // 'lu'
-date.locale('fr').format('dd');         // 'lu'
+date.format("dd"); // 'Mo'
+date.locale("es").format("dd"); // 'lu'
+date.locale("fr").format("dd"); // 'lu'
 ```
 
 ### Ordinal Numbers
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-date.format('Do');                      // '15th'
-date.locale('es').format('Do');         // '15º'
-date.locale('fr').format('Do');         // '15e'
+date.format("Do"); // '15th'
+date.locale("es").format("Do"); // '15º'
+date.locale("fr").format("Do"); // '15e'
 ```
 
 ### AM/PM Indicator
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const morning = fdu('2024-01-15T09:30:00');
-const afternoon = fdu('2024-01-15T14:30:00');
+const morning = fdu("2024-01-15T09:30:00");
+const afternoon = fdu("2024-01-15T14:30:00");
 
 // English
-morning.format('A');    // 'AM'
-afternoon.format('A');  // 'PM'
+morning.format("A"); // 'AM'
+afternoon.format("A"); // 'PM'
 
 // Some locales may customize this
 // (depends on locale configuration)
@@ -203,103 +204,103 @@ Here are some complete examples for different locales:
 ### Spanish (es)
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
 
-registerLocale('es', es);
+registerLocale("es", es);
 
-const date = fdu('2024-01-15T14:30:00').locale('es');
+const date = fdu("2024-01-15T14:30:00").locale("es");
 
-date.format('dddd, D [de] MMMM [de] YYYY');
+date.format("dddd, D [de] MMMM [de] YYYY");
 // 'lunes, 15 de enero de 2024'
 
-date.format('DD/MM/YYYY [a las] HH:mm');
+date.format("DD/MM/YYYY [a las] HH:mm");
 // '15/01/2024 a las 14:30'
 ```
 
 ### French (fr)
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
-registerLocale('fr', fr);
+registerLocale("fr", fr);
 
-const date = fdu('2024-01-15T14:30:00').locale('fr');
+const date = fdu("2024-01-15T14:30:00").locale("fr");
 
-date.format('dddd D MMMM YYYY');
+date.format("dddd D MMMM YYYY");
 // 'lundi 15 janvier 2024'
 
-date.format('[Le] DD/MM/YYYY [à] HH:mm');
+date.format("[Le] DD/MM/YYYY [à] HH:mm");
 // 'Le 15/01/2024 à 14:30'
 ```
 
 ### German (de)
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { de } from '@pyyupsk/fdu/locale/de';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { de } from "@pyyupsk/fdu/locale/de";
 
-registerLocale('de', de);
+registerLocale("de", de);
 
-const date = fdu('2024-01-15T14:30:00').locale('de');
+const date = fdu("2024-01-15T14:30:00").locale("de");
 
-date.format('dddd, D. MMMM YYYY');
+date.format("dddd, D. MMMM YYYY");
 // 'Montag, 15. Januar 2024'
 
-date.format('DD.MM.YYYY [um] HH:mm [Uhr]');
+date.format("DD.MM.YYYY [um] HH:mm [Uhr]");
 // '15.01.2024 um 14:30 Uhr'
 ```
 
 ### Japanese (ja)
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { ja } from '@pyyupsk/fdu/locale/ja';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { ja } from "@pyyupsk/fdu/locale/ja";
 
-registerLocale('ja', ja);
+registerLocale("ja", ja);
 
-const date = fdu('2024-01-15T14:30:00').locale('ja');
+const date = fdu("2024-01-15T14:30:00").locale("ja");
 
-date.format('YYYY年M月D日 dddd');
+date.format("YYYY年M月D日 dddd");
 // '2024年1月15日 月曜日'
 
-date.format('YYYY年M月D日 HH:mm');
+date.format("YYYY年M月D日 HH:mm");
 // '2024年1月15日 14:30'
 ```
 
 ### Chinese Simplified (zh-cn)
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { zhCn } from '@pyyupsk/fdu/locale/zh-cn';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
 
-registerLocale('zh-cn', zhCn);
+registerLocale("zh-cn", zhCn);
 
-const date = fdu('2024-01-15T14:30:00').locale('zh-cn');
+const date = fdu("2024-01-15T14:30:00").locale("zh-cn");
 
-date.format('YYYY年M月D日 dddd');
+date.format("YYYY年M月D日 dddd");
 // '2024年1月15日 星期一'
 
-date.format('M月D日 HH:mm');
+date.format("M月D日 HH:mm");
 // '1月15日 14:30'
 ```
 
 ### Thai (th) - Buddhist Era
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { th } from '@pyyupsk/fdu/locale/th';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { th } from "@pyyupsk/fdu/locale/th";
 
-registerLocale('th', th);
+registerLocale("th", th);
 
-const date = fdu('2025-01-15T14:30:00').locale('th');
+const date = fdu("2025-01-15T14:30:00").locale("th");
 
 // Buddhist Era calendar (2025 + 543 = 2568)
-date.format('dddd, D MMMM YYYY');
+date.format("dddd, D MMMM YYYY");
 // 'วันพุธ, 15 มกราคม 2568'
 
-date.format('D MMMM YYYY เวลา H:mm');
+date.format("D MMMM YYYY เวลา H:mm");
 // '15 มกราคม 2568 เวลา 14:30'
 ```
 
@@ -310,52 +311,77 @@ date.format('D MMMM YYYY เวลา H:mm');
 You can create your own custom locale configurations:
 
 ```typescript
-import type { LocaleConfig } from '@pyyupsk/fdu';
-import { registerLocale } from '@pyyupsk/fdu';
+import type { LocaleConfig } from "@pyyupsk/fdu";
+import { registerLocale } from "@pyyupsk/fdu";
 
 const customLocale: LocaleConfig = {
-  name: 'custom',
+  name: "custom",
 
   // Full month names (required)
   months: [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
 
   // Abbreviated month names (optional)
   monthsShort: [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ],
 
   // Full weekday names (required, Sunday-Saturday)
   weekdays: [
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-    'Thursday', 'Friday', 'Saturday'
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ],
 
   // Abbreviated weekday names (optional)
-  weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
 
   // Minimal weekday names (optional)
-  weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
 
   // First day of week (optional, 0=Sunday, 1=Monday, etc.)
   weekStart: 0,
 
   // Common format patterns (optional)
   formats: {
-    LT: 'h:mm A',                        // Time
-    LTS: 'h:mm:ss A',                    // Time with seconds
-    L: 'MM/DD/YYYY',                     // Short date
-    LL: 'MMMM D, YYYY',                  // Long date
-    LLL: 'MMMM D, YYYY h:mm A',          // Long date with time
-    LLLL: 'dddd, MMMM D, YYYY h:mm A'    // Full date with weekday
+    LT: "h:mm A", // Time
+    LTS: "h:mm:ss A", // Time with seconds
+    L: "MM/DD/YYYY", // Short date
+    LL: "MMMM D, YYYY", // Long date
+    LLL: "MMMM D, YYYY h:mm A", // Long date with time
+    LLLL: "dddd, MMMM D, YYYY h:mm A", // Full date with weekday
   },
 
   // Ordinal suffix function (optional)
   ordinal: (n) => {
-    const s = ['th', 'st', 'nd', 'rd'];
+    const s = ["th", "st", "nd", "rd"];
     const v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
   },
@@ -363,13 +389,13 @@ const customLocale: LocaleConfig = {
   // AM/PM formatter (optional)
   meridiem: (hour, minute, isLower) => {
     if (hour < 12) {
-      return isLower ? 'am' : 'AM';
+      return isLower ? "am" : "AM";
     }
-    return isLower ? 'pm' : 'PM';
-  }
+    return isLower ? "pm" : "PM";
+  },
 };
 
-registerLocale('custom', customLocale);
+registerLocale("custom", customLocale);
 ```
 
 ### LocaleConfig Type
@@ -408,21 +434,21 @@ Some locales use alternative calendar systems with different year numbering. You
 The Thai locale uses the Buddhist Era calendar, which is 543 years ahead of the Gregorian calendar:
 
 ```typescript
-import { fdu, registerLocale } from '@pyyupsk/fdu';
-import { th } from '@pyyupsk/fdu/locale/th';
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { th } from "@pyyupsk/fdu/locale/th";
 
-registerLocale('th', th);
+registerLocale("th", th);
 
-const date = fdu('2025-01-15').locale('th');
+const date = fdu("2025-01-15").locale("th");
 
 // Buddhist Era: 2025 + 543 = 2568
-date.format('YYYY-MM-DD');
+date.format("YYYY-MM-DD");
 // '2568-01-15'
 
-date.format('D MMMM YYYY');
+date.format("D MMMM YYYY");
 // '15 มกราคม 2568'
 
-date.format('dddd, D MMMM YYYY');
+date.format("dddd, D MMMM YYYY");
 // 'วันพุธ, 15 มกราคม 2568'
 ```
 
@@ -449,7 +475,9 @@ date.format('YYYY'); // '2125'
 ```
 
 <Callout type="info">
-The `yearOffset` property only affects the display of years in `YYYY` and `YY` format tokens. It does not affect the underlying date value or any date calculations.
+  The `yearOffset` property only affects the display of years in `YYYY` and `YY`
+  format tokens. It does not affect the underlying date value or any date
+  calculations.
 </Callout>
 
 ---
@@ -460,20 +488,21 @@ Different cultures have different conventions for which day starts the week:
 
 ```typescript
 // English (week starts on Sunday)
-en.weekStart = 0;  // Sunday
+en.weekStart = 0; // Sunday
 
 // French (week starts on Monday)
-fr.weekStart = 1;  // Monday
+fr.weekStart = 1; // Monday
 
 // Custom locale with Saturday as first day
 const customLocale: LocaleConfig = {
   // ... other config
-  weekStart: 6  // Saturday
+  weekStart: 6, // Saturday
 };
 ```
 
 <Callout type="info">
-The `weekStart` property is primarily informational. It doesn't affect date calculations but can be useful for calendar displays and other UI components.
+  The `weekStart` property is primarily informational. It doesn't affect date
+  calculations but can be useful for calendar displays and other UI components.
 </Callout>
 
 ---
@@ -486,11 +515,11 @@ To keep your bundle size small, only import the locales you actually use:
 
 ```typescript
 // ✅ Good - only import needed locales
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 // ❌ Avoid - don't import all locales if you don't need them
-import * as allLocales from '@pyyupsk/fdu/locale';
+import * as allLocales from "@pyyupsk/fdu/locale";
 ```
 
 ### Register Locales Once
@@ -500,15 +529,15 @@ Register locales at application startup, not on every use:
 ```typescript
 // ✅ Good - register once at startup
 // app-initialization.ts
-import { registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
 
-registerLocale('es', es);
+registerLocale("es", es);
 
 // ❌ Avoid - don't register repeatedly
 function formatDate() {
-  registerLocale('es', es); // Don't do this on every call
-  return fdu().locale('es').format('YYYY-MM-DD');
+  registerLocale("es", es); // Don't do this on every call
+  return fdu().locale("es").format("YYYY-MM-DD");
 }
 ```
 
@@ -517,14 +546,14 @@ function formatDate() {
 Always handle cases where a locale might not be registered:
 
 ```typescript
-import { locale, registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
+import { locale, registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
 
 // Ensure locale is registered before using
 function setAppLocale(localeName: string) {
   // Register if needed
-  if (localeName === 'es') {
-    registerLocale('es', es);
+  if (localeName === "es") {
+    registerLocale("es", es);
   }
 
   locale(localeName);
@@ -532,7 +561,8 @@ function setAppLocale(localeName: string) {
 ```
 
 <Callout type="warn">
-If you try to use an unregistered locale, `@pyyupsk/fdu` will log a warning and fall back to English ('en').
+  If you try to use an unregistered locale, `@pyyupsk/fdu` will log a warning
+  and fall back to English ('en').
 </Callout>
 
 ---

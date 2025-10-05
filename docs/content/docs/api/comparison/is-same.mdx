@@ -27,14 +27,14 @@ Checks if this date is the same as another date, optionally at a specific granul
 Without a unit, compares exact timestamps:
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date1 = fdu('2024-01-15T10:30:00');
-const date2 = fdu('2024-01-15T10:30:00');
-const date3 = fdu('2024-01-15T14:45:00');
+const date1 = fdu("2024-01-15T10:30:00");
+const date2 = fdu("2024-01-15T10:30:00");
+const date3 = fdu("2024-01-15T14:45:00");
 
-date1.isSame(date2);  // true (exact same time)
-date1.isSame(date3);  // false (different times)
+date1.isSame(date2); // true (exact same time)
+date1.isSame(date3); // false (different times)
 ```
 
 ### Granular Comparison
@@ -42,45 +42,45 @@ date1.isSame(date3);  // false (different times)
 Compare at specific units of time:
 
 ```typescript
-const date1 = fdu('2024-01-15T10:30:00');
-const date2 = fdu('2024-01-15T14:45:00');
+const date1 = fdu("2024-01-15T10:30:00");
+const date2 = fdu("2024-01-15T14:45:00");
 
 // Same day, different times
-date1.isSame(date2, 'day');     // true
-date1.isSame(date2, 'month');   // true
-date1.isSame(date2, 'year');    // true
-date1.isSame(date2, 'hour');    // false
-date1.isSame(date2, 'minute');  // false
+date1.isSame(date2, "day"); // true
+date1.isSame(date2, "month"); // true
+date1.isSame(date2, "year"); // true
+date1.isSame(date2, "hour"); // false
+date1.isSame(date2, "minute"); // false
 ```
 
 ### Different Days
 
 ```typescript
-const date1 = fdu('2024-01-15T10:30:00');
-const date2 = fdu('2024-01-16T10:30:00');
+const date1 = fdu("2024-01-15T10:30:00");
+const date2 = fdu("2024-01-16T10:30:00");
 
-date1.isSame(date2, 'day');     // false
-date1.isSame(date2, 'month');   // true
-date1.isSame(date2, 'year');    // true
+date1.isSame(date2, "day"); // false
+date1.isSame(date2, "month"); // true
+date1.isSame(date2, "year"); // true
 ```
 
 ### Different Months
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2024-02-15');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-02-15");
 
-date1.isSame(date2, 'month');   // false
-date1.isSame(date2, 'year');    // true
+date1.isSame(date2, "month"); // false
+date1.isSame(date2, "year"); // true
 ```
 
 ### Different Years
 
 ```typescript
-const date1 = fdu('2024-01-15');
-const date2 = fdu('2025-01-15');
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2025-01-15");
 
-date1.isSame(date2, 'year');    // false
+date1.isSame(date2, "year"); // false
 ```
 
 ## Supported Units
@@ -97,11 +97,11 @@ date1.isSame(date2, 'year');    // false
 ### Check if dates are on the same day
 
 ```typescript
-const date1 = fdu('2024-01-15T09:00:00');
-const date2 = fdu('2024-01-15T17:00:00');
+const date1 = fdu("2024-01-15T09:00:00");
+const date2 = fdu("2024-01-15T17:00:00");
 
-if (date1.isSame(date2, 'day')) {
-  console.log('These events are on the same day');
+if (date1.isSame(date2, "day")) {
+  console.log("These events are on the same day");
 }
 ```
 
@@ -109,40 +109,38 @@ if (date1.isSame(date2, 'day')) {
 
 ```typescript
 function isToday(date: FduInstance): boolean {
-  return date.isSame(fdu(), 'day');
+  return date.isSame(fdu(), "day");
 }
 
-const someDate = fdu('2024-01-15');
-isToday(someDate);  // true if today is Jan 15, 2024
+const someDate = fdu("2024-01-15");
+isToday(someDate); // true if today is Jan 15, 2024
 ```
 
 ### Group by month
 
 ```typescript
 const dates = [
-  fdu('2024-01-05'),
-  fdu('2024-01-15'),
-  fdu('2024-02-10'),
-  fdu('2024-02-20')
+  fdu("2024-01-05"),
+  fdu("2024-01-15"),
+  fdu("2024-02-10"),
+  fdu("2024-02-20"),
 ];
 
-const januaryDates = dates.filter(d =>
-  d.isSame(fdu('2024-01-01'), 'month')
-);
+const januaryDates = dates.filter((d) => d.isSame(fdu("2024-01-01"), "month"));
 // [2024-01-05, 2024-01-15]
 ```
 
 ### Check if same week
 
 ```typescript
-const date1 = fdu('2024-01-15');  // Monday
-const date2 = fdu('2024-01-18');  // Thursday
+const date1 = fdu("2024-01-15"); // Monday
+const date2 = fdu("2024-01-18"); // Thursday
 
 // Note: isSame doesn't have 'week' unit, use alternative:
-const startOfWeek1 = date1.subtract(date1.day(), 'day');
-const startOfWeek2 = date2.subtract(date2.day(), 'day');
+const startOfWeek1 = date1.subtract(date1.day(), "day");
+const startOfWeek2 = date2.subtract(date2.day(), "day");
 
-startOfWeek1.isSame(startOfWeek2, 'day');  // true
+startOfWeek1.isSame(startOfWeek2, "day"); // true
 ```
 
 ### Birthday check
@@ -150,22 +148,23 @@ startOfWeek1.isSame(startOfWeek2, 'day');  // true
 ```typescript
 function isBirthday(birthdate: FduInstance): boolean {
   const today = fdu();
-  return birthdate.month() === today.month() &&
-         birthdate.date() === today.date();
+  return (
+    birthdate.month() === today.month() && birthdate.date() === today.date()
+  );
 }
 
-const birthday = fdu('1990-05-15');
-isBirthday(birthday);  // true if today is May 15
+const birthday = fdu("1990-05-15");
+isBirthday(birthday); // true if today is May 15
 ```
 
 ### Same time of day check
 
 ```typescript
-const time1 = fdu('2024-01-15T14:30:00');
-const time2 = fdu('2024-02-20T14:30:00');
+const time1 = fdu("2024-01-15T14:30:00");
+const time2 = fdu("2024-02-20T14:30:00");
 
-const sameHour = time1.isSame(time2, 'hour') &&
-                 time1.minute() === time2.minute();
+const sameHour =
+  time1.isSame(time2, "hour") && time1.minute() === time2.minute();
 // true (both at 14:30)
 ```
 
@@ -173,15 +172,13 @@ const sameHour = time1.isSame(time2, 'hour') &&
 
 ```typescript
 const events = [
-  { date: fdu('2023-05-15'), name: 'Event A' },
-  { date: fdu('2024-01-20'), name: 'Event B' },
-  { date: fdu('2024-06-10'), name: 'Event C' }
+  { date: fdu("2023-05-15"), name: "Event A" },
+  { date: fdu("2024-01-20"), name: "Event B" },
+  { date: fdu("2024-06-10"), name: "Event C" },
 ];
 
-const year2024 = fdu('2024-01-01');
-const events2024 = events.filter(e =>
-  e.date.isSame(year2024, 'year')
-);
+const year2024 = fdu("2024-01-01");
+const events2024 = events.filter((e) => e.date.isSame(year2024, "year"));
 // [Event B, Event C]
 ```
 

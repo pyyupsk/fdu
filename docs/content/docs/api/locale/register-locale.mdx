@@ -25,63 +25,87 @@ registerLocale(name: string, config: LocaleConfig): void
 ### Register Built-in Locale
 
 ```typescript
-import { registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
-import { de } from '@pyyupsk/fdu/locale/de';
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
 
 // Register locales at app startup
-registerLocale('es', es);
-registerLocale('fr', fr);
-registerLocale('de', de);
+registerLocale("es", es);
+registerLocale("fr", fr);
+registerLocale("de", de);
 ```
 
 ### Register Custom Locale
 
 ```typescript
-import type { LocaleConfig } from '@pyyupsk/fdu';
-import { registerLocale } from '@pyyupsk/fdu';
+import type { LocaleConfig } from "@pyyupsk/fdu";
+import { registerLocale } from "@pyyupsk/fdu";
 
 const customLocale: LocaleConfig = {
-  name: 'custom',
+  name: "custom",
   months: [
-    'January', 'February', 'March', 'April',
-    'May', 'June', 'July', 'August',
-    'September', 'October', 'November', 'December'
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
   monthsShort: [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ],
   weekdays: [
-    'Sunday', 'Monday', 'Tuesday', 'Wednesday',
-    'Thursday', 'Friday', 'Saturday'
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
   ],
-  weekdaysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-  weekdaysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-  weekStart: 0,  // Sunday
+  weekdaysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+  weekdaysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+  weekStart: 0, // Sunday
   formats: {
-    LT: 'h:mm A',
-    LTS: 'h:mm:ss A',
-    L: 'MM/DD/YYYY',
-    LL: 'MMMM D, YYYY',
-    LLL: 'MMMM D, YYYY h:mm A',
-    LLLL: 'dddd, MMMM D, YYYY h:mm A'
+    LT: "h:mm A",
+    LTS: "h:mm:ss A",
+    L: "MM/DD/YYYY",
+    LL: "MMMM D, YYYY",
+    LLL: "MMMM D, YYYY h:mm A",
+    LLLL: "dddd, MMMM D, YYYY h:mm A",
   },
   ordinal: (n) => {
-    const s = ['th', 'st', 'nd', 'rd'];
+    const s = ["th", "st", "nd", "rd"];
     const v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
   },
   meridiem: (hour, minute, isLower) => {
     if (hour < 12) {
-      return isLower ? 'am' : 'AM';
+      return isLower ? "am" : "AM";
     }
-    return isLower ? 'pm' : 'PM';
-  }
+    return isLower ? "pm" : "PM";
+  },
 };
 
-registerLocale('custom', customLocale);
+registerLocale("custom", customLocale);
 ```
 
 ## LocaleConfig Type
@@ -123,17 +147,17 @@ type LocaleConfig = {
 
 ```typescript
 // app-init.ts
-import { registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
-import { de } from '@pyyupsk/fdu/locale/de';
-import { ja } from '@pyyupsk/fdu/locale/ja';
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { de } from "@pyyupsk/fdu/locale/de";
+import { ja } from "@pyyupsk/fdu/locale/ja";
 
 export function initializeLocales() {
-  registerLocale('es', es);
-  registerLocale('fr', fr);
-  registerLocale('de', de);
-  registerLocale('ja', ja);
+  registerLocale("es", es);
+  registerLocale("fr", fr);
+  registerLocale("de", de);
+  registerLocale("ja", ja);
 }
 
 // In main.ts
@@ -144,12 +168,12 @@ initializeLocales();
 
 ```typescript
 async function loadLocale(localeName: string) {
-  if (localeName === 'es') {
-    const { es } = await import('@pyyupsk/fdu/locale/es');
-    registerLocale('es', es);
-  } else if (localeName === 'fr') {
-    const { fr } = await import('@pyyupsk/fdu/locale/fr');
-    registerLocale('fr', fr);
+  if (localeName === "es") {
+    const { es } = await import("@pyyupsk/fdu/locale/es");
+    registerLocale("es", es);
+  } else if (localeName === "fr") {
+    const { fr } = await import("@pyyupsk/fdu/locale/fr");
+    registerLocale("fr", fr);
   }
   // ... more locales
 }
@@ -162,9 +186,9 @@ await loadLocale(userPreferredLanguage);
 
 ```typescript
 const localeMap = {
-  es: () => import('@pyyupsk/fdu/locale/es'),
-  fr: () => import('@pyyupsk/fdu/locale/fr'),
-  de: () => import('@pyyupsk/fdu/locale/de')
+  es: () => import("@pyyupsk/fdu/locale/es"),
+  fr: () => import("@pyyupsk/fdu/locale/fr"),
+  de: () => import("@pyyupsk/fdu/locale/de"),
 };
 
 async function ensureLocaleRegistered(localeName: string) {
@@ -177,32 +201,45 @@ async function ensureLocaleRegistered(localeName: string) {
 }
 
 // Usage
-await ensureLocaleRegistered('es');
+await ensureLocaleRegistered("es");
 ```
 
 ### Custom Locale with Business Rules
 
 ```typescript
-import type { LocaleConfig } from '@pyyupsk/fdu';
-import { registerLocale } from '@pyyupsk/fdu';
+import type { LocaleConfig } from "@pyyupsk/fdu";
+import { registerLocale } from "@pyyupsk/fdu";
 
 const businessLocale: LocaleConfig = {
-  name: 'business',
+  name: "business",
   months: [
-    'Q1-Jan', 'Q1-Feb', 'Q1-Mar',
-    'Q2-Apr', 'Q2-May', 'Q2-Jun',
-    'Q3-Jul', 'Q3-Aug', 'Q3-Sep',
-    'Q4-Oct', 'Q4-Nov', 'Q4-Dec'
+    "Q1-Jan",
+    "Q1-Feb",
+    "Q1-Mar",
+    "Q2-Apr",
+    "Q2-May",
+    "Q2-Jun",
+    "Q3-Jul",
+    "Q3-Aug",
+    "Q3-Sep",
+    "Q4-Oct",
+    "Q4-Nov",
+    "Q4-Dec",
   ],
   weekdays: [
-    'Weekend', 'Workday', 'Workday', 'Workday',
-    'Workday', 'Workday', 'Weekend'
+    "Weekend",
+    "Workday",
+    "Workday",
+    "Workday",
+    "Workday",
+    "Workday",
+    "Weekend",
   ],
-  weekStart: 1,  // Start week on Monday
-  ordinal: (n) => `Day ${n}`
+  weekStart: 1, // Start week on Monday
+  ordinal: (n) => `Day ${n}`,
 };
 
-registerLocale('business', businessLocale);
+registerLocale("business", businessLocale);
 ```
 
 ## Available Built-in Locales
@@ -210,6 +247,7 @@ registerLocale('business', businessLocale);
 `@pyyupsk/fdu` includes multiple built-in locales. See the [Internationalization](/docs/guides/i18n) guide for the complete list.
 
 **Popular locales:**
+
 - `en` - English (default, pre-registered)
 - `es` - Spanish
 - `fr` - French
@@ -224,15 +262,15 @@ registerLocale('business', businessLocale);
 ```typescript
 // ✅ Good - register at application startup
 // main.ts
-import { registerLocale } from '@pyyupsk/fdu';
-import { es } from '@pyyupsk/fdu/locale/es';
+import { registerLocale } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
 
-registerLocale('es', es);
+registerLocale("es", es);
 
 // ❌ Avoid - registering repeatedly
 function formatDate(date: FduInstance) {
-  registerLocale('es', es);  // Don't do this on every call
-  return date.locale('es').format('YYYY-MM-DD');
+  registerLocale("es", es); // Don't do this on every call
+  return date.locale("es").format("YYYY-MM-DD");
 }
 ```
 
@@ -240,15 +278,16 @@ function formatDate(date: FduInstance) {
 
 ```typescript
 // ✅ Good - only import needed locales
-import { es } from '@pyyupsk/fdu/locale/es';
-import { fr } from '@pyyupsk/fdu/locale/fr';
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
 
 // ❌ Avoid - importing all locales if you don't need them
-import * as allLocales from '@pyyupsk/fdu/locale';
+import * as allLocales from "@pyyupsk/fdu/locale";
 ```
 
 <Callout type="info">
-The English locale (`en`) is automatically registered and doesn't need to be imported or registered.
+  The English locale (`en`) is automatically registered and doesn't need to be
+  imported or registered.
 </Callout>
 
 ## See Also
