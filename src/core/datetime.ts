@@ -173,6 +173,33 @@ class DateTimeImpl {
     return this._isValid;
   }
 
+  utcOffset(): number;
+  utcOffset(offset: number): FduInstance;
+  utcOffset(offset?: number): number | FduInstance {
+    if (offset === undefined) {
+      return -this._date.getTimezoneOffset();
+    }
+
+    const currentOffset = -this._date.getTimezoneOffset();
+    const diffInMinutes = offset - currentOffset;
+    const newDate = new Date(this._date.getTime() + diffInMinutes * 60 * 1000);
+
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
+  }
+
+  local(): FduInstance {
+    const offset = this._date.getTimezoneOffset();
+
+    if (offset === 0) {
+      return new DateTimeImpl(
+        this._date,
+        this._locale,
+      ) as unknown as FduInstance;
+    }
+
+    return new DateTimeImpl(this._date, this._locale) as unknown as FduInstance;
+  }
+
   locale(): string;
   locale(name: string): FduInstance;
   locale(name?: string): string | FduInstance {

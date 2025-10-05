@@ -155,6 +155,22 @@ export interface FduInstance {
   /** Checks if the date is valid */
   isValid(): boolean;
 
+  /** Gets the UTC offset in minutes */
+  utcOffset(): number;
+
+  /**
+   * Sets the UTC offset in minutes.
+   * @param offset - UTC offset in minutes
+   * @returns New FduInstance with the specified UTC offset
+   */
+  utcOffset(offset: number): FduInstance;
+
+  /**
+   * Converts the instance to local time (if it was in UTC mode).
+   * @returns New FduInstance in local time
+   */
+  local(): FduInstance;
+
   /**
    * Get the internal Date object (for plugin use)
    *
