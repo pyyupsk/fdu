@@ -80,14 +80,17 @@ See the [CHANGELOG](https://github.com/pyyupsk/fdu/blob/main/CHANGELOG.md) for d
 
 ### Runtime
 
-<Callout type="info">
-  **Note:** Specific runtime compatibility has not been thoroughly tested yet.
-  The library is built with ESNext target and should work in modern environments
-  with ESM support.
-</Callout>
+The library is built with ESNext target and requires modern environments with ESM support.
 
-- **Node.js**: Modern version with ESM support recommended
-- **Browsers**: Modern browsers with ESM support
+- **Node.js**: Version 20.0.0 or higher (tested on Node.js 20.x, 22.x, 23.x)
+- **Bun**: Version 1.0.0 or higher recommended
+- **Browsers**: Chrome 61+, Firefox 60+, Safari 11+, Edge 79+ (requires ESM support)
+
+<Callout type="info">
+  **Note:** Node.js 18.x reached End-of-Life on April 30, 2025 and is no longer
+  supported. We recommend using Node.js 22.x (Active LTS) or later for the best
+  performance and long-term support.
+</Callout>
 
 ### Development
 

@@ -292,6 +292,7 @@ describe("PluginRegistry", () => {
   describe("Edge Cases", () => {
     it("should handle fduFunction not initialized in extendPrototype", () => {
       // Create a new registry instance to test before initialization
+      // biome-ignore lint/suspicious/noExplicitAny: Testing internal singleton behavior
       const freshRegistry = new (PluginRegistry as any)();
       const plugin: Plugin = {
         name: "uninitialized-test",
@@ -308,6 +309,7 @@ describe("PluginRegistry", () => {
 
     it("should handle fduFunction not initialized in createInstance", () => {
       // Create a new registry instance to test before initialization
+      // biome-ignore lint/suspicious/noExplicitAny: Testing internal singleton behavior
       const freshRegistry = new (PluginRegistry as any)();
       const plugin: Plugin = {
         name: "create-uninitialized-test",

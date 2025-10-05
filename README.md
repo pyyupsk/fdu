@@ -7,6 +7,8 @@
 [![codecov](https://codecov.io/gh/pyyupsk/fdu/graph/badge.svg?token=499EIXGPB0)](https://codecov.io/gh/pyyupsk/fdu)
 [![license](https://img.shields.io/npm/l/@pyyupsk/fdu.svg)](LICENSE)
 
+> **⚠️ Beta Release:** This library is currently in beta (v0.0.0-beta.3). The API is stable but may change before v1.0.0. Production use is acceptable, but consider pinning to a specific version.
+
 ### ✨ Features
 
 - 🧭 **Immutability** – every operation returns a new instance
