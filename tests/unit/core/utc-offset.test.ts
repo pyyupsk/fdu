@@ -165,6 +165,21 @@ describe("local() method", () => {
 
     expect(local.valueOf()).toBe(date.valueOf());
   });
+
+  it("should handle dates already in local timezone (offset === 0)", () => {
+    // Create a date and force it to have zero offset by mocking
+    const originalGetTimezoneOffset = Date.prototype.getTimezoneOffset;
+    Date.prototype.getTimezoneOffset = () => 0;
+
+    const date = fdu("2025-10-05T12:00:00");
+    const local = date.local();
+
+    expect(local.valueOf()).toBe(date.valueOf());
+    expect(local.isValid()).toBe(true);
+
+    // Restore original method
+    Date.prototype.getTimezoneOffset = originalGetTimezoneOffset;
+  });
 });
 
 describe("utcOffset() and local() integration", () => {

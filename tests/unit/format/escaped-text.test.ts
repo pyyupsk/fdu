@@ -92,5 +92,10 @@ describe("Escaped Text in Format Strings", () => {
       const result = format(mondayDate, "YYYY [[Do]] [is today]", en);
       expect(result).toBe("2025 [6th] is today");
     });
+
+    it("Test 16: should handle unknown tokens inside nested brackets", () => {
+      const result = format(testDate, "YYYY [[QQ]]", en);
+      expect(result).toBe("2025 [QQ]");
+    });
   });
 });

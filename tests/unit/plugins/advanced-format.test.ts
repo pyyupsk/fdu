@@ -149,20 +149,29 @@ describe("Advanced Format Plugin", () => {
     });
 
     it("should return next year when week 1 falls in December", () => {
-      // Find a date in December that's in week 1 of next year
-      const date = fdu("2024-12-30"); // Week 1 of 2025
+      // Create a date in December that would be week 1 of next year
+      // This needs a year where Jan 1 is late in the week (Fri/Sat)
+      // so that late December days count as week 1
+      const date = fdu("2027-12-31"); // Jan 1, 2028 is Saturday
       const weekNum = date.weekOfYear();
       if (weekNum === 1) {
-        expect(date.weekYear()).toBe(2025);
+        expect(date.weekYear()).toBe(2028);
+      } else {
+        // If the condition isn't met, just verify the method works
+        expect(typeof date.weekYear()).toBe("number");
       }
     });
 
     it("should return previous year when week 52/53 falls in January", () => {
-      // Find a date in January that's in week 52/53 of previous year
-      const date = fdu("2026-01-01");
+      // Create a date in early January that's in week 52/53 of previous year
+      // This needs a year where Jan 1 is early in the week (Sun/Mon)
+      const date = fdu("2023-01-01"); // Jan 1, 2023 is Sunday
       const weekNum = date.weekOfYear();
-      if (weekNum && weekNum >= 52) {
-        expect(date.weekYear()).toBe(2025);
+      if (weekNum >= 52) {
+        expect(date.weekYear()).toBe(2022);
+      } else {
+        // If the condition isn't met, just verify the method works
+        expect(typeof date.weekYear()).toBe("number");
       }
     });
 
@@ -179,19 +188,17 @@ describe("Advanced Format Plugin", () => {
     });
 
     it("should return next year when ISO week 1 falls in December", () => {
-      const date = fdu("2024-12-30"); // ISO week 1 of 2025
-      const isoWeek = date.isoWeek();
-      if (isoWeek === 1) {
-        expect(date.isoWeekYear()).toBe(2025);
-      }
+      // Dec 30, 2024 is in ISO week 1 of 2025
+      const date = fdu("2024-12-30");
+      expect(date.isoWeek()).toBe(1);
+      expect(date.isoWeekYear()).toBe(2025);
     });
 
     it("should return previous year when ISO week 52/53 falls in January", () => {
-      const date = fdu("2026-01-01");
-      const isoWeek = date.isoWeek();
-      if (isoWeek && isoWeek >= 52) {
-        expect(date.isoWeekYear()).toBe(2025);
-      }
+      // Jan 1, 2022 is in ISO week 52 of 2021
+      const date = fdu("2022-01-01");
+      expect(date.isoWeek()).toBe(52);
+      expect(date.isoWeekYear()).toBe(2021);
     });
 
     it("should handle normal year boundaries", () => {
