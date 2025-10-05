@@ -226,15 +226,31 @@ function getTimeFormat(
 /**
  * Relative time plugin for human-readable time differences
  *
+ * Provides methods for:
+ * - fromNow(): Time from the current moment (e.g., "2 hours ago", "in 3 days")
+ * - toNow(): Time to the current moment (inverse of fromNow)
+ *
+ * Supports two display styles:
+ * - 'long': Full text format ("2 hours ago", "in 3 days")
+ * - 'short': Abbreviated format ("2h", "3d")
+ *
  * @example
  * ```ts
  * import { fdu } from '@pyyupsk/fdu';
  * import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
  *
+ * // Long format (default)
  * fdu.extend(relativeTime, { style: 'long' });
- *
  * const past = fdu('2025-10-01');
  * console.log(past.fromNow()); // "4 days ago"
+ *
+ * const future = fdu('2025-10-10');
+ * console.log(future.toNow());  // "in 5 days"
+ *
+ * // Short format
+ * fdu.extend(relativeTime, { style: 'short' });
+ * console.log(past.fromNow());   // "4d"
+ * console.log(future.toNow());   // "5d"
  * ```
  */
 export const relativeTime: Plugin<RelativeTimeOptions> = {
