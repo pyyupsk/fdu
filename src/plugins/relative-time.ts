@@ -229,6 +229,8 @@ function getTimeFormat(
  * Provides methods for:
  * - fromNow(): Time from the current moment (e.g., "2 hours ago", "in 3 days")
  * - toNow(): Time to the current moment (inverse of fromNow)
+ * - from(date): Time from a specific date
+ * - to(date): Time to a specific date
  *
  * Supports two display styles:
  * - 'long': Full text format ("2 hours ago", "in 3 days")
@@ -247,6 +249,12 @@ function getTimeFormat(
  * const future = fdu('2025-10-10');
  * console.log(future.toNow());  // "in 5 days"
  *
+ * // Relative to specific dates
+ * const date1 = fdu('2025-10-01');
+ * const date2 = fdu('2025-10-05');
+ * console.log(date1.from(date2)); // "4 days ago"
+ * console.log(date1.to(date2));   // "in 4 days"
+ *
  * // Short format
  * fdu.extend(relativeTime, { style: 'short' });
  * console.log(past.fromNow());   // "4d"
@@ -255,7 +263,7 @@ function getTimeFormat(
  */
 export const relativeTime: Plugin<RelativeTimeOptions> = {
   name: "relative-time",
-  version: "1.0.0",
+  version: "1.1.0",
   install(api: PluginAPI, options?: RelativeTimeOptions) {
     const style = options?.style ?? "long";
 
@@ -280,6 +288,33 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
 
       return getTimeFormat(seconds, direction, style);
     });
+
+    // Add from() method - "X time ago" relative to a specific date
+    api.extendPrototype(
+      "from",
+      function (this: FduInstance, ...args: unknown[]) {
+        const compared = args[0] as FduInstance;
+        const comparedDate = compared.getInternalDate();
+        const thisDate = this.getInternalDate();
+        const diff = comparedDate.getTime() - thisDate.getTime();
+        const seconds = Math.abs(diff) / 1000;
+        const direction: TimeDirection = diff > 0 ? "past" : "future";
+
+        return getTimeFormat(seconds, direction, style);
+      },
+    );
+
+    // Add to() method - "in X time" relative to a specific date (inverse of from)
+    api.extendPrototype("to", function (this: FduInstance, ...args: unknown[]) {
+      const compared = args[0] as FduInstance;
+      const comparedDate = compared.getInternalDate();
+      const thisDate = this.getInternalDate();
+      const diff = thisDate.getTime() - comparedDate.getTime();
+      const seconds = Math.abs(diff) / 1000;
+      const direction: TimeDirection = diff > 0 ? "future" : "past";
+
+      return getTimeFormat(seconds, direction, style);
+    });
   },
 };
 
@@ -299,5 +334,21 @@ declare module "../core/types" {
      * @returns Human-readable relative time string
      */
     toNow?(): string;
+
+    /**
+     * Get relative time from a specific date
+     * Requires relativeTime plugin to be registered
+     * @param compared - The date to compare against
+     * @returns Human-readable relative time string
+     */
+    from?(compared: FduInstance): string;
+
+    /**
+     * Get relative time to a specific date (inverse of from)
+     * Requires relativeTime plugin to be registered
+     * @param compared - The date to compare against
+     * @returns Human-readable relative time string
+     */
+    to?(compared: FduInstance): string;
   }
 }
