@@ -21,6 +21,208 @@ export interface RelativeTimeOptions {
   style?: "long" | "short";
 }
 
+// Time thresholds in seconds
+const THRESHOLDS = {
+  SECONDS: 45,
+  MINUTE: 90,
+  MINUTES: 2700, // 45 minutes
+  HOUR: 5400, // 90 minutes
+  HOURS: 86400, // 24 hours
+  DAY: 129600, // 1.5 days
+  DAYS: 2592000, // 30 days
+  MONTH: 3888000, // 45 days
+  MONTHS: 31536000, // 365 days
+  YEAR: 47304000, // 1.5 years
+} as const;
+
+// Time unit divisors
+const DIVISORS = {
+  MINUTE: 60,
+  HOUR: 3600,
+  DAY: 86400,
+  MONTH: 2592000,
+  YEAR: 31536000,
+} as const;
+
+/**
+ * Direction of time relative to now.
+ *
+ * @internal
+ */
+type TimeDirection = "past" | "future";
+
+/**
+ * Format configuration for time strings.
+ *
+ * @internal
+ */
+interface TimeFormat {
+  short: string;
+  long: (direction: TimeDirection) => string;
+}
+
+/**
+ * Formats time string based on style and direction.
+ *
+ * @param format - Time format configuration
+ * @param style - Display style (long/short)
+ * @param direction - Time direction (past/future)
+ * @returns Formatted time string
+ *
+ * @internal
+ */
+function formatTime(
+  format: TimeFormat,
+  style: "long" | "short",
+  direction: TimeDirection,
+): string {
+  if (style === "short") return format.short;
+  return format.long(direction);
+}
+
+/**
+ * Converts seconds to human-readable relative time.
+ *
+ * @param seconds - Absolute seconds difference
+ * @param direction - Time direction (past/future)
+ * @param style - Display style (long/short)
+ * @returns Formatted relative time string
+ *
+ * @internal
+ */
+function getTimeFormat(
+  seconds: number,
+  direction: TimeDirection,
+  style: "long" | "short",
+): string {
+  if (seconds < THRESHOLDS.SECONDS) {
+    return formatTime(
+      {
+        short: "now",
+        long: (d) => (d === "past" ? "a few seconds ago" : "in a few seconds"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.MINUTE) {
+    return formatTime(
+      {
+        short: "1m",
+        long: (d) => (d === "past" ? "a minute ago" : "in a minute"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.MINUTES) {
+    const mins = Math.round(seconds / DIVISORS.MINUTE);
+    return formatTime(
+      {
+        short: `${mins}m`,
+        long: (d) =>
+          d === "past" ? `${mins} minutes ago` : `in ${mins} minutes`,
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.HOUR) {
+    return formatTime(
+      {
+        short: "1h",
+        long: (d) => (d === "past" ? "an hour ago" : "in an hour"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.HOURS) {
+    const hours = Math.round(seconds / DIVISORS.HOUR);
+    return formatTime(
+      {
+        short: `${hours}h`,
+        long: (d) =>
+          d === "past" ? `${hours} hours ago` : `in ${hours} hours`,
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.DAY) {
+    return formatTime(
+      {
+        short: "1d",
+        long: (d) => (d === "past" ? "a day ago" : "in a day"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.DAYS) {
+    const days = Math.round(seconds / DIVISORS.DAY);
+    return formatTime(
+      {
+        short: `${days}d`,
+        long: (d) => (d === "past" ? `${days} days ago` : `in ${days} days`),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.MONTH) {
+    return formatTime(
+      {
+        short: "1mo",
+        long: (d) => (d === "past" ? "a month ago" : "in a month"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.MONTHS) {
+    const months = Math.round(seconds / DIVISORS.MONTH);
+    return formatTime(
+      {
+        short: `${months}mo`,
+        long: (d) =>
+          d === "past" ? `${months} months ago` : `in ${months} months`,
+      },
+      style,
+      direction,
+    );
+  }
+
+  if (seconds < THRESHOLDS.YEAR) {
+    return formatTime(
+      {
+        short: "1y",
+        long: (d) => (d === "past" ? "a year ago" : "in a year"),
+      },
+      style,
+      direction,
+    );
+  }
+
+  const years = Math.round(seconds / DIVISORS.YEAR);
+  return formatTime(
+    {
+      short: `${years}y`,
+      long: (d) => (d === "past" ? `${years} years ago` : `in ${years} years`),
+    },
+    style,
+    direction,
+  );
+}
+
 /**
  * Relative time plugin for human-readable time differences
  *
@@ -47,95 +249,9 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
       const thisDate = this.getInternalDate();
       const diff = now.getInternalDate().getTime() - thisDate.getTime();
       const seconds = Math.abs(diff) / 1000;
+      const direction: TimeDirection = diff > 0 ? "past" : "future";
 
-      const isPast = diff > 0;
-
-      if (seconds < 45) {
-        return style === "short"
-          ? "now"
-          : isPast
-            ? "a few seconds ago"
-            : "in a few seconds";
-      }
-
-      if (seconds < 90) {
-        return style === "short"
-          ? "1m"
-          : isPast
-            ? "a minute ago"
-            : "in a minute";
-      }
-
-      if (seconds < 2700) {
-        // 45 minutes
-        const mins = Math.round(seconds / 60);
-        return style === "short"
-          ? `${mins}m`
-          : isPast
-            ? `${mins} minutes ago`
-            : `in ${mins} minutes`;
-      }
-
-      if (seconds < 5400) {
-        // 90 minutes
-        return style === "short" ? "1h" : isPast ? "an hour ago" : "in an hour";
-      }
-
-      if (seconds < 86400) {
-        // 24 hours
-        const hours = Math.round(seconds / 3600);
-        return style === "short"
-          ? `${hours}h`
-          : isPast
-            ? `${hours} hours ago`
-            : `in ${hours} hours`;
-      }
-
-      if (seconds < 129600) {
-        // 1.5 days
-        return style === "short" ? "1d" : isPast ? "a day ago" : "in a day";
-      }
-
-      if (seconds < 2592000) {
-        // 30 days
-        const days = Math.round(seconds / 86400);
-        return style === "short"
-          ? `${days}d`
-          : isPast
-            ? `${days} days ago`
-            : `in ${days} days`;
-      }
-
-      if (seconds < 3888000) {
-        // 45 days
-        return style === "short"
-          ? "1mo"
-          : isPast
-            ? "a month ago"
-            : "in a month";
-      }
-
-      if (seconds < 31536000) {
-        // 365 days
-        const months = Math.round(seconds / 2592000);
-        return style === "short"
-          ? `${months}mo`
-          : isPast
-            ? `${months} months ago`
-            : `in ${months} months`;
-      }
-
-      if (seconds < 47304000) {
-        // 1.5 years
-        return style === "short" ? "1y" : isPast ? "a year ago" : "in a year";
-      }
-
-      const years = Math.round(seconds / 31536000);
-      return style === "short"
-        ? `${years}y`
-        : isPast
-          ? `${years} years ago`
-          : `in ${years} years`;
+      return getTimeFormat(seconds, direction, style);
     });
 
     // Add toNow() method - "in X time" (inverse of fromNow)
@@ -144,91 +260,9 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
       const thisDate = this.getInternalDate();
       const diff = thisDate.getTime() - now.getInternalDate().getTime();
       const seconds = Math.abs(diff) / 1000;
+      const direction: TimeDirection = diff > 0 ? "future" : "past";
 
-      const isFuture = diff > 0;
-
-      if (seconds < 45) {
-        return style === "short"
-          ? "now"
-          : isFuture
-            ? "in a few seconds"
-            : "a few seconds ago";
-      }
-
-      if (seconds < 90) {
-        return style === "short"
-          ? "1m"
-          : isFuture
-            ? "in a minute"
-            : "a minute ago";
-      }
-
-      if (seconds < 2700) {
-        const mins = Math.round(seconds / 60);
-        return style === "short"
-          ? `${mins}m`
-          : isFuture
-            ? `in ${mins} minutes`
-            : `${mins} minutes ago`;
-      }
-
-      if (seconds < 5400) {
-        return style === "short"
-          ? "1h"
-          : isFuture
-            ? "in an hour"
-            : "an hour ago";
-      }
-
-      if (seconds < 86400) {
-        const hours = Math.round(seconds / 3600);
-        return style === "short"
-          ? `${hours}h`
-          : isFuture
-            ? `in ${hours} hours`
-            : `${hours} hours ago`;
-      }
-
-      if (seconds < 129600) {
-        return style === "short" ? "1d" : isFuture ? "in a day" : "a day ago";
-      }
-
-      if (seconds < 2592000) {
-        const days = Math.round(seconds / 86400);
-        return style === "short"
-          ? `${days}d`
-          : isFuture
-            ? `in ${days} days`
-            : `${days} days ago`;
-      }
-
-      if (seconds < 3888000) {
-        return style === "short"
-          ? "1mo"
-          : isFuture
-            ? "in a month"
-            : "a month ago";
-      }
-
-      if (seconds < 31536000) {
-        const months = Math.round(seconds / 2592000);
-        return style === "short"
-          ? `${months}mo`
-          : isFuture
-            ? `in ${months} months`
-            : `${months} months ago`;
-      }
-
-      if (seconds < 47304000) {
-        return style === "short" ? "1y" : isFuture ? "in a year" : "a year ago";
-      }
-
-      const years = Math.round(seconds / 31536000);
-      return style === "short"
-        ? `${years}y`
-        : isFuture
-          ? `in ${years} years`
-          : `${years} years ago`;
+      return getTimeFormat(seconds, direction, style);
     });
   },
 };
