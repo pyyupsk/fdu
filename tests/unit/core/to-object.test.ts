@@ -3,7 +3,7 @@ import { fdu } from "../../../src/core/datetime";
 
 describe("toObject() method", () => {
   it("should convert date to object with all components", () => {
-    const date = fdu("2025-10-05T14:30:15.500Z");
+    const date = fdu("2025-10-05T14:30:15.500");
     const obj = date.toObject();
 
     expect(obj).toEqual({
@@ -18,7 +18,7 @@ describe("toObject() method", () => {
   });
 
   it("should handle dates with zero values", () => {
-    const date = fdu("2025-01-01T00:00:00.000Z");
+    const date = fdu("2025-01-01T00:00:00.000");
     const obj = date.toObject();
 
     expect(obj).toEqual({
@@ -33,7 +33,7 @@ describe("toObject() method", () => {
   });
 
   it("should handle dates with maximum values", () => {
-    const date = fdu("2025-12-31T23:59:59.999Z");
+    const date = fdu("2025-12-31T23:59:59.999");
     const obj = date.toObject();
 
     expect(obj).toEqual({
@@ -48,7 +48,7 @@ describe("toObject() method", () => {
   });
 
   it("should work with manipulated dates", () => {
-    const date = fdu("2025-06-15T12:00:00.000Z")
+    const date = fdu("2025-06-15T12:00:00.000")
       .add(1, "month")
       .add(10, "day")
       .add(5, "hour");
@@ -61,7 +61,7 @@ describe("toObject() method", () => {
   });
 
   it("should handle leap year dates", () => {
-    const date = fdu("2024-02-29T12:00:00.000Z");
+    const date = fdu("2024-02-29T12:00:00.000");
     const obj = date.toObject();
 
     expect(obj.years).toBe(2024);
@@ -93,7 +93,7 @@ describe("toObject() method", () => {
   });
 
   it("should have all required properties", () => {
-    const date = fdu("2025-10-05T14:30:15.500Z");
+    const date = fdu("2025-10-05T14:30:15.500");
     const obj = date.toObject();
 
     expect(obj).toHaveProperty("years");
@@ -106,7 +106,7 @@ describe("toObject() method", () => {
   });
 
   it("should return numbers for all properties", () => {
-    const date = fdu("2025-10-05T14:30:15.500Z");
+    const date = fdu("2025-10-05T14:30:15.500");
     const obj = date.toObject();
 
     expect(typeof obj.years).toBe("number");
