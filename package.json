@@ -1,6 +1,6 @@
 {
   "name": "@pyyupsk/fdu",
-  "version": "0.0.0-beta.2",
+  "version": "0.0.0-beta.3",
   "description": "Ultra-fast, zero-dependency date-time library for JavaScript & TypeScript",
   "keywords": [
     "date",
@@ -63,6 +63,8 @@
   "scripts": {
     "bench": "vitest bench --run",
     "build": "rimraf dist && tsdown",
+    "docs:dev": "bun --cwd=docs run dev",
+    "docs:build": "bun --cwd=docs run build",
     "format": "biome format --write",
     "lint": "biome check",
     "lint:fix": "biome check --fix",

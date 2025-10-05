@@ -1,0 +1,421 @@
+---
+title: Relative Time
+description: Human-readable time differences with fromNow, toNow, from, and to methods. Learn how to display timestamps like '2 hours ago' or 'in 3 days' with support for both long and short formats for building activity feeds, chat applications, and time-based features.
+---
+
+The Relative Time plugin adds methods for displaying human-readable time differences. It supports both long and short formats and can calculate relative time from now or from any specific date.
+
+## Installation
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+// Default: long format
+fdu.extend(relativeTime);
+
+// Or with options
+fdu.extend(relativeTime, { style: 'short' });
+```
+
+---
+
+## Display Styles
+
+The plugin supports two display styles:
+
+| Style | Example Output | Use Case |
+|-------|---------------|----------|
+| `long` (default) | `"2 hours ago"`, `"in 3 days"` | Full text, readable |
+| `short` | `"2h"`, `"3d"` | Compact, space-saving |
+
+### Long Format
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime, { style: 'long' });
+
+const date = fdu().subtract(2, 'hours');
+date.fromNow(); // "2 hours ago"
+```
+
+### Short Format
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime, { style: 'short' });
+
+const date = fdu().subtract(2, 'hours');
+date.fromNow(); // "2h"
+```
+
+---
+
+## Methods
+
+### fromNow()
+
+Get relative time from the current moment. Past dates show "X ago", future dates show "in X".
+
+#### Syntax
+
+```typescript
+fromNow(): string
+```
+
+#### Returns
+
+`string` - Human-readable relative time from now
+
+#### Examples
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+// Past dates
+const past = fdu().subtract(2, 'hours');
+past.fromNow(); // "2 hours ago"
+
+const yesterday = fdu().subtract(1, 'day');
+yesterday.fromNow(); // "a day ago"
+
+// Future dates
+const future = fdu().add(3, 'days');
+future.fromNow(); // "in 3 days"
+
+const nextWeek = fdu().add(1, 'week');
+nextWeek.fromNow(); // "in 7 days"
+```
+
+### toNow()
+
+Get relative time to the current moment (inverse of `fromNow`). Past dates show "in X", future dates show "X ago".
+
+#### Syntax
+
+```typescript
+toNow(): string
+```
+
+#### Returns
+
+`string` - Human-readable relative time to now
+
+#### Examples
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+// Past dates
+const past = fdu().subtract(2, 'hours');
+past.toNow(); // "in 2 hours"
+
+// Future dates
+const future = fdu().add(3, 'days');
+future.toNow(); // "3 days ago"
+```
+
+### from(date)
+
+Get relative time from a specific date.
+
+#### Syntax
+
+```typescript
+from(compared: FduInstance): string
+```
+
+#### Parameters
+
+- `compared: FduInstance` - The date to compare against
+
+#### Returns
+
+`string` - Human-readable relative time from the compared date
+
+#### Examples
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+const date1 = fdu('2025-10-01');
+const date2 = fdu('2025-10-05');
+
+date1.from(date2); // "4 days ago"
+date2.from(date1); // "in 4 days"
+```
+
+### to(date)
+
+Get relative time to a specific date (inverse of `from`).
+
+#### Syntax
+
+```typescript
+to(compared: FduInstance): string
+```
+
+#### Parameters
+
+- `compared: FduInstance` - The date to compare against
+
+#### Returns
+
+`string` - Human-readable relative time to the compared date
+
+#### Examples
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+const date1 = fdu('2025-10-01');
+const date2 = fdu('2025-10-05');
+
+date1.to(date2); // "in 4 days"
+date2.to(date1); // "4 days ago"
+```
+
+---
+
+## Time Ranges
+
+The plugin intelligently handles different time ranges:
+
+| Range | Long Format (Past) | Long Format (Future) | Short Format |
+|-------|-------------------|---------------------|--------------|
+| < 45 seconds | "a few seconds ago" | "in a few seconds" | "now" |
+| < 90 seconds | "a minute ago" | "in a minute" | "1m" |
+| < 45 minutes | "X minutes ago" | "in X minutes" | "Xm" |
+| < 90 minutes | "an hour ago" | "in an hour" | "1h" |
+| < 24 hours | "X hours ago" | "in X hours" | "Xh" |
+| < 1.5 days | "a day ago" | "in a day" | "1d" |
+| < 30 days | "X days ago" | "in X days" | "Xd" |
+| < 45 days | "a month ago" | "in a month" | "1mo" |
+| < 365 days | "X months ago" | "in X months" | "Xmo" |
+| < 1.5 years | "a year ago" | "in a year" | "1y" |
+| ≥ 1.5 years | "X years ago" | "in X years" | "Xy" |
+
+---
+
+## Complete Example
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+// Register with long format
+fdu.extend(relativeTime, { style: 'long' });
+
+const now = fdu();
+
+// Past dates
+const twoHoursAgo = now.subtract(2, 'hours');
+console.log(twoHoursAgo.fromNow()); // "2 hours ago"
+console.log(twoHoursAgo.toNow());   // "in 2 hours"
+
+// Future dates
+const threeDaysLater = now.add(3, 'days');
+console.log(threeDaysLater.fromNow()); // "in 3 days"
+console.log(threeDaysLater.toNow());   // "3 days ago"
+
+// Relative to specific dates
+const date1 = fdu('2025-10-01');
+const date2 = fdu('2025-10-05');
+console.log(date1.from(date2)); // "4 days ago"
+console.log(date1.to(date2));   // "in 4 days"
+```
+
+---
+
+## Use Cases
+
+### Activity Feeds
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+interface Activity {
+  user: string;
+  action: string;
+  timestamp: string;
+}
+
+function formatActivity(activity: Activity) {
+  const date = fdu(activity.timestamp);
+  return `${activity.user} ${activity.action} ${date.fromNow()}`;
+}
+
+const activity = {
+  user: 'John',
+  action: 'commented',
+  timestamp: '2025-10-05T10:00:00'
+};
+
+console.log(formatActivity(activity));
+// "John commented 2 hours ago"
+```
+
+### Chat Applications
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime, { style: 'short' });
+
+interface Message {
+  text: string;
+  timestamp: Date;
+}
+
+function formatMessage(message: Message) {
+  const date = fdu(message.timestamp);
+  return {
+    text: message.text,
+    time: date.fromNow()
+  };
+}
+
+const message = {
+  text: 'Hello!',
+  timestamp: new Date('2025-10-05T11:45:00')
+};
+
+const formatted = formatMessage(message);
+console.log(`${formatted.text} • ${formatted.time}`);
+// "Hello! • 15m"
+```
+
+### Event Countdowns
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+function getEventCountdown(eventDate: string) {
+  const event = fdu(eventDate);
+  const now = fdu();
+
+  if (event.isBefore(now)) {
+    return `Event ended ${event.fromNow()}`;
+  }
+
+  return `Event starts ${event.fromNow()}`;
+}
+
+console.log(getEventCountdown('2025-10-10'));
+// "Event starts in 5 days"
+
+console.log(getEventCountdown('2025-10-01'));
+// "Event ended 4 days ago"
+```
+
+### Time-based Notifications
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+fdu.extend(relativeTime);
+
+function getNotificationText(notification: { read: boolean; timestamp: string }) {
+  const date = fdu(notification.timestamp);
+  const status = notification.read ? 'Read' : 'Unread';
+  return `${status} • ${date.fromNow()}`;
+}
+
+const notification = {
+  read: false,
+  timestamp: '2025-10-05T08:00:00'
+};
+
+console.log(getNotificationText(notification));
+// "Unread • 4 hours ago"
+```
+
+---
+
+## Options
+
+### RelativeTimeOptions
+
+```typescript
+interface RelativeTimeOptions {
+  /**
+   * Display style
+   * - 'long': "2 hours ago"
+   * - 'short': "2h"
+   * @default 'long'
+   */
+  style?: 'long' | 'short';
+
+  /**
+   * Locale for relative time strings
+   * @default 'en'
+   */
+  locale?: string;
+}
+```
+
+#### Examples
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+// Long format (default)
+fdu.extend(relativeTime);
+const date1 = fdu().subtract(1, 'hour');
+date1.fromNow(); // "an hour ago"
+
+// Short format
+fdu.extend(relativeTime, { style: 'short' });
+const date2 = fdu().subtract(1, 'hour');
+date2.fromNow(); // "1h"
+```
+
+---
+
+## API Reference
+
+All methods are added to the `FduInstance` interface and are available after registering the plugin:
+
+| Method | Parameters | Return Type | Description |
+|--------|------------|-------------|-------------|
+| `fromNow()` | - | `string` | Time from current moment |
+| `toNow()` | - | `string` | Time to current moment (inverse of fromNow) |
+| `from(date)` | `FduInstance` | `string` | Time from a specific date |
+| `to(date)` | `FduInstance` | `string` | Time to a specific date (inverse of from) |
+
+<Callout type="warn">
+Plugin methods are only available after the plugin has been registered with `fdu.extend()`. Attempting to use them before registration will result in an error.
+</Callout>
+
+---
+
+## See Also
+
+- [Plugin System](/docs/plugins) - Learn about the plugin architecture
+- [Advanced Format Plugin](/docs/plugins/advanced-format) - Additional date utilities
+- [Comparison Methods](/docs/api/comparison) - Date comparison methods

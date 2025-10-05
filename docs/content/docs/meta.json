@@ -1,4 +1,4 @@
 {
   "title": "Documentation",
-  "pages": ["index", "format-tokens", "i18n", "api"]
+  "pages": ["index", "format-tokens", "i18n", "plugins", "api"]
 }

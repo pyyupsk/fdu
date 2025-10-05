@@ -1,0 +1,283 @@
+---
+title: Plugin System
+description: Extend @pyyupsk/fdu with custom functionality using the plugin system. Learn how to use built-in plugins for advanced formatting and relative time, or create your own custom plugins with full TypeScript support for building powerful date manipulation features.
+---
+
+`@pyyupsk/fdu` provides a powerful plugin system that allows you to extend the core functionality with additional features. Plugins can add new methods, modify behavior, and integrate seamlessly with TypeScript for full type safety.
+
+## Quick Start
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+
+// Register the plugin
+fdu.extend(advancedFormat);
+
+// Use the plugin methods
+const date = fdu('2025-10-05');
+console.log(date.quarter()); // 4
+```
+
+---
+
+## Available Plugins
+
+`@pyyupsk/fdu` includes two built-in plugins:
+
+| Plugin | Description | Import Path |
+|--------|-------------|-------------|
+| Advanced Format | Additional date utilities (quarters, week numbers, day of year) | `@pyyupsk/fdu/plugins/advanced-format` |
+| Relative Time | Human-readable time differences | `@pyyupsk/fdu/plugins/relative-time` |
+
+For a complete list of all available plugins, see the [plugins directory on GitHub](https://github.com/pyyupsk/fdu/tree/main/src/plugins).
+
+---
+
+## Using Plugins
+
+### Basic Usage
+
+To use a plugin, import it and register it with the `extend()` method:
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+
+// Register the plugin
+fdu.extend(advancedFormat);
+
+// Now you can use the plugin methods
+const date = fdu('2025-10-05');
+console.log(date.dayOfYear()); // 278
+console.log(date.quarter());   // 4
+```
+
+### Plugin Options
+
+Some plugins accept configuration options:
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+// Register with options
+fdu.extend(relativeTime, { style: 'short' });
+
+const date = fdu().subtract(2, 'hours');
+console.log(date.fromNow()); // "2h"
+```
+
+### Multiple Plugins
+
+You can register multiple plugins to combine their functionality:
+
+```typescript
+import { fdu } from '@pyyupsk/fdu';
+import { advancedFormat } from '@pyyupsk/fdu/plugins/advanced-format';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+
+// Register multiple plugins
+fdu.extend(advancedFormat);
+fdu.extend(relativeTime);
+
+const date = fdu('2025-10-05');
+
+// Use methods from both plugins
+console.log(date.quarter());  // 4
+console.log(date.fromNow());  // "4 days ago"
+```
+
+---
+
+## Creating Custom Plugins
+
+You can create your own plugins to extend `@pyyupsk/fdu` with custom functionality.
+
+### Plugin Structure
+
+```typescript
+import type { Plugin, PluginAPI, FduInstance } from '@pyyupsk/fdu';
+
+export const myPlugin: Plugin = {
+  name: 'my-plugin',
+  version: '1.0.0',
+  install(api: PluginAPI) {
+    // Add custom methods here
+    api.extendPrototype('myMethod', function(this: FduInstance) {
+      return this.format('YYYY-MM-DD');
+    });
+  }
+};
+```
+
+### Adding TypeScript Types
+
+For full type safety, add TypeScript declaration merging:
+
+```typescript
+declare module '@pyyupsk/fdu' {
+  interface FduInstance {
+    myMethod?(): string;
+  }
+}
+```
+
+### Complete Example
+
+```typescript
+import type { Plugin, PluginAPI, FduInstance } from '@pyyupsk/fdu';
+
+// Define the plugin
+export const customPlugin: Plugin = {
+  name: 'custom-plugin',
+  version: '1.0.0',
+  install(api: PluginAPI) {
+    // Add a method to get the day name
+    api.extendPrototype('dayName', function(this: FduInstance) {
+      return this.format('dddd');
+    });
+
+    // Add a method to check if it's a weekend
+    api.extendPrototype('isWeekend', function(this: FduInstance) {
+      const day = this.day();
+      return day === 0 || day === 6;
+    });
+  }
+};
+
+// Add TypeScript types
+declare module '@pyyupsk/fdu' {
+  interface FduInstance {
+    dayName?(): string;
+    isWeekend?(): boolean;
+  }
+}
+
+// Use the plugin
+import { fdu } from '@pyyupsk/fdu';
+
+fdu.extend(customPlugin);
+
+const date = fdu('2025-10-05');
+console.log(date.dayName());   // "Sunday"
+console.log(date.isWeekend()); // true
+```
+
+---
+
+## Plugin Architecture
+
+Understanding how plugins work can help you create more powerful extensions:
+
+### Plugin API
+
+The `PluginAPI` provides methods to extend `@pyyupsk/fdu`:
+
+```typescript
+interface PluginAPI {
+  // Extend FduInstance prototype with new methods
+  extendPrototype(name: string, method: Function): void;
+
+  // Create new date instances
+  createInstance(input?: FduInput): FduInstance;
+}
+```
+
+### Plugin Definition
+
+Each plugin must follow this structure:
+
+```typescript
+interface Plugin<Options = unknown> {
+  name: string;        // Unique plugin identifier
+  version: string;     // Semantic version
+  install(api: PluginAPI, options?: Options): void;
+}
+```
+
+### Installation Process
+
+1. Call `fdu.extend(plugin, options)`
+2. Plugin's `install` method is invoked
+3. Plugin receives `PluginAPI` and optional `options`
+4. Plugin extends functionality using the API
+5. TypeScript types are merged for type safety
+
+---
+
+## Best Practices
+
+### Use Optional Chaining
+
+Plugin methods might not be available if the plugin isn't loaded:
+
+```typescript
+// ✅ Good - use optional chaining
+const quarter = date.quarter?.() ?? 1;
+
+// ❌ Avoid - will error if plugin not loaded
+const quarter = date.quarter();
+```
+
+### Keep Plugins Focused
+
+Each plugin should have a single, clear responsibility:
+
+```typescript
+// ✅ Good - focused on one feature
+export const quarterPlugin: Plugin = {
+  name: 'quarter',
+  version: '1.0.0',
+  install(api: PluginAPI) {
+    api.extendPrototype('quarter', function(this: FduInstance) {
+      return Math.floor(this.month() / 3) + 1;
+    });
+  }
+};
+
+// ❌ Avoid - too many unrelated features
+export const everythingPlugin: Plugin = {
+  // Don't mix unrelated functionality
+};
+```
+
+### Provide Clear Documentation
+
+Document your plugin's API and provide usage examples:
+
+```typescript
+/**
+ * Quarter Plugin
+ *
+ * Adds quarter() method to get the quarter of the year (1-4)
+ *
+ * @example
+ * ```ts
+ * import { fdu } from '@pyyupsk/fdu';
+ * import { quarterPlugin } from './quarter-plugin';
+ *
+ * fdu.extend(quarterPlugin);
+ *
+ * const date = fdu('2025-10-05');
+ * console.log(date.quarter()); // 4
+ * ```
+ */
+export const quarterPlugin: Plugin = {
+  // ...
+};
+```
+
+### Follow Semantic Versioning
+
+Use semantic versioning for your plugin versions:
+
+- **Patch** (1.0.1): Bug fixes
+- **Minor** (1.1.0): New features (backwards compatible)
+- **Major** (2.0.0): Breaking changes
+
+---
+
+## See Also
+
+- [API Reference](/docs/api) - Core API documentation
