@@ -263,7 +263,7 @@ function getTimeFormat(
  */
 export const relativeTime: Plugin<RelativeTimeOptions> = {
   name: "relative-time",
-  version: "1.1.0",
+  version: "1.0.0",
   install(api: PluginAPI, options?: RelativeTimeOptions) {
     const style = options?.style ?? "long";
 

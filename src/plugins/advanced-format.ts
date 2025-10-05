@@ -42,7 +42,7 @@ import type { FduInstance, Plugin, PluginAPI } from "../core/types";
  */
 export const advancedFormat: Plugin = {
   name: "advanced-format",
-  version: "1.1.0",
+  version: "1.0.0",
   install(api: PluginAPI) {
     // === Day Methods ===
 

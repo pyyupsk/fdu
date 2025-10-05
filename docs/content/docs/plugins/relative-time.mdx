@@ -373,10 +373,15 @@ interface RelativeTimeOptions {
   /**
    * Locale for relative time strings
    * @default 'en'
+   * @deprecated Not yet implemented. Only English ('en') is currently supported.
    */
   locale?: string;
 }
 ```
+
+<Callout type="warn">
+**Locale Support**: The `locale` option is not yet implemented. All output is currently in English regardless of the `locale` setting. Internationalization support is planned for a future release.
+</Callout>
 
 #### Examples
 
