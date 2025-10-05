@@ -1,4 +1,4 @@
 {
   "title": "Manipulation",
-  "pages": ["add", "subtract"]
+  "pages": ["add", "subtract", "day", "weekday"]
 }

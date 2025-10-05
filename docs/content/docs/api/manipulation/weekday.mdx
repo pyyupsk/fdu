@@ -1,0 +1,201 @@
+---
+title: weekday()
+description: Set locale-aware day of the week with the weekday() method. Learn how to manipulate dates using locale-specific week starts (Sunday vs Monday), handle different cultural week conventions, and implement international scheduling patterns with proper locale support.
+---
+
+Sets the locale-aware day of the week based on the current locale's week start. Returns a new instance (immutable).
+
+## Syntax
+
+```typescript
+.weekday(value: number): FduInstance
+```
+
+## Parameters
+
+- `value: number` - Locale-aware day of week (0-6, where 0 = first day of week in locale)
+
+## Returns
+
+`FduInstance` - New instance with the updated weekday
+
+## How It Works
+
+Unlike `day()` which always uses Sunday as day 0, `weekday()` respects the locale's `weekStart` setting:
+
+- **English (weekStart: 0)**: 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+- **Custom locale (weekStart: 1)**: 0 = Monday, 1 = Tuesday, ..., 6 = Sunday
+
+## Examples
+
+### English Locale (Sunday start)
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-10-06").locale("en"); // Monday
+
+date.weekday(0); // Sunday (2025-10-05)
+date.weekday(1); // Monday (2025-10-06)
+date.weekday(5); // Friday (2025-10-10)
+date.weekday(6); // Saturday (2025-10-11)
+```
+
+### Monday-start Locale
+
+```typescript
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+
+// Register custom locale with Monday as first day
+registerLocale("custom", {
+  name: "custom",
+  weekStart: 1, // Monday
+  // ... other locale properties
+});
+
+const date = fdu("2025-10-05").locale("custom"); // Sunday
+
+date.weekday(0); // Monday (2025-10-06)
+date.weekday(4); // Friday (2025-10-10)
+date.weekday(6); // Sunday (2025-10-05)
+```
+
+### Comparison: day() vs weekday()
+
+```typescript
+const date = fdu("2025-10-06").locale("en"); // Monday
+
+// Using day() - always Sunday-based
+date.day(0); // Sunday: 2025-10-05
+date.day(1); // Monday: 2025-10-06
+
+// Using weekday() - locale-aware (English = Sunday start)
+date.weekday(0); // Sunday (first day): 2025-10-05
+date.weekday(1); // Monday (second day): 2025-10-06
+```
+
+With Monday-start locale:
+
+```typescript
+const date = fdu("2025-10-06").locale("custom"); // Monday
+
+// Using day() - still Sunday-based
+date.day(0); // Sunday: 2025-10-05
+date.day(1); // Monday: 2025-10-06
+
+// Using weekday() - respects Monday start
+date.weekday(0); // Monday (first day): 2025-10-06
+date.weekday(6); // Sunday (last day): 2025-10-05
+```
+
+### Preserving Time
+
+```typescript
+const date = fdu("2025-10-06T14:30:45").locale("en"); // Monday 2:30 PM
+
+const firstDayOfWeek = date.weekday(0);
+firstDayOfWeek.format("YYYY-MM-DD HH:mm:ss"); // '2025-10-05 14:30:45'
+```
+
+## Weekday Values (Locale-dependent)
+
+### English Locale (weekStart: 0)
+
+| Value | Day       | Note      |
+| ----- | --------- | --------- |
+| 0     | Sunday    | First day |
+| 1     | Monday    |           |
+| 2     | Tuesday   |           |
+| 3     | Wednesday |           |
+| 4     | Thursday  |           |
+| 5     | Friday    |           |
+| 6     | Saturday  | Last day  |
+
+### Monday-start Locale (weekStart: 1)
+
+| Value | Day       | Note      |
+| ----- | --------- | --------- |
+| 0     | Monday    | First day |
+| 1     | Tuesday   |           |
+| 2     | Wednesday |           |
+| 3     | Thursday  |           |
+| 4     | Friday    |           |
+| 5     | Saturday  |           |
+| 6     | Sunday    | Last day  |
+
+## Immutability
+
+`.weekday()` returns a new instance and never modifies the original:
+
+```typescript
+const original = fdu("2025-10-06").locale("en"); // Monday
+const modified = original.weekday(0); // Sunday
+
+original.format("dddd"); // 'Monday' (unchanged)
+modified.format("dddd"); // 'Sunday'
+```
+
+## Common Patterns
+
+### Get first/last day of locale week
+
+```typescript
+const date = fdu("2025-10-08").locale("en"); // Wednesday
+
+const firstDay = date.weekday(0); // Sunday (2025-10-05)
+const lastDay = date.weekday(6); // Saturday (2025-10-11)
+
+console.log(`Week: ${firstDay.format("MMM D")} - ${lastDay.format("MMM D")}`);
+```
+
+### Locale-aware work week
+
+```typescript
+// For English locale (Sunday start), work week is days 1-5
+const date = fdu().locale("en");
+const workWeekStart = date.weekday(1); // Monday
+const workWeekEnd = date.weekday(5); // Friday
+
+// For Monday-start locale, work week is days 0-4
+const dateCustom = fdu().locale("custom");
+const workStart = dateCustom.weekday(0); // Monday
+const workEnd = dateCustom.weekday(4); // Friday
+```
+
+### International scheduling
+
+```typescript
+function scheduleWeeklyMeeting(
+  locale: string,
+  meetingDay: number,
+): FduInstance {
+  return fdu().locale(locale).weekday(meetingDay);
+}
+
+// US team: Wednesday (day 3 in Sunday-start week)
+const usWeekly = scheduleWeeklyMeeting("en", 3);
+
+// EU team: Wednesday (day 2 in Monday-start week)
+const euWeekly = scheduleWeeklyMeeting("custom", 2);
+```
+
+### Find next locale-specific weekday
+
+```typescript
+function nextWeekday(date: FduInstance, targetDay: number): FduInstance {
+  const result = date.weekday(targetDay);
+  return result.isBefore(date) || result.isSame(date, "day")
+    ? result.add(7, "day")
+    : result;
+}
+
+const date = fdu("2025-10-06").locale("en"); // Monday
+const nextFirstDay = nextWeekday(date, 0); // Next Sunday
+```
+
+## See Also
+
+- [weekday() getter](/docs/api/get#weekday) - Get locale-aware day of week
+- [day()](/docs/api/manipulation/day) - Set standard day of week
+- [locale()](/docs/api/locale/instance) - Set instance locale
+- [Internationalization Guide](/docs/guides/i18n) - Learn about locale support

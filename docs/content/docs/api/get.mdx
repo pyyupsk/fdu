@@ -71,13 +71,19 @@ date2.date(); // 1
 
 ## day()
 
-Gets the day of the week (0-6, where 0 = Sunday).
+Gets or sets the day of the week (0-6, where 0 = Sunday).
 
 ```typescript
 .day(): number
+.day(value: number): FduInstance
 ```
 
-### Example
+<Callout type="info">
+  The `day()` method can also be used as a setter. See [day()
+  setter](/docs/api/manipulation/day) for manipulation examples.
+</Callout>
+
+### Example (Getter)
 
 ```typescript
 const date = fdu("2024-01-15"); // Monday
@@ -101,6 +107,50 @@ saturday.day(); // 6
 | 4     | Thursday  |
 | 5     | Friday    |
 | 6     | Saturday  |
+
+---
+
+## weekday()
+
+Gets or sets the locale-aware day of the week (0-6, where 0 = first day of week in current locale).
+
+```typescript
+.weekday(): number
+.weekday(value: number): FduInstance
+```
+
+<Callout type="info">
+  Unlike `day()`, `weekday()` respects the locale's week start setting. The
+  `weekday()` method can also be used as a setter. See [weekday()
+  setter](/docs/api/manipulation/weekday) for manipulation examples.
+</Callout>
+
+### Example (Getter)
+
+```typescript
+const date = fdu("2025-10-05").locale("en"); // Sunday
+
+// English locale has weekStart: 0 (Sunday)
+date.weekday(); // 0 (Sunday is first day of week)
+
+const monday = fdu("2025-10-06").locale("en"); // Monday
+monday.weekday(); // 1 (Monday is second day of week)
+```
+
+### Locale Comparison
+
+```typescript
+// English locale (weekStart: 0 - Sunday)
+const dateEn = fdu("2025-10-05").locale("en"); // Sunday
+dateEn.day(); // 0 (Sunday)
+dateEn.weekday(); // 0 (first day of week)
+
+// Custom locale with Monday start (weekStart: 1)
+registerLocale("custom", { ...en, weekStart: 1 });
+const dateCustom = fdu("2025-10-05").locale("custom"); // Sunday
+dateCustom.day(); // 0 (Sunday)
+dateCustom.weekday(); // 6 (last day of week in Monday-start locale)
+```
 
 ---
 
