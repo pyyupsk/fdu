@@ -5,7 +5,13 @@ import { subtract as subtractFromDate } from "../manipulate/subtract";
 import { parseInput } from "../parse/parser";
 import { normalizeUnit } from "../utils/units";
 import { PluginRegistry } from "./plugin-registry";
-import type { FduInput, FduInstance, Plugin, UnitType } from "./types";
+import type {
+  DateObject,
+  FduInput,
+  FduInstance,
+  Plugin,
+  UnitType,
+} from "./types";
 
 /**
  * Creates a date-time instance from various input types.
@@ -145,6 +151,18 @@ class DateTimeImpl {
 
   toISOString(): string {
     return this._date.toISOString();
+  }
+
+  toObject(): DateObject {
+    return {
+      years: this._date.getFullYear(),
+      months: this._date.getMonth(),
+      date: this._date.getDate(),
+      hours: this._date.getHours(),
+      minutes: this._date.getMinutes(),
+      seconds: this._date.getSeconds(),
+      milliseconds: this._date.getMilliseconds(),
+    };
   }
 
   valueOf(): number {

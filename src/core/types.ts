@@ -1,4 +1,38 @@
 /**
+ * Object representation of a date with all its components.
+ *
+ * @example
+ * ```ts
+ * const obj = fdu('2025-10-05T14:30:15.500Z').toObject();
+ * // {
+ * //   years: 2025,
+ * //   months: 9,      // 0-indexed
+ * //   date: 5,
+ * //   hours: 14,
+ * //   minutes: 30,
+ * //   seconds: 15,
+ * //   milliseconds: 500
+ * // }
+ * ```
+ */
+export interface DateObject {
+  /** Four-digit year */
+  years: number;
+  /** Month (0-11, where 0 = January) */
+  months: number;
+  /** Day of month (1-31) */
+  date: number;
+  /** Hour (0-23) */
+  hours: number;
+  /** Minute (0-59) */
+  minutes: number;
+  /** Second (0-59) */
+  seconds: number;
+  /** Millisecond (0-999) */
+  milliseconds: number;
+}
+
+/**
  * The main date-time instance interface with all available methods.
  */
 export interface FduInstance {
@@ -111,6 +145,9 @@ export interface FduInstance {
 
   /** Converts to ISO 8601 string format */
   toISOString(): string;
+
+  /** Converts to an object with date components */
+  toObject(): DateObject;
 
   /** Gets the Unix timestamp in milliseconds */
   valueOf(): number;
