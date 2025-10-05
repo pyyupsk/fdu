@@ -1,8 +1,8 @@
 export const features = [
   {
     title: "Fast Performance",
-    description: "2× faster than Day.js with optimized native Date algorithms.",
-    metric: "2×",
+    description: "4× faster than Day.js with optimized native Date algorithms.",
+    metric: "4×",
   },
   {
     title: "Zero Dependencies",

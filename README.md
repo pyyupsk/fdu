@@ -1,6 +1,6 @@
 # @pyyupsk/fdu
 
-> ⚡ Ultra-fast, zero-dependency date-time library for JavaScript & TypeScript — 2× faster than Day.js.
+> ⚡ Ultra-fast, zero-dependency date-time library for JavaScript & TypeScript — 4× faster than Day.js.
 
 [![npm version](https://img.shields.io/npm/v/@pyyupsk/fdu.svg?color=blue)](https://www.npmjs.com/package/@pyyupsk/fdu)
 [![build](https://github.com/pyyupsk/fdu/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/pyyupsk/fdu/actions/workflows/test.yml)
@@ -11,7 +11,7 @@
 
 - 🧭 **Immutability** – every operation returns a new instance
 - ⚙️ **Zero Dependencies** – pure JavaScript + TypeScript
-- ⚡ **Performance** – ~2× faster than Day.js
+- ⚡ **Performance** – ~4× faster than Day.js
 - 🧩 **Tree-shakeable** – modular ESM design
 
 ### 🚀 Quick Start
@@ -43,20 +43,20 @@ date.locale("es").format("LLLL");
 
 ### ⚡ Performance
 
-Benchmarked with **Vitest 3.2.4** on Node 22 / Bun 1.2.
+Benchmarked with **Vitest 3.2.4** on **Node 22.19.0** / **Bun 1.2.22** (WSL2, Linux 6.6.87, x86_64).
 
-| Benchmark                           | fdu         | Day.js      | Speedup         |
-| ----------------------------------- | ----------- | ----------- | --------------- |
-| Date creation (timestamp)           | 5.6M ops/s  | 3.1M ops/s  | **1.8× faster** |
-| Formatting (`YYYY-MM-DD`)           | 1.53M ops/s | 0.68M ops/s | **2.2× faster** |
-| Complex formatting                  | 0.64M ops/s | 0.38M ops/s | **1.7× faster** |
-| Add/Subtract operations             | 3.4M ops/s  | 0.95M ops/s | **~4× faster**  |
-| Chained operations                  | 1.31M ops/s | 0.23M ops/s | **5.7× faster** |
-| Comparisons (`isBefore`, `isAfter`) | 19.1M ops/s | 1.6M ops/s  | **12× faster**  |
-| Real-world workflow                 | 612K ops/s  | 127K ops/s  | **4.8× faster** |
-| Locale formatting                   | 0.9M ops/s  | 0.4M ops/s  | **2–3× faster** |
+| Benchmark                           | fdu         | Day.js     | Speedup          |
+| ----------------------------------- | ----------- | ---------- | ---------------- |
+| Date creation (timestamp)           | 6.0M ops/s  | 3.2M ops/s | **1.9× faster**  |
+| Formatting (`YYYY-MM-DD`)           | 1.3M ops/s  | 0.7M ops/s | **1.9× faster**  |
+| Complex formatting                  | 0.5M ops/s  | 0.4M ops/s | **1.2× faster**  |
+| Add/Subtract operations             | 3.8M ops/s  | 0.9M ops/s | **4.1× faster**  |
+| Chained operations                  | 1.4M ops/s  | 0.2M ops/s | **5.8× faster**  |
+| Comparisons (`isBefore`, `isAfter`) | 20.0M ops/s | 1.6M ops/s | **12.5× faster** |
+| Real-world workflow                 | 0.5M ops/s  | 0.1M ops/s | **4.4× faster**  |
+| Locale formatting                   | 0.9M ops/s  | 0.4M ops/s | **2.3× faster**  |
 
-> 🧪 **Summary:** `fdu` consistently outperforms Day.js across creation, formatting, manipulation, and locale operations — typically **2× to 5× faster**, and up to **10× faster** in certain chained or localized cases.
+> 🧪 **Summary:** `fdu` is **~4× faster** than Day.js on average, with particularly strong performance in comparisons (12×), chained operations (6×), and date manipulation (4×).
 
 ### 📚 Documentation
 

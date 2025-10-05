@@ -29,7 +29,7 @@ export default function HomePage() {
               Ultra-fast date-time library
             </h1>
             <p className="text-xl md:text-2xl text-fd-muted-foreground text-pretty">
-              Zero dependencies. 2× faster than Day.js. TypeScript-first.
+              Zero dependencies. 4× faster than Day.js. TypeScript-first.
               Immutable API with comprehensive i18n support.
             </p>
           </div>
