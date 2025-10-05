@@ -79,6 +79,23 @@ export interface FduInstance {
   /** Gets the day of the week (0-6, where 0 = Sunday) */
   day(): number;
 
+  /**
+   * Sets the day of the week.
+   * @param value - Day of week (0-6, where 0 = Sunday)
+   * @returns New FduInstance with the updated day
+   */
+  day(value: number): FduInstance;
+
+  /** Gets the locale-aware day of the week (0-6, where 0 = first day of week in locale) */
+  weekday(): number;
+
+  /**
+   * Sets the locale-aware day of the week.
+   * @param value - Day of week (0-6, where 0 = first day of week in locale)
+   * @returns New FduInstance with the updated day
+   */
+  weekday(value: number): FduInstance;
+
   /** Gets the current locale name */
   locale(): string;
 

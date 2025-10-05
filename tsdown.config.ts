@@ -1,3 +1,6 @@
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { globSync } from "glob";
 import { defineConfig } from "tsdown";
 
 export default defineConfig([
@@ -7,6 +10,36 @@ export default defineConfig([
     format: ["esm", "cjs"],
     platform: "neutral",
     minify: true,
+    hooks(hooks) {
+      hooks.hook("build:done", async () => {
+        // Inject package version into built files
+        const packageJson = JSON.parse(
+          readFileSync(join(process.cwd(), "package.json"), "utf-8"),
+        );
+        const version = packageJson.version;
+
+        console.log(`\nInjecting version: ${version}`);
+
+        const files = globSync("dist/**/*.{js,cjs,mjs}", {
+          ignore: ["**/node_modules/**"],
+        });
+
+        let filesUpdated = 0;
+
+        for (const file of files) {
+          const content = readFileSync(file, "utf-8");
+
+          if (content.includes("__VERSION__")) {
+            const updated = content.replace(/__VERSION__/g, version);
+            writeFileSync(file, updated, "utf-8");
+            filesUpdated++;
+            console.log(`  ✓ ${file}`);
+          }
+        }
+
+        console.log(`\nUpdated ${filesUpdated} file(s)`);
+      });
+    },
   },
 
   // Types entry - TypeScript types only

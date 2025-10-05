@@ -4,9 +4,6 @@
  * @internal
  */
 
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import type { FduInstance, Plugin, PluginAPI } from "./types";
 
 /**
@@ -14,28 +11,6 @@ import type { FduInstance, Plugin, PluginAPI } from "./types";
  */
 // biome-ignore lint/suspicious/noExplicitAny: fduFunction needs to accept any input type
 let fduFunction: ((input?: any) => FduInstance) | null = null;
-
-/**
- * Cached package version
- */
-const packageVersion: string | null = null;
-
-function getPackageVersion(): string {
-  if (packageVersion) {
-    return packageVersion;
-  }
-
-  try {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-    const packageJsonPath = join(__dirname, "../../package.json");
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
-    return packageJson.version as string;
-  } catch {
-    // Fallback if reading fails (e.g., in bundled code)
-    return "0.0.0";
-  }
-}
 
 /**
  * Error thrown when a plugin is missing the required install method
@@ -120,6 +95,7 @@ export class PluginRegistry {
       "second",
       "millisecond",
       "day",
+      "weekday",
       "locale",
       "toDate",
       "toISOString",
@@ -237,7 +213,7 @@ export class PluginRegistry {
       },
 
       get version(): string {
-        return getPackageVersion();
+        return "__VERSION__";
       },
     };
   }

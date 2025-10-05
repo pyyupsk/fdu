@@ -107,8 +107,36 @@ class DateTimeImpl {
     return this._date.getMilliseconds();
   }
 
-  day(): number {
-    return this._date.getDay();
+  day(): number;
+  day(value: number): FduInstance;
+  day(value?: number): number | FduInstance {
+    if (value === undefined) {
+      return this._date.getDay();
+    }
+    const currentDay = this._date.getDay();
+    const diff = value - currentDay;
+    const newDate = new Date(this._date.getTime());
+    newDate.setDate(newDate.getDate() + diff);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
+  }
+
+  weekday(): number;
+  weekday(value: number): FduInstance;
+  weekday(value?: number): number | FduInstance {
+    const localeConfig = resolveLocale(this._locale);
+    const weekStart = localeConfig.weekStart ?? 0;
+
+    if (value === undefined) {
+      const day = this._date.getDay();
+      return (day - weekStart + 7) % 7;
+    }
+
+    const targetDay = (value + weekStart) % 7;
+    const currentDay = this._date.getDay();
+    const diff = targetDay - currentDay;
+    const newDate = new Date(this._date.getTime());
+    newDate.setDate(newDate.getDate() + diff);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
   toDate(): Date {
