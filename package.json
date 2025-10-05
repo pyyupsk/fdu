@@ -45,6 +45,11 @@
       "types": "./dist/locale/*.d.ts",
       "import": "./dist/locale/*.js",
       "require": "./dist/locale/*.cjs"
+    },
+    "./plugins/*": {
+      "types": "./dist/plugins/*.d.ts",
+      "import": "./dist/plugins/*.js",
+      "require": "./dist/plugins/*.cjs"
     }
   },
   "sideEffects": false,

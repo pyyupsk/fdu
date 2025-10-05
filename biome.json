@@ -26,7 +26,7 @@
           "level": "error",
           "fix": "safe",
           "options": {
-            "style": "type"
+            "style": "interface"
           }
         }
       }

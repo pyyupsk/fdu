@@ -4,7 +4,8 @@ import { add as addToDate } from "../manipulate/add";
 import { subtract as subtractFromDate } from "../manipulate/subtract";
 import { parseInput } from "../parse/parser";
 import { normalizeUnit } from "../utils/units";
-import type { FduInput, FduInstance, UnitType } from "./types";
+import { PluginRegistry } from "./plugin-registry";
+import type { FduInput, FduInstance, Plugin, UnitType } from "./types";
 
 /**
  * Creates a date-time instance from various input types.
@@ -35,7 +36,34 @@ export function fdu(input?: FduInput): FduInstance {
   return new DateTimeImpl(date, getGlobalLocale());
 }
 
-class DateTimeImpl implements FduInstance {
+/**
+ * Register a plugin to extend FdInstance functionality
+ *
+ * @param plugin - Plugin object with install method
+ * @param options - Optional plugin configuration
+ *
+ * @example
+ * ```ts
+ * import { fdu, type Plugin } from '@pyyupsk/fdu';
+ *
+ * const myPlugin: Plugin = {
+ *   name: 'my-plugin',
+ *   install(api) {
+ *     api.extendPrototype('myMethod', function() {
+ *       return this.format('YYYY-MM-DD');
+ *     });
+ *   }
+ * };
+ *
+ * fdu.extend(myPlugin);
+ * ```
+ */
+fdu.extend = <T>(plugin: Plugin<T>, options?: T): void => {
+  const registry = PluginRegistry.getInstance();
+  registry.register(plugin, options);
+};
+
+class DateTimeImpl {
   private readonly _date: Date;
   private readonly _isValid: boolean;
   private readonly _locale: string | undefined;
@@ -204,5 +232,14 @@ class DateTimeImpl implements FduInstance {
       default:
         return diff;
     }
+  }
+
+  /**
+   * Get the internal Date object (for plugin use)
+   *
+   * @internal
+   */
+  getInternalDate(): Date {
+    return this._date;
   }
 }

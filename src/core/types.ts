@@ -1,7 +1,7 @@
 /**
  * The main date-time instance interface with all available methods.
  */
-export type FduInstance = {
+export interface FduInstance {
   /**
    * Formats the date according to the specified pattern.
    * @param pattern - Format string (e.g., 'YYYY-MM-DD HH:mm:ss')
@@ -100,12 +100,188 @@ export type FduInstance = {
 
   /** Checks if the date is valid */
   isValid(): boolean;
-};
+
+  /**
+   * Get the internal Date object (for plugin use)
+   *
+   * @internal
+   */
+  getInternalDate(): Date;
+}
+
+/**
+ * Object-based date input for improved readability and type safety.
+ *
+ * @example
+ * ```ts
+ * import { fdu } from '@pyyupsk/fdu';
+ *
+ * // Minimal (year only, defaults applied)
+ * const date1 = fdu({ year: 2025 }); // Jan 1, 2025 00:00:00
+ *
+ * // Full date-time
+ * const date2 = fdu({
+ *   year: 2025,
+ *   month: 9,    // October (0-indexed: 0=Jan, 11=Dec)
+ *   day: 30,
+ *   hour: 14,
+ *   minute: 30,
+ *   second: 15
+ * });
+ * ```
+ */
+export interface ObjectInput {
+  /** Four-digit year (required) */
+  year: number;
+
+  /**
+   * Month (0-11, where 0 = January, 11 = December)
+   * @default 0 (January)
+   */
+  month?: number;
+
+  /**
+   * Day of month (1-31)
+   * @default 1
+   */
+  day?: number;
+
+  /**
+   * Hour (0-23)
+   * @default 0
+   */
+  hour?: number;
+
+  /**
+   * Minute (0-59)
+   * @default 0
+   */
+  minute?: number;
+
+  /**
+   * Second (0-59)
+   * @default 0
+   */
+  second?: number;
+
+  /**
+   * Millisecond (0-999)
+   * @default 0
+   */
+  millisecond?: number;
+}
+
+/**
+ * Plugin interface for extending FdInstance functionality.
+ *
+ * @template T - Plugin options type
+ *
+ * @example
+ * ```ts
+ * import { fdu, type Plugin, type PluginAPI } from '@pyyupsk/fdu';
+ *
+ * const myPlugin: Plugin = {
+ *   name: 'my-plugin',
+ *   version: '1.0.0',
+ *   install(api: PluginAPI) {
+ *     api.extendPrototype('myMethod', function() {
+ *       return this.format('YYYY-MM-DD');
+ *     });
+ *   }
+ * };
+ *
+ * fdu.extend(myPlugin);
+ * ```
+ */
+export interface Plugin<T = unknown> {
+  /**
+   * Optional plugin name (used for deduplication and debugging)
+   */
+  name?: string;
+
+  /**
+   * Plugin installation callback
+   * Called when plugin is registered via fdu.extend()
+   *
+   * @param api - PluginAPI interface for safe prototype extension
+   * @param options - Optional plugin configuration
+   */
+  install(api: PluginAPI, options?: T): void;
+
+  /**
+   * Optional plugin version (semantic versioning recommended)
+   */
+  version?: string;
+}
+
+/**
+ * Plugin API interface passed to plugins during installation.
+ * Provides safe access to FdInstance prototype and core functionality.
+ *
+ * @example
+ * ```ts
+ * const plugin: Plugin = {
+ *   install(api: PluginAPI) {
+ *     // Add method to prototype
+ *     api.extendPrototype('tomorrow', function() {
+ *       const date = this.getInternalDate();
+ *       date.setDate(date.getDate() + 1);
+ *       return api.createInstance(date);
+ *     });
+ *   }
+ * };
+ * ```
+ */
+export interface PluginAPI {
+  /**
+   * Add a method to FdInstance prototype
+   *
+   * @param methodName - Name of the method to add
+   * @param fn - Method implementation (receives 'this' as FdInstance)
+   * @throws CoreMethodOverrideError if methodName is a core method
+   */
+  extendPrototype(
+    methodName: string,
+    fn: (this: FduInstance, ...args: unknown[]) => unknown,
+  ): void;
+
+  /**
+   * Access the underlying Date object (read-only)
+   * Called as this.getInternalDate() within plugin methods
+   *
+   * @this FdInstance
+   * @returns Underlying Date object
+   *
+   * @internal - For plugin development only
+   */
+  getInternalDate(this: FduInstance): Date;
+
+  /**
+   * Factory method for creating new FdInstance objects
+   * Preserves immutability - plugins should not mutate, only create new
+   *
+   * @param date - Date value to wrap
+   * @returns New immutable FdInstance
+   */
+  createInstance(date: Date | number | string): FduInstance;
+
+  /**
+   * Core library version (e.g., "1.5.0")
+   * Used by plugins for compatibility checks
+   */
+  readonly version: string;
+}
 
 /**
  * Accepted input types for creating a date-time instance.
  */
-export type FduInput = Date | string | number | FduInstance | undefined;
+export type FduInput =
+  | Date
+  | string
+  | number
+  | ObjectInput
+  | FduInstance
+  | undefined;
 
 /**
  * Time unit types for date manipulation and comparison.
@@ -139,20 +315,20 @@ export type UnitType =
  * @property LLL - Long date with time (e.g., "D MMMM YYYY HH:mm")
  * @property LLLL - Full date with weekday (e.g., "dddd, D MMMM YYYY HH:mm")
  */
-export type LocaleFormats = {
+export interface LocaleFormats {
   LT?: string;
   LTS?: string;
   L?: string;
   LL?: string;
   LLL?: string;
   LLLL?: string;
-};
+}
 
 /**
  * Relative time expressions configuration for locales.
  * Used for formatting relative time strings (e.g., "2 hours ago", "in 3 days").
  */
-export type RelativeTimeConfig = {
+export interface RelativeTimeConfig {
   /** Future time format template (e.g., "in %s") */
   future?: string;
   /** Past time format template (e.g., "%s ago") */
@@ -179,7 +355,7 @@ export type RelativeTimeConfig = {
   y?: string;
   /** Years plural (e.g., "%d years") */
   yy?: string;
-};
+}
 
 /**
  * Complete locale configuration for internationalization.
@@ -201,7 +377,7 @@ export type RelativeTimeConfig = {
  * registerLocale('en', myLocale);
  * ```
  */
-export type LocaleConfig = {
+export interface LocaleConfig {
   /** Locale identifier (e.g., "en", "es", "zh-cn") */
   name: string;
 
@@ -279,4 +455,4 @@ export type LocaleConfig = {
 
   /** AM/PM or time-of-day indicator formatter */
   meridiem?: (hour: number, minute: number, isLower?: boolean) => string;
-};
+}

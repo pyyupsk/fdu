@@ -28,6 +28,16 @@ export default defineConfig([
     clean: false,
   },
 
+  // Plugin files - Tree-shakeable optional plugins
+  {
+    entry: "src/plugins/*.ts",
+    outDir: "dist/plugins",
+    format: ["esm", "cjs"],
+    platform: "neutral",
+    minify: true,
+    clean: false,
+  },
+
   // Browser/CDN build - Single file for script tags
   {
     entry: "src/index.ts",
