@@ -35,7 +35,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/docs"
+              href="/docs/introduction"
               className={buttonVariants({ variant: "primary" })}
             >
               Get Started
@@ -116,7 +116,7 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
-              href="/docs"
+              href="/docs/introduction"
               className={buttonVariants({ variant: "primary" })}
             >
               Read Documentation

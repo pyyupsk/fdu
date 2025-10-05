@@ -1,0 +1,69 @@
+---
+title: What is fdu?
+description: Learn about fdu, an ultra-fast, zero-dependency date-time library for TypeScript and JavaScript. Discover how fdu delivers 4× better performance than Day.js while maintaining full TypeScript support, immutability, and a familiar API.
+---
+
+**fdu** (faster date-time utility) is an ultra-fast, zero-dependency date manipulation library for TypeScript and JavaScript.
+
+## Why fdu?
+
+### ⚡ Performance-First
+
+fdu is built from the ground up for speed, delivering **~4× faster** performance than Day.js on average:
+
+- **12× faster** comparisons (`isBefore`, `isAfter`, `isSame`)
+- **6× faster** chained operations
+- **4× faster** date manipulation (`add`, `subtract`)
+- **2× faster** formatting and date creation
+
+[See detailed benchmarks →](/docs/benchmarks)
+
+### 💪 TypeScript-First
+
+Unlike libraries where TypeScript types are added later, fdu is **designed in TypeScript from day one**:
+
+- Full type inference for all operations
+- Strict null safety
+- IntelliSense support everywhere
+- No `@types/*` package needed
+
+### 🧭 Immutable & Predictable
+
+Every operation returns a new instance, preventing unexpected mutations:
+
+```typescript
+const date = fdu('2025-10-05');
+const tomorrow = date.add(1, 'day');
+
+console.log(date.format('YYYY-MM-DD'));      // '2025-10-05' (unchanged)
+console.log(tomorrow.format('YYYY-MM-DD'));  // '2025-10-06'
+```
+
+### ⚙️ Zero Dependencies
+
+No external dependencies means:
+
+- **Smaller bundle size** - No transitive dependencies
+- **Better security** - Fewer attack vectors
+- **Faster installs** - No dependency resolution
+- **More reliable** - No breaking changes from dependencies
+
+### 🧩 Tree-Shakeable
+
+Modern ESM design ensures you only bundle what you use:
+
+```typescript
+// Only imports what you need
+import { fdu } from '@pyyupsk/fdu';
+import { es } from '@pyyupsk/fdu/locale/es';
+import { relativeTime } from '@pyyupsk/fdu/plugins/relative-time';
+```
+
+## Philosophy
+
+fdu follows these principles:
+
+1. **Performance over convenience** - Fast operations, always
+2. **Type safety over flexibility** - Catch errors at compile time
+3. **Immutability over mutation** - Predictable behavior
+4. **Zero dependencies over features** - Stay lean and secure

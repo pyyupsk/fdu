@@ -160,7 +160,7 @@ export async function GET(
             fontWeight: "500",
           }}
         >
-          fdu.fasu.dev/docs
+          fdu.fasu.dev
         </div>
         <div
           style={{
