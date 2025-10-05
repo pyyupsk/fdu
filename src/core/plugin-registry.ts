@@ -4,7 +4,38 @@
  * @internal
  */
 
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { FduInstance, Plugin, PluginAPI } from "./types";
+
+/**
+ * Lazy loading to avoid circular dependency
+ */
+// biome-ignore lint/suspicious/noExplicitAny: fduFunction needs to accept any input type
+let fduFunction: ((input?: any) => FduInstance) | null = null;
+
+/**
+ * Cached package version
+ */
+const packageVersion: string | null = null;
+
+function getPackageVersion(): string {
+  if (packageVersion) {
+    return packageVersion;
+  }
+
+  try {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const packageJsonPath = join(__dirname, "../../package.json");
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+    return packageJson.version as string;
+  } catch {
+    // Fallback if reading fails (e.g., in bundled code)
+    return "0.0.0";
+  }
+}
 
 /**
  * Error thrown when a plugin is missing the required install method
@@ -37,6 +68,16 @@ export class PluginRegistry {
   private coreMethods?: Set<string>;
 
   private constructor() {}
+
+  /**
+   * Set the fdu function reference (called from datetime.ts to avoid circular dependency)
+   *
+   * @internal
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: fduFunction needs to accept any input type
+  static setFduFunction(fn: (input?: any) => FduInstance): void {
+    fduFunction = fn;
+  }
 
   /**
    * Get the singleton instance of the PluginRegistry
@@ -164,9 +205,13 @@ export class PluginRegistry {
           );
         }
 
-        const FduInstancePrototype = Object.getPrototypeOf(
-          require("./datetime").fdu(),
-        );
+        if (!fduFunction) {
+          throw new Error(
+            "fdu function not initialized. This is an internal error.",
+          );
+        }
+
+        const FduInstancePrototype = Object.getPrototypeOf(fduFunction());
 
         Object.defineProperty(FduInstancePrototype, methodName, {
           value: fn,
@@ -183,13 +228,16 @@ export class PluginRegistry {
       },
 
       createInstance(date: Date | number | string): FduInstance {
-        // Import fdu function dynamically to avoid circular dependency
-        const { fdu } = require("./datetime");
-        return fdu(date);
+        if (!fduFunction) {
+          throw new Error(
+            "fdu function not initialized. This is an internal error.",
+          );
+        }
+        return fduFunction(date);
       },
 
       get version(): string {
-        return require("../../package.json").version;
+        return getPackageVersion();
       },
     };
   }

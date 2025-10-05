@@ -37,6 +37,11 @@ export function fdu(input?: FduInput): FduInstance {
 }
 
 /**
+ * Set the default FduInstance creation function
+ */
+PluginRegistry.setFduFunction(fdu);
+
+/**
  * Register a plugin to extend FdInstance functionality
  *
  * @param plugin - Plugin object with install method

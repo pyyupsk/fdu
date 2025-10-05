@@ -390,4 +390,20 @@ describe("DateTime edge cases", () => {
     const date = fdu(invalidObj as any);
     expect(date.isValid()).toBe(false);
   });
+
+  it("should handle object input with year property", () => {
+    const date = fdu({ year: 2025, month: 9, day: 5 });
+    expect(date.isValid()).toBe(true);
+    expect(date.year()).toBe(2025);
+    expect(date.month()).toBe(9);
+    expect(date.date()).toBe(5);
+  });
+
+  it("should handle object input with minimal properties", () => {
+    const date = fdu({ year: 2025 });
+    expect(date.isValid()).toBe(true);
+    expect(date.year()).toBe(2025);
+    expect(date.month()).toBe(0);
+    expect(date.date()).toBe(1);
+  });
 });
