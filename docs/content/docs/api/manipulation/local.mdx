@@ -1,0 +1,173 @@
+---
+title: local()
+description: Learn how to use the local() method to explicitly convert date instances to local time. Understand timezone conversions, work with UTC dates, and handle local time display for user interfaces and reports.
+---
+
+Explicitly converts the instance to local time. This method ensures the date is represented in the local timezone.
+
+## Syntax
+
+```typescript
+.local(): FduInstance
+```
+
+## Returns
+
+`FduInstance` - New instance in local time
+
+## Examples
+
+### Basic Conversion
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const utcDate = fdu("2025-10-05T12:00:00Z");
+const localDate = utcDate.local();
+
+console.log(localDate.format("YYYY-MM-DD HH:mm"));
+// Displays time in your local timezone
+```
+
+### UTC to Local Conversion
+
+```typescript
+// Date in UTC
+const utcDate = fdu("2025-10-05T14:30:00Z");
+
+// Convert to local time
+const localDate = utcDate.local();
+
+// The timestamp remains the same
+console.log(utcDate.valueOf() === localDate.valueOf()); // true
+
+// But the displayed time reflects local timezone
+console.log(utcDate.format("YYYY-MM-DD HH:mm"));
+console.log(localDate.format("YYYY-MM-DD HH:mm"));
+```
+
+### Working with API Responses
+
+```typescript
+// API returns UTC timestamp
+const apiResponse = await fetch("/api/events");
+const data = await apiResponse.json();
+
+// Convert to local time for display
+const eventDate = fdu(data.datetime).local();
+
+console.log(`Event: ${eventDate.format("MMMM D, YYYY [at] h:mm A")}`);
+```
+
+## Chaining
+
+Since `.local()` returns a new instance, you can chain it with other operations:
+
+```typescript
+const utcDate = fdu("2025-10-05T12:00:00Z");
+
+const result = utcDate.local().add(1, "day").format("YYYY-MM-DD HH:mm");
+```
+
+## Immutability
+
+`.local()` returns a new instance and never modifies the original:
+
+```typescript
+const original = fdu("2025-10-05T12:00:00Z");
+const local = original.local();
+
+// Original remains unchanged
+console.log(original.format("YYYY-MM-DD HH:mm"));
+// Local shows time in local timezone
+console.log(local.format("YYYY-MM-DD HH:mm"));
+```
+
+## Common Patterns
+
+### Display UTC Times Locally
+
+```typescript
+// Server sends UTC times
+const serverTimes = [
+  "2025-10-05T08:00:00Z",
+  "2025-10-05T14:00:00Z",
+  "2025-10-05T20:00:00Z",
+];
+
+// Convert all to local time for UI
+const localTimes = serverTimes.map((time) =>
+  fdu(time).local().format("h:mm A"),
+);
+
+console.log(localTimes);
+// ['3:00 AM', '9:00 AM', '3:00 PM'] (example for UTC-5)
+```
+
+### User Interface Display
+
+```typescript
+const utcTimestamp = fdu("2025-10-05T14:30:00Z");
+const userLocal = utcTimestamp.local();
+
+// Display to user in their local timezone
+document.getElementById("event-time").textContent = userLocal.format(
+  "MMMM D, YYYY [at] h:mm A",
+);
+```
+
+### Reports and Logs
+
+```typescript
+// Log entries in UTC
+const logEntries = [
+  { timestamp: "2025-10-05T10:15:00Z", message: "User login" },
+  { timestamp: "2025-10-05T10:20:00Z", message: "File uploaded" },
+];
+
+// Display in local time for easier reading
+logEntries.forEach((entry) => {
+  const localTime = fdu(entry.timestamp).local();
+  console.log(`[${localTime.format("HH:mm:ss")}] ${entry.message}`);
+});
+```
+
+### Timezone-Aware Calendar
+
+```typescript
+// Meeting scheduled in UTC
+const meeting = fdu("2025-10-05T15:00:00Z");
+
+// Show in user's local timezone
+const localMeeting = meeting.local();
+
+console.log(`Meeting: ${localMeeting.format("dddd, MMMM D [at] h:mm A")}`);
+// "Sunday, October 5 at 10:00 AM" (example for UTC-5)
+```
+
+### Comparing Times Across Timezones
+
+```typescript
+const utcTime = fdu("2025-10-05T12:00:00Z");
+const localTime = utcTime.local();
+
+// Same moment in time, different display
+console.log(`UTC: ${utcTime.format("YYYY-MM-DD HH:mm")}`);
+console.log(`Local: ${localTime.format("YYYY-MM-DD HH:mm")}`);
+console.log(`Same timestamp: ${utcTime.valueOf() === localTime.valueOf()}`);
+// true - they represent the same moment
+```
+
+## Important Notes
+
+- `.local()` preserves the underlying timestamp (`.valueOf()` remains the same)
+- The method converts the display to local timezone, not the actual moment in time
+- Multiple calls to `.local()` on the same instance return equivalent results
+- The actual offset depends on your system's timezone settings
+- Does not handle Daylight Saving Time (DST) transitions—uses current system timezone
+
+## See Also
+
+- [utcOffset()](/docs/api/manipulation/utc-offset) - Get or set UTC offset in minutes
+- [toISOString()](/docs/api/conversion/to-iso-string) - Convert to ISO string (always UTC)
+- [format()](/docs/api/formatting) - Format date with timezone-aware tokens

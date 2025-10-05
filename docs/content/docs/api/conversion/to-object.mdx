@@ -1,0 +1,143 @@
+---
+title: toObject()
+description: Learn how to convert fdu instances to plain JavaScript objects with date components using the toObject() method. Extract year, month, date, hours, minutes, seconds, and milliseconds for serialization, data inspection, custom formatting, and integration with forms and APIs.
+---
+
+Converts the instance to a plain JavaScript object containing all date components.
+
+## Syntax
+
+```typescript
+.toObject(): DateObject
+```
+
+## Returns
+
+```typescript
+interface DateObject {
+  years: number; // Four-digit year
+  months: number; // Month (0-11, where 0 = January)
+  date: number; // Day of month (1-31)
+  hours: number; // Hour (0-23)
+  minutes: number; // Minute (0-59)
+  seconds: number; // Second (0-59)
+  milliseconds: number; // Millisecond (0-999)
+}
+```
+
+## Examples
+
+### Basic Conversion
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-10-05T14:30:15.500Z");
+const obj = date.toObject();
+
+console.log(obj);
+// {
+//   years: 2025,
+//   months: 9,        // October (0-indexed)
+//   date: 5,
+//   hours: 14,
+//   minutes: 30,
+//   seconds: 15,
+//   milliseconds: 500
+// }
+```
+
+### Access Individual Components
+
+```typescript
+const date = fdu("2025-10-05T14:30:15");
+const obj = date.toObject();
+
+console.log(`Year: ${obj.years}`); // Year: 2025
+console.log(`Month: ${obj.months + 1}`); // Month: 10 (add 1 for human-readable)
+console.log(`Day: ${obj.date}`); // Day: 5
+console.log(`Time: ${obj.hours}:${obj.minutes}:${obj.seconds}`);
+```
+
+## Common Patterns
+
+### Serialize for API
+
+```typescript
+const date = fdu();
+const obj = date.toObject();
+
+// Send to API
+await api.saveEvent({
+  eventDate: obj,
+  // ... other fields
+});
+```
+
+### Custom Formatting
+
+```typescript
+const date = fdu("2025-10-05T14:30:15");
+const obj = date.toObject();
+
+// Create custom format
+const custom = `${obj.date}/${obj.months + 1}/${obj.years} at ${obj.hours}:${String(obj.minutes).padStart(2, "0")}`;
+console.log(custom); // "5/10/2025 at 14:30"
+```
+
+### Form Population
+
+```typescript
+const date = fdu("2025-10-05T14:30:00");
+const obj = date.toObject();
+
+// Populate form fields
+document.getElementById("year").value = obj.years;
+document.getElementById("month").value = obj.months + 1;
+document.getElementById("day").value = obj.date;
+document.getElementById("hour").value = obj.hours;
+document.getElementById("minute").value = obj.minutes;
+```
+
+### Data Inspection
+
+```typescript
+const date = fdu();
+const obj = date.toObject();
+
+// Debug or log date components
+console.log("Date components:", {
+  year: obj.years,
+  month: obj.months,
+  day: obj.date,
+  time: `${obj.hours}:${obj.minutes}:${obj.seconds}`,
+  ms: obj.milliseconds,
+});
+```
+
+### Compare Components
+
+```typescript
+const date1 = fdu("2025-10-05");
+const date2 = fdu("2025-10-06");
+
+const obj1 = date1.toObject();
+const obj2 = date2.toObject();
+
+if (obj1.years === obj2.years && obj1.months === obj2.months) {
+  console.log("Same month and year");
+}
+```
+
+## Important Notes
+
+- Months are 0-indexed (0 = January, 11 = December) to match JavaScript's Date convention
+- All components reflect the local timezone unless the instance was created in UTC mode
+- The returned object is a plain JavaScript object with no methods
+- Use this for serialization, inspection, or custom formatting needs
+
+## See Also
+
+- [toDate()](/docs/api/conversion/to-date) - Convert to native Date object
+- [toISOString()](/docs/api/conversion/to-iso-string) - Convert to ISO string
+- [valueOf()](/docs/api/conversion/value-of) - Get Unix timestamp

@@ -1,0 +1,180 @@
+---
+title: utcOffset()
+description: Master the utcOffset() method to get and set UTC timezone offsets in minutes. Learn to work with different timezones, convert dates across zones, handle DST transitions, and integrate with APIs that require specific timezone offsets.
+---
+
+Gets or sets the UTC offset in minutes for the date instance.
+
+## Syntax
+
+### Get UTC Offset
+
+```typescript
+.utcOffset(): number
+```
+
+### Set UTC Offset
+
+```typescript
+.utcOffset(offset: number): FduInstance
+```
+
+## Parameters
+
+- `offset: number` - UTC offset in minutes (optional)
+  - Positive values for east of UTC (e.g., +480 for UTC+8)
+  - Negative values for west of UTC (e.g., -300 for UTC-5)
+
+## Returns
+
+- **Without parameter**: `number` - Current UTC offset in minutes
+- **With parameter**: `FduInstance` - New instance with adjusted UTC offset
+
+## Examples
+
+### Get Current UTC Offset
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date = fdu("2025-10-05T12:00:00Z");
+const offset = date.utcOffset();
+
+console.log(offset); // Your local timezone offset in minutes
+// Examples:
+// 0 for UTC
+// -480 for UTC+8 (8 hours ahead)
+// 300 for UTC-5 (5 hours behind)
+```
+
+### Set UTC Offset
+
+```typescript
+const date = fdu("2025-10-05T12:00:00Z");
+
+// Convert to UTC+8 (480 minutes)
+const utcPlus8 = date.utcOffset(480);
+
+// Convert to UTC-5 (-300 minutes)
+const utcMinus5 = date.utcOffset(-300);
+```
+
+### Working with Different Timezones
+
+```typescript
+const utcDate = fdu("2025-10-05T12:00:00Z");
+const currentOffset = utcDate.utcOffset();
+
+// Convert to different timezones
+const tokyo = utcDate.utcOffset(currentOffset + 540); // UTC+9
+const newYork = utcDate.utcOffset(currentOffset - 300); // UTC-5
+const london = utcDate.utcOffset(currentOffset + 0); // UTC+0
+const sydney = utcDate.utcOffset(currentOffset + 600); // UTC+10
+
+console.log("Tokyo:", tokyo.format("YYYY-MM-DD HH:mm"));
+console.log("New York:", newYork.format("YYYY-MM-DD HH:mm"));
+console.log("London:", london.format("YYYY-MM-DD HH:mm"));
+console.log("Sydney:", sydney.format("YYYY-MM-DD HH:mm"));
+```
+
+## Common Timezones
+
+| Location          | Offset (minutes) | UTC Notation |
+| ----------------- | ---------------- | ------------ |
+| Los Angeles (PST) | -480             | UTC-8        |
+| New York (EST)    | -300             | UTC-5        |
+| London (GMT)      | 0                | UTC+0        |
+| Paris (CET)       | 60               | UTC+1        |
+| Dubai             | 240              | UTC+4        |
+| India             | 330              | UTC+5:30     |
+| Singapore         | 480              | UTC+8        |
+| Tokyo             | 540              | UTC+9        |
+| Sydney (AEST)     | 600              | UTC+10       |
+
+## Chaining
+
+Since `.utcOffset()` returns a new instance, you can chain it with other operations:
+
+```typescript
+const date = fdu("2025-10-05T12:00:00Z");
+const currentOffset = date.utcOffset();
+
+const result = date
+  .utcOffset(currentOffset + 480) // Convert to UTC+8
+  .add(1, "day") // Add 1 day
+  .format("YYYY-MM-DD HH:mm");
+```
+
+## Immutability
+
+`.utcOffset()` with a parameter returns a new instance and never modifies the original:
+
+```typescript
+const original = fdu("2025-10-05T12:00:00Z");
+const currentOffset = original.utcOffset();
+const modified = original.utcOffset(currentOffset + 480);
+
+console.log(original.utcOffset()); // Original offset (unchanged)
+console.log(modified.utcOffset()); // Original offset + 480
+```
+
+## Common Patterns
+
+### Display Time in Multiple Timezones
+
+```typescript
+const meetingTime = fdu("2025-10-05T14:00:00Z");
+const baseOffset = meetingTime.utcOffset();
+
+const timezones = {
+  "Los Angeles": baseOffset - 480,
+  "New York": baseOffset - 300,
+  London: baseOffset + 0,
+  Tokyo: baseOffset + 540,
+};
+
+Object.entries(timezones).forEach(([city, offset]) => {
+  const localTime = meetingTime.utcOffset(offset);
+  console.log(`${city}: ${localTime.format("YYYY-MM-DD HH:mm")}`);
+});
+```
+
+### API Integration
+
+```typescript
+// Server expects UTC-5 (EST)
+const localDate = fdu();
+const currentOffset = localDate.utcOffset();
+const estDate = localDate.utcOffset(currentOffset - 300);
+
+await api.scheduleEvent({
+  datetime: estDate.toISOString(),
+  timezone: "America/New_York",
+});
+```
+
+### Calculate Offset Difference
+
+```typescript
+const date1 = fdu("2025-10-05T12:00:00Z");
+const date2 = fdu("2025-10-05T12:00:00Z");
+
+const offset1 = date1.utcOffset();
+const offset2 = date2.utcOffset();
+
+const offsetDiff = offset2 - offset1;
+console.log(`Offset difference: ${offsetDiff} minutes`);
+```
+
+## Important Notes
+
+- Offset is in minutes, not hours (multiply hours by 60)
+- Positive offsets are east of UTC, negative are west
+- Setting offset adjusts the time displayed, not the underlying timestamp
+- Does not handle Daylight Saving Time (DST) transitions automatically
+- The underlying timestamp (`.valueOf()`) changes when offset is modified
+
+## See Also
+
+- [local()](/docs/api/manipulation/local) - Convert to local time
+- [toISOString()](/docs/api/conversion/to-iso-string) - Convert to ISO string with UTC time
