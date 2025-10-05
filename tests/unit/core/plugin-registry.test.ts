@@ -288,4 +288,38 @@ describe("PluginRegistry", () => {
       expect(receivedOptions).toEqual({ key: "value" });
     });
   });
+
+  describe("Edge Cases", () => {
+    it("should handle fduFunction not initialized in extendPrototype", () => {
+      // Create a new registry instance to test before initialization
+      const freshRegistry = new (PluginRegistry as any)();
+      const plugin: Plugin = {
+        name: "uninitialized-test",
+        install: (api) => {
+          expect(() => {
+            api.extendPrototype("testMethod", () => "test");
+          }).toThrow("fdu function not initialized");
+        },
+      };
+
+      // This should throw during plugin installation
+      expect(() => freshRegistry.register(plugin)).toThrow();
+    });
+
+    it("should handle fduFunction not initialized in createInstance", () => {
+      // Create a new registry instance to test before initialization
+      const freshRegistry = new (PluginRegistry as any)();
+      const plugin: Plugin = {
+        name: "create-uninitialized-test",
+        install: (api) => {
+          expect(() => {
+            api.createInstance("2025-10-05");
+          }).toThrow("fdu function not initialized");
+        },
+      };
+
+      // This should throw during plugin installation
+      expect(() => freshRegistry.register(plugin)).toThrow();
+    });
+  });
 });

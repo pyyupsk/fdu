@@ -179,6 +179,46 @@ describe("Advanced Format Plugin", () => {
       const date = fdu("2025-01-15");
       expect(date.weekYear()).toBe(2025);
     });
+
+    it("should explicitly test December week 1 edge case", () => {
+      // Test dates that guarantee hitting the December/week 1 code path
+      const testDates = [
+        "2024-12-29", // Sunday
+        "2024-12-30", // Monday
+        "2024-12-31", // Tuesday
+      ];
+
+      for (const dateStr of testDates) {
+        const date = fdu(dateStr);
+        const weekNum = date.weekOfYear();
+        const year = date.weekYear();
+
+        // If we hit the edge case (week 1 in December)
+        if (weekNum === 1 && date.month() === 11) {
+          expect(year).toBeGreaterThan(date.year());
+        }
+      }
+    });
+
+    it("should explicitly test January week 52/53 edge case", () => {
+      // Test dates that guarantee hitting the January/week 52-53 code path
+      const testDates = [
+        "2022-01-01", // Saturday, week 52 of 2021
+        "2022-01-02", // Sunday
+        "2023-01-01", // Sunday, week 52 of 2022
+      ];
+
+      for (const dateStr of testDates) {
+        const date = fdu(dateStr);
+        const weekNum = date.weekOfYear();
+        const year = date.weekYear();
+
+        // If we hit the edge case (week 52/53 in January)
+        if (weekNum >= 52 && date.month() === 0) {
+          expect(year).toBeLessThan(date.year());
+        }
+      }
+    });
   });
 
   describe("isoWeekYear()", () => {

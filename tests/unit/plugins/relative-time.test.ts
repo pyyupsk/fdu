@@ -362,4 +362,17 @@ describe("Relative Time Plugin", () => {
       expect(date.fromNow()).toBe("a few seconds ago");
     });
   });
+
+  describe("Default options", () => {
+    it("should use 'long' style by default when no options provided", () => {
+      // Register plugin without options to test default style
+      fdu.extend(relativeTime);
+
+      const date = fdu(new Date(Date.now() - 5 * 60 * 1000)); // 5 minutes ago
+      const result = date.fromNow();
+
+      // Long style should return full words like "5 minutes ago"
+      expect(result).toBe("5 minutes ago");
+    });
+  });
 });

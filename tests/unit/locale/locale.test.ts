@@ -1,5 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { getLocale, locale, registerLocale } from "../../../src/locale/locale";
+import {
+  getLocale,
+  locale,
+  registerLocale,
+  resolveLocale,
+} from "../../../src/locale/locale";
 import { en } from "../../../src/locale/locales/en";
 import { th } from "../../../src/locale/locales/th";
 import { zhCn } from "../../../src/locale/locales/zh-cn";
@@ -149,22 +154,71 @@ describe("Locale Management", () => {
     });
 
     it("should format ordinal numbers correctly", () => {
+      expect(en.ordinal?.(0)).toBe("0th");
       expect(en.ordinal?.(1)).toBe("1st");
       expect(en.ordinal?.(2)).toBe("2nd");
       expect(en.ordinal?.(3)).toBe("3rd");
       expect(en.ordinal?.(4)).toBe("4th");
+      expect(en.ordinal?.(5)).toBe("5th");
+      expect(en.ordinal?.(10)).toBe("10th");
       expect(en.ordinal?.(11)).toBe("11th");
       expect(en.ordinal?.(12)).toBe("12th");
       expect(en.ordinal?.(13)).toBe("13th");
+      expect(en.ordinal?.(14)).toBe("14th");
+      expect(en.ordinal?.(20)).toBe("20th");
       expect(en.ordinal?.(21)).toBe("21st");
       expect(en.ordinal?.(22)).toBe("22nd");
       expect(en.ordinal?.(23)).toBe("23rd");
+      expect(en.ordinal?.(24)).toBe("24th");
+      expect(en.ordinal?.(30)).toBe("30th");
+      expect(en.ordinal?.(31)).toBe("31st");
       expect(en.ordinal?.(100)).toBe("100th");
       expect(en.ordinal?.(101)).toBe("101st");
       expect(en.ordinal?.(111)).toBe("111th");
+      expect(en.ordinal?.(112)).toBe("112th");
+      expect(en.ordinal?.(113)).toBe("113th");
       expect(en.ordinal?.(114)).toBe("114th");
       expect(en.ordinal?.(115)).toBe("115th");
       expect(en.ordinal?.(120)).toBe("120th");
+      expect(en.ordinal?.(121)).toBe("121st");
+      expect(en.ordinal?.(200)).toBe("200th");
+      expect(en.ordinal?.(1000)).toBe("1000th");
+    });
+  });
+
+  describe("resolveLocale()", () => {
+    beforeEach(() => {
+      registerLocale("en", en);
+      locale("en");
+    });
+
+    it("should use global locale when instanceLocale is undefined", () => {
+      // Set global locale
+      locale("en");
+
+      // Call resolveLocale with undefined (tests the || fallback)
+      const resolved = resolveLocale(undefined);
+
+      expect(resolved).toBeDefined();
+      expect(resolved.name).toBe("en");
+    });
+
+    it("should use instanceLocale when provided", () => {
+      registerLocale("th", th);
+      locale("en"); // Set global to en
+
+      // Call resolveLocale with specific locale (tests the instanceLocale path)
+      const resolved = resolveLocale("th");
+
+      expect(resolved).toBeDefined();
+      expect(resolved.name).toBe("th");
+    });
+
+    it("should fall back to en when locale not found", () => {
+      const resolved = resolveLocale("nonexistent");
+
+      expect(resolved).toBeDefined();
+      expect(resolved.name).toBe("en");
     });
   });
 
