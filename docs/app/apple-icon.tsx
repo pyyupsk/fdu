@@ -31,7 +31,7 @@ export default async function AppleIcon() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "white",
+        background: "#121212",
       }}
     >
       {/* biome-ignore lint/performance/noImgElement: ImageResponse requires img element */}

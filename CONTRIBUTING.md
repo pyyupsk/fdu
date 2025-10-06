@@ -2,6 +2,28 @@
 
 Thank you for considering contributing to `fdu`! This document provides guidelines and instructions for contributing.
 
+## 🕐 Temporal Philosophy Foundation
+
+**ALL contributions MUST align with the library's temporal design principles** ([read the full philosophy](https://fdu.fasu.dev/docs/philosophy)).
+
+This library is designed around how humans actually perceive and measure time, drawing from established philosophical research on **Chronos** (quantitative clock time) and **Kairos** (qualitative opportune moments) from Ancient Greek philosophy. Every feature, test, and optimization must respect these non-negotiable temporal principles:
+
+1. **Elapsed Time Semantics**: Time differences use `Math.floor()` for fully elapsed units (`-2.3 hours` → `-3 hours`)
+2. **Calendar-Based Arithmetic**: Months/years use calendar math, not duration conversion (variable 28-31 days)
+3. **Human-Centric Years**: Year 0 means year 0 per ISO 8601 (use `setFullYear()` for years 0-99)
+4. **Temporal Direction Integrity**: Earlier < later; negative diffs = past (time's arrow)
+
+**Any code violating these principles will be rejected as temporally incorrect.**
+
+### Philosophical Foundations
+
+Our design reflects established research:
+
+- **Time Perception** ([Stanford Encyclopedia](https://plato.stanford.edu/entries/time-experience/))
+- **Phenomenology of Time-Consciousness** (Husserl, [IEP](https://iep.utm.edu/phe-time/))
+- **Flow Theory** (Csikszentmihalyi, [Wikipedia](<https://en.wikipedia.org/wiki/Flow_(psychology)>))
+- **Chronos vs Kairos** (Ancient Greek temporal philosophy)
+
 ## Code of Conduct
 
 - Be respectful and inclusive
@@ -143,42 +165,58 @@ Then create a Pull Request on GitHub with:
 
 ## Constitutional Principles
 
-### 1. Zero Dependencies (NON-NEGOTIABLE)
+### 1. Temporal Correctness (NON-NEGOTIABLE)
+
+**This is Principle Zero—it supersedes all other principles.**
+
+- All time calculations MUST follow floor semantics for fully elapsed units
+- Calendar arithmetic MUST use calendar-based logic, not duration conversion
+- Year handling MUST be human-centric per ISO 8601 (Year 0 = Year 0)
+- Time axis direction MUST be preserved (earlier < later, time's arrow)
+- Tests that violate these principles are **wrong by definition**
+
+**Rationale**: We're not just manipulating milliseconds—we're implementing time operations that reflect how humans actually perceive and measure temporal passage, grounded in philosophical research on time perception.
+
+### 2. Zero Dependencies (NON-NEGOTIABLE)
 
 - No runtime dependencies allowed
 - Only devDependencies for testing/building
 
-### 2. Performance First
+### 3. Performance First
 
 - Must be ≥2x faster than Day.js for common operations
 - Include benchmarks for performance-sensitive changes
+- Never sacrifice temporal correctness for speed
 
-### 3. Tree-Shakable Architecture
+### 4. Tree-Shakable Architecture
 
 - Export functions as named exports
 - No side effects in module initialization
 - Mark `"sideEffects": false` in package.json
 
-### 4. Minimal API Surface
+### 5. Minimal API Surface
 
 - Core API ≤15 methods
 - Advanced features go in plugins
 - Justify every new API addition
+- API must reflect temporal philosophy (e.g., `diff()` returns floored values)
 
-### 5. Modern Standards
+### 6. Modern Standards
 
 - Target ES2020+, Node.js 14+
 - Use modern JavaScript features
 - No legacy browser support in core
 
-### 6. Testing Discipline (TDD)
+### 7. Testing Discipline (TDD with Temporal Awareness)
 
 - Write tests **before** implementation
+- Tests MUST verify temporal correctness first, then functionality
 - Maintain coverage thresholds: lines ≥99%, branches ≥96%, functions 100%, statements ≥99%
-- Include edge case tests
+- Include edge cases: leap years, DST, month overflow, negative diffs
 - Add performance benchmarks for new features
+- **Critical**: If a test fails temporal principles, fix the test—not the library
 
-### 7. Type Safety
+### 8. Type Safety
 
 - TypeScript strict mode
 - No `any` types in public APIs

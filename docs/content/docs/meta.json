@@ -1,4 +1,11 @@
 {
   "title": "Documentation",
-  "pages": ["introduction", "guides", "plugins", "api", "benchmarks"]
+  "pages": [
+    "introduction",
+    "philosophy",
+    "guides",
+    "plugins",
+    "api",
+    "benchmarks"
+  ]
 }
