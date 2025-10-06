@@ -232,6 +232,48 @@ class DateTimeImpl {
     return this._date.getTime() > other.valueOf();
   }
 
+  isSameOrBefore(other: FduInstance, unit?: UnitType): boolean {
+    return this.isSame(other, unit) || this.isBefore(other);
+  }
+
+  isSameOrAfter(other: FduInstance, unit?: UnitType): boolean {
+    return this.isSame(other, unit) || this.isAfter(other);
+  }
+
+  isLeapYear(): boolean {
+    const year = this._date.getFullYear();
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  }
+
+  isToday(): boolean {
+    const now = new Date();
+    return (
+      this._date.getFullYear() === now.getFullYear() &&
+      this._date.getMonth() === now.getMonth() &&
+      this._date.getDate() === now.getDate()
+    );
+  }
+
+  isTomorrow(): boolean {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return (
+      this._date.getFullYear() === tomorrow.getFullYear() &&
+      this._date.getMonth() === tomorrow.getMonth() &&
+      this._date.getDate() === tomorrow.getDate()
+    );
+  }
+
+  isYesterday(): boolean {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return (
+      this._date.getFullYear() === yesterday.getFullYear() &&
+      this._date.getMonth() === yesterday.getMonth() &&
+      this._date.getDate() === yesterday.getDate()
+    );
+  }
+
   isSame(other: FduInstance, unit?: UnitType): boolean {
     if (!unit) {
       return this._date.getTime() === other.valueOf();

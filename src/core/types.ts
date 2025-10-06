@@ -82,6 +82,92 @@ export interface FduInstance {
   isSame(other: FduInstance, unit?: UnitType): boolean;
 
   /**
+   * Checks if this date is the same as or before another date.
+   *
+   * @param other - Date to compare with
+   * @param unit - Optional unit for granularity ('year', 'month', 'day', etc.)
+   * @returns True if this date is the same as or before the other date
+   *
+   * @example
+   * ```ts
+   * fdu('2025-10-05').isSameOrBefore(fdu('2025-10-05')); // true
+   * fdu('2025-10-04').isSameOrBefore(fdu('2025-10-05')); // true
+   * fdu('2025-10-06').isSameOrBefore(fdu('2025-10-05')); // false
+   * ```
+   */
+  isSameOrBefore(other: FduInstance, unit?: UnitType): boolean;
+
+  /**
+   * Checks if this date is the same as or after another date.
+   *
+   * @param other - Date to compare with
+   * @param unit - Optional unit for granularity ('year', 'month', 'day', etc.)
+   * @returns True if this date is the same as or after the other date
+   *
+   * @example
+   * ```ts
+   * fdu('2025-10-05').isSameOrAfter(fdu('2025-10-05')); // true
+   * fdu('2025-10-06').isSameOrAfter(fdu('2025-10-05')); // true
+   * fdu('2025-10-04').isSameOrAfter(fdu('2025-10-05')); // false
+   * ```
+   */
+  isSameOrAfter(other: FduInstance, unit?: UnitType): boolean;
+
+  /**
+   * Checks if the year of this date is a leap year.
+   *
+   * @returns True if the year is a leap year
+   *
+   * @example
+   * ```ts
+   * fdu('2024-01-01').isLeapYear(); // true
+   * fdu('2025-01-01').isLeapYear(); // false
+   * fdu('2000-01-01').isLeapYear(); // true
+   * fdu('1900-01-01').isLeapYear(); // false
+   * ```
+   */
+  isLeapYear(): boolean;
+
+  /**
+   * Checks if this date is today.
+   *
+   * @returns True if the date is today (same year, month, and day)
+   *
+   * @example
+   * ```ts
+   * fdu().isToday(); // true
+   * fdu('2025-10-05').isToday(); // depends on current date
+   * ```
+   */
+  isToday(): boolean;
+
+  /**
+   * Checks if this date is tomorrow.
+   *
+   * @returns True if the date is tomorrow (same year, month, and day as tomorrow)
+   *
+   * @example
+   * ```ts
+   * fdu().add(1, 'day').isTomorrow(); // true
+   * fdu('2025-10-06').isTomorrow(); // depends on current date
+   * ```
+   */
+  isTomorrow(): boolean;
+
+  /**
+   * Checks if this date is yesterday.
+   *
+   * @returns True if the date is yesterday (same year, month, and day as yesterday)
+   *
+   * @example
+   * ```ts
+   * fdu().subtract(1, 'day').isYesterday(); // true
+   * fdu('2025-10-04').isYesterday(); // depends on current date
+   * ```
+   */
+  isYesterday(): boolean;
+
+  /**
    * Calculates the difference between this date and another date.
    * @param other - Date to compare with
    * @param unit - Unit for the difference (default: 'millisecond')
