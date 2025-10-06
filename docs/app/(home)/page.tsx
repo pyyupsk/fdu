@@ -71,14 +71,16 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="border-y">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 container border-x md:px-6 lg:px-8">
-          {features.map((feature, index) => (
+      <section className="border-y md:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 container border-x">
+          {features.map((feature) => (
             <div
               key={feature.title}
               className={cn(
                 "py-12 px-6",
-                index !== features.length - 1 && "border-r",
+                "lg:[&:nth-child(-n+3)]:border-r",
+                "md:max-lg:[&:nth-child(odd)]:border-r md:max-lg:[&:nth-child(-n+2)]:border-b",
+                "max-md:[&:not(:last-child)]:border-b",
               )}
             >
               <div className="space-y-2">
