@@ -15,11 +15,22 @@
 
 ### ✨ Features
 
+- ⚡ **Performance** – ~4× faster than Day.js
+- 🕐 **Temporally Correct** – calendar-based arithmetic, floor semantics ([read more](https://fdu.fasu.dev/docs/philosophy))
 - 🧭 **Immutability** – every operation returns a new instance
 - ⚙️ **Zero Dependencies** – pure JavaScript + TypeScript
-- ⚡ **Performance** – ~4× faster than Day.js
 - 🧩 **Tree-shakeable** – modular ESM design
-- 🕐 **Philosophically Grounded** – design inspired by temporal philosophy ([read more](https://fdu.fasu.dev/docs/philosophy))
+
+### 🎯 Why fdu?
+
+**Temporal Correctness**: fdu implements time based on how humans actually perceive it, grounded in research on time perception:
+
+1. **Floor Semantics** – Time differences use fully elapsed units (`1.9 hours` → `1 hour`)
+2. **Calendar Arithmetic** – Months/years count calendar boundaries, not duration (`Feb - Oct = 4 months`)
+3. **Temporal Direction** – Earlier < later, negative = past (time's arrow)
+4. **Human-Centric Years** – Year 0 = Year 0 (ISO 8601)
+
+This reflects Ancient Greek philosophy (Chronos vs Kairos), phenomenology ([Husserl](https://iep.utm.edu/phe-time/)), and temporal psychology ([Stanford](https://plato.stanford.edu/entries/time-experience/)). [Read full philosophy →](https://fdu.fasu.dev/docs/philosophy)
 
 ### 🚀 Quick Start
 
@@ -67,36 +78,6 @@ Benchmarked with **Vitest 3.2.4** and **Bun 1.2.22** on **2025-10-06**.
 
 Full API and usage guides available at
 👉 **[fdu.fasu.dev](https://fdu.fasu.dev)**
-
-### 🎯 Design Philosophy
-
-`fdu` is designed around how humans actually perceive and measure time, drawing from established philosophical and psychological research:
-
-#### Temporal Concepts
-
-Based on Ancient Greek philosophy's distinction between:
-
-- **Chronos (χρόνος)**: Quantitative, measurable clock time — seconds, minutes, hours
-- **Kairos (καιρός)**: Qualitative, opportune moments — "the right time"
-
-#### Core Design Principles
-
-1. **Elapsed Time Semantics**: Time differences represent fully elapsed units using floor division
-   - `1.9 hours` → `1 hour` (what has fully passed)
-   - `-2.3 hours` → `-3 hours` (floor toward -∞)
-   - _Rationale_: Humans measure time by what has completely occurred
-
-2. **Calendar-Based Arithmetic**: Month/year calculations use calendar logic, not duration conversion
-   - `Feb 2026 - Oct 2025 = 4 months` (calendar math)
-   - _Rationale_: Months are calendar concepts with variable days (28-31), not fixed durations
-
-3. **Temporal Direction Integrity**: Earlier < later; negative diffs indicate past
-   - _Rationale_: Time's arrow flows in one direction (second law of thermodynamics)
-
-4. **Human-Centric Years**: Year 0 means year 0 (ISO 8601 / proleptic Gregorian)
-   - _Rationale_: Linear year understanding, not JavaScript's 1900-based quirk
-
-This design reflects research from temporal psychology ([time perception](https://plato.stanford.edu/entries/time-experience/)), phenomenology ([Husserl's time-consciousness](https://iep.utm.edu/phe-time/)), and flow theory ([Csikszentmihalyi](<https://en.wikipedia.org/wiki/Flow_(psychology)>)).
 
 ### 🪪 License
 

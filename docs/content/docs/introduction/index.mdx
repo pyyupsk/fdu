@@ -7,16 +7,27 @@ description: Learn about fdu, an ultra-fast, zero-dependency date-time library f
 
 ## Why fdu?
 
-### ⚡ Performance-First
+### ⚡ Ultra-Fast
 
-fdu is built from the ground up for speed, delivering **~4× faster** performance than Day.js on average:
+Built for speed, delivering **~4× faster** performance than Day.js:
 
-- **12× faster** comparisons (`isBefore`, `isAfter`, `isSame`)
+- **12× faster** comparisons
 - **6× faster** chained operations
-- **4× faster** date manipulation (`add`, `subtract`)
-- **2× faster** formatting and date creation
+- **4× faster** date manipulation
+- **2× faster** formatting
 
-[See detailed benchmarks →](/docs/benchmarks)
+[See benchmarks →](/docs/benchmarks)
+
+### 🕐 Temporally Correct
+
+fdu implements time based on how humans actually perceive it:
+
+- **Floor Semantics**: Time differences represent fully elapsed units (1.9 hours → 1 hour)
+- **Calendar Arithmetic**: Months/years count calendar boundaries, not duration
+- **Temporal Direction**: Earlier < later, negative = past
+- **Human-Centric Years**: Year 0 = Year 0 (ISO 8601)
+
+[Read the philosophy →](/docs/philosophy)
 
 ### 💪 TypeScript-First
 
@@ -59,11 +70,10 @@ import { es } from "@pyyupsk/fdu/locale/es";
 import { relativeTime } from "@pyyupsk/fdu/plugins/relative-time";
 ```
 
-## Philosophy
+## Design Principles
 
-fdu follows these principles:
-
-1. **Performance over convenience** - Fast operations, always
-2. **Type safety over flexibility** - Catch errors at compile time
-3. **Immutability over mutation** - Predictable behavior
-4. **Zero dependencies over features** - Stay lean and secure
+1. **Temporal correctness first** - Aligned with human time perception
+2. **Performance** - Fast operations through correct algorithms
+3. **Type safety** - Catch errors at compile time
+4. **Immutability** - Predictable behavior
+5. **Zero dependencies** - Stay lean and secure
