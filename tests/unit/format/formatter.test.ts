@@ -298,4 +298,52 @@ describe("format()", () => {
       expect(result).toMatch(/LLLL/);
     });
   });
+
+  describe("Escaped text edge cases", () => {
+    it("should handle unclosed brackets - treated as escaped text until next space", () => {
+      const result = format(testDate, "[Unclosed bracket");
+      // Unclosed bracket is treated as escaped text until space/end
+      expect(result).toContain("[Unclosed");
+    });
+
+    it("should handle unclosed bracket at end of pattern", () => {
+      const result = format(testDate, "[Unclosed");
+      expect(result).toBe("[Unclosed");
+    });
+
+    it("should handle nested brackets - formats tokens inside nested brackets", () => {
+      const result = format(testDate, "[[YYYY]]");
+      // Nested brackets format inner tokens: [[YYYY]] -> [2025]
+      expect(result).toBe("[2025]");
+    });
+
+    it("should handle multiple nested levels", () => {
+      const result = format(testDate, "[[[Triple]]]");
+      expect(result).toBe("[[Triple]]");
+    });
+
+    it("should handle escaped brackets with tokens", () => {
+      const result = format(testDate, "[Year:] YYYY");
+      expect(result).toBe("Year: 2025");
+    });
+
+    it("should handle complex escaped pattern with unclosed bracket", () => {
+      const result = format(testDate, "YYYY [incomplete");
+      // Year expands, unclosed bracket is escaped
+      expect(result).toMatch(/2025 \[incomplete/);
+    });
+
+    it("should preserve unknown tokens that don't match format tokens", () => {
+      // Test line 52 branch: when getter is falsy, return token as-is
+      const result = format(testDate, "XYZ");
+      expect(result).toBe("XYZ");
+    });
+
+    it("should handle nested brackets with unknown tokens", () => {
+      // Test line 174 branch in restoreEscapedSections
+      const result = format(testDate, "[[UNKNOWN]]");
+      // Unknown token inside nested brackets should be preserved
+      expect(result).toBe("[UNKNOWN]");
+    });
+  });
 });
