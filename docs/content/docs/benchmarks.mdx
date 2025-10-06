@@ -22,7 +22,18 @@ description: Performance comparison of @pyyupsk/fdu against popular date manipul
 
 ## Performance Benchmarks
 
-Performance tests were run using [Vitest Bench](https://vitest.dev/guide/features.html#benchmarking) on Bun 1.2+ and Node.js 22+.
+Performance tests were run using [Vitest Bench](https://vitest.dev/guide/features.html#benchmarking) with **Vitest 3.2.4** and **Bun 1.2.22** on **2025-10-06**.
+
+### Comprehensive Benchmark Results
+
+| Operation                    | @pyyupsk/fdu | Day.js      | date-fns    | Luxon       | Speedup vs Day.js |
+| ---------------------------- | ------------ | ----------- | ----------- | ----------- | ----------------- |
+| Date Parsing                 | 2.90M ops/s  | 1.90M ops/s | 118K ops/s  | 371K ops/s  | **1.52× faster**  |
+| Date Formatting              | 923K ops/s   | 460K ops/s  | 338K ops/s  | 551K ops/s  | **2.01× faster**  |
+| Date Manipulation            | 3.78M ops/s  | 850K ops/s  | 2.92M ops/s | 409K ops/s  | **4.44× faster**  |
+| Date Comparison              | 18.3M ops/s  | 1.54M ops/s | 4.73M ops/s | 6.96M ops/s | **11.89× faster** |
+| Complex Workflow             | 622K ops/s   | 215K ops/s  | 406K ops/s  | 145K ops/s  | **2.89× faster**  |
+| Batch Operations (100 dates) | 9.0K ops/s   | 4.6K ops/s  | 5.5K ops/s  | 2.3K ops/s  | **1.94× faster**  |
 
 ### Date Parsing
 
@@ -30,10 +41,10 @@ Parsing ISO 8601 date strings (`2025-09-30T14:35:45.123Z`):
 
 | Library          | Operations/sec | Relative Speed  |
 | ---------------- | -------------- | --------------- |
-| **@pyyupsk/fdu** | ~2,860,000     | 1.0x (baseline) |
-| Day.js           | ~1,945,000     | 0.68x           |
-| date-fns         | ~127,760       | 0.04x           |
-| Luxon            | ~405,000       | 0.14x           |
+| **@pyyupsk/fdu** | 2,901,746      | 1.0x (baseline) |
+| Day.js           | 1,903,742      | 0.66x           |
+| Luxon            | 370,889        | 0.13x           |
+| date-fns         | 117,629        | 0.04x           |
 
 <Callout type="info">
   date-fns uses `parse()` with format string, Day.js and fdu support direct ISO
@@ -46,10 +57,10 @@ Formatting dates with pattern `YYYY-MM-DD HH:mm:ss`:
 
 | Library          | Operations/sec | Relative Speed  |
 | ---------------- | -------------- | --------------- |
-| **@pyyupsk/fdu** | ~888,000       | 1.0x (baseline) |
-| Luxon            | ~534,000       | 0.60x           |
-| Day.js           | ~502,000       | 0.57x           |
-| date-fns         | ~366,000       | 0.41x           |
+| **@pyyupsk/fdu** | 923,251        | 1.0x (baseline) |
+| Luxon            | 551,267        | 0.60x           |
+| Day.js           | 459,759        | 0.50x           |
+| date-fns         | 338,468        | 0.37x           |
 
 ### Date Manipulation
 
@@ -57,10 +68,10 @@ Adding 1 day to a date:
 
 | Library          | Operations/sec | Relative Speed  |
 | ---------------- | -------------- | --------------- |
-| **@pyyupsk/fdu** | ~3,863,000     | 1.0x (baseline) |
-| date-fns         | ~2,844,000     | 0.74x           |
-| Day.js           | ~892,000       | 0.23x           |
-| Luxon            | ~402,000       | 0.10x           |
+| **@pyyupsk/fdu** | 3,778,316      | 1.0x (baseline) |
+| date-fns         | 2,916,110      | 0.77x           |
+| Day.js           | 850,403        | 0.23x           |
+| Luxon            | 408,963        | 0.11x           |
 
 ### Date Comparison
 
@@ -68,10 +79,32 @@ Comparing two dates with `isBefore()`:
 
 | Library          | Operations/sec | Relative Speed  |
 | ---------------- | -------------- | --------------- |
-| **@pyyupsk/fdu** | ~19,576,000    | 1.0x (baseline) |
-| Luxon            | ~7,242,000     | 0.37x           |
-| date-fns         | ~4,588,000     | 0.23x           |
-| Day.js           | ~1,472,000     | 0.08x           |
+| **@pyyupsk/fdu** | 18,322,497     | 1.0x (baseline) |
+| Luxon            | 6,964,052      | 0.38x           |
+| date-fns         | 4,732,608      | 0.26x           |
+| Day.js           | 1,540,387      | 0.08x           |
+
+### Complex Workflow
+
+Parse, format, and manipulate operations combined:
+
+| Library          | Operations/sec | Relative Speed  |
+| ---------------- | -------------- | --------------- |
+| **@pyyupsk/fdu** | 622,175        | 1.0x (baseline) |
+| date-fns         | 406,110        | 0.65x           |
+| Day.js           | 215,253        | 0.35x           |
+| Luxon            | 145,362        | 0.23x           |
+
+### Batch Operations
+
+Creating and formatting 100 dates:
+
+| Library          | Operations/sec | Relative Speed  |
+| ---------------- | -------------- | --------------- |
+| **@pyyupsk/fdu** | 9,018          | 1.0x (baseline) |
+| date-fns         | 5,479          | 0.61x           |
+| Day.js           | 4,649          | 0.52x           |
+| Luxon            | 2,333          | 0.26x           |
 
 ## Running Benchmarks Yourself
 
@@ -117,10 +150,12 @@ All benchmarks were conducted using:
 ## Key Takeaways
 
 1. **Bundle Size**: `@pyyupsk/fdu` (9.0 KB / 3.13 KB gzipped) is comparable to Day.js (7.0 KB / 2.9 KB), significantly smaller than Luxon (256 KB / ~70 KB) and date-fns (~70 KB full)
-2. **Parsing Performance**: **47% faster** than Day.js, **606% faster** than Luxon, **2,138% faster** than date-fns for ISO string parsing
-3. **Formatting Performance**: **77% faster** than Day.js, **66% faster** than Luxon, **143% faster** than date-fns
-4. **Manipulation**: **333% faster** than Day.js, **860% faster** than Luxon, **36% faster** than date-fns for add operations
-5. **Comparison**: **1,230% faster** than Day.js, **170% faster** than Luxon, **327% faster** than date-fns - **fastest date comparison** among all tested libraries
+2. **Parsing Performance**: **1.52× faster** than Day.js, **7.82× faster** than Luxon, **24.67× faster** than date-fns for ISO string parsing
+3. **Formatting Performance**: **2.01× faster** than Day.js, **1.67× faster** than Luxon, **2.73× faster** than date-fns
+4. **Manipulation**: **4.44× faster** than Day.js, **9.24× faster** than Luxon, **1.30× faster** than date-fns for add operations
+5. **Comparison**: **11.89× faster** than Day.js, **2.63× faster** than Luxon, **3.87× faster** than date-fns - **fastest date comparison** among all tested libraries
+6. **Complex Workflow**: **2.89× faster** than Day.js, **4.28× faster** than Luxon, **1.53× faster** than date-fns
+7. **Batch Operations**: **1.94× faster** than Day.js, **3.87× faster** than Luxon, **1.65× faster** than date-fns
 
 <Callout type="success">
   `@pyyupsk/fdu` provides excellent performance while maintaining a small bundle
