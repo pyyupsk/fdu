@@ -96,6 +96,22 @@ describe("weekday() method", () => {
       expect(monday.weekday()).toBe(0); // Monday is first day
       expect(sunday.weekday()).toBe(6); // Sunday is last day
     });
+
+    it("should default to Sunday (0) when locale has no weekStart", () => {
+      // Register a custom locale without weekStart (tests line 133: weekStart ?? 0)
+      registerLocale("test-no-weekstart", {
+        months: en.months,
+        weekdays: en.weekdays,
+        name: "test-no-weekstart",
+        // No weekStart property
+      });
+
+      const sunday = fdu("2025-10-05").locale("test-no-weekstart"); // Sunday
+      const monday = fdu("2025-10-06").locale("test-no-weekstart"); // Monday
+
+      expect(sunday.weekday()).toBe(0); // Sunday is first day (default)
+      expect(monday.weekday()).toBe(1);
+    });
   });
 
   describe("setter", () => {

@@ -147,4 +147,155 @@ describe("format()", () => {
       expect(duration).toBeLessThan(100); // Should handle 1000 formats quickly
     });
   });
+
+  describe("Token edge cases", () => {
+    it("should handle tokens without locale data", () => {
+      const result = format(testDate, "MMMM YYYY");
+      expect(result).toMatch(/^\d+ 2025$/);
+    });
+
+    it("should correctly replace valid tokens and leave invalid ones", () => {
+      const result = format(testDate, "YYYY-QQ-DD");
+      expect(result).toBe("2025-QQ-30");
+    });
+  });
+
+  describe("Nested bracket formatting", () => {
+    it("should format tokens inside nested brackets", () => {
+      const result = format(testDate, "[[YYYY-MM-DD]]");
+      expect(result).toBe("[2025-09-30]");
+    });
+
+    it("should handle multiple nested bracket pairs", () => {
+      const result = format(testDate, "[[YYYY]] [[MM]]");
+      expect(result).toBe("[2025] [09]");
+    });
+
+    it("should format complex patterns inside nested brackets", () => {
+      const result = format(testDate, "[[YYYY-MM-DD HH:mm]]");
+      expect(result).toMatch(/^\[2025-09-30 \d{2}:\d{2}\]$/);
+    });
+  });
+
+  describe("Locale format expansion", () => {
+    it("should expand LT format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "LT", localeWithFormats);
+      expect(result).toMatch(/^\d{1,2}:\d{2} (AM|PM)$/);
+    });
+
+    it("should expand LTS format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "LTS", localeWithFormats);
+      expect(result).toMatch(/^\d{1,2}:\d{2}:\d{2} (AM|PM)$/);
+    });
+
+    it("should expand L format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "L", localeWithFormats);
+      expect(result).toBe("09/30/2025");
+    });
+
+    it("should expand LL format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "LL", localeWithFormats);
+      expect(result).toMatch(/^\w+ 30, 2025$/);
+    });
+
+    it("should expand LLL format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "LLL", localeWithFormats);
+      expect(result).toMatch(/^\w+ 30, 2025 \d{1,2}:\d{2} (AM|PM)$/);
+    });
+
+    it("should expand LLLL format when locale has formats defined", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      const result = format(testDate, "LLLL", localeWithFormats);
+      expect(result).toMatch(/^\w+, \w+ 30, 2025 \d{1,2}:\d{2} (AM|PM)$/);
+    });
+
+    it("should not expand format when pattern doesn't match exactly", () => {
+      const localeWithFormats = {
+        ...en,
+        formats: {
+          LT: "h:mm A",
+          LTS: "h:mm:ss A",
+          L: "MM/DD/YYYY",
+          LL: "MMMM D, YYYY",
+          LLL: "MMMM D, YYYY h:mm A",
+          LLLL: "dddd, MMMM D, YYYY h:mm A",
+        },
+      };
+      // Pattern "LT YYYY" does not exactly match any format key, so no expansion happens
+      // The pattern is treated as tokens: LT (no token) YYYY (expands to 2025)
+      const result = format(testDate, "LT YYYY", localeWithFormats);
+      expect(result).toBe("LT 2025");
+    });
+
+    it("should skip format expansion when locale has no formats", () => {
+      const result = format(testDate, "LLLL");
+      // Without locale formats, LLLL should be treated as tokens
+      expect(result).toMatch(/LLLL/);
+    });
+  });
 });

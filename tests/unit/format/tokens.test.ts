@@ -85,6 +85,43 @@ describe("Format Tokens", () => {
       expect(result).toBe("30");
     });
 
+    it("Do should handle edge cases in ordinal function", () => {
+      // Test edge cases for en.ts ordinal function line 56
+      const date1 = new Date("2025-09-01"); // 1st
+      const date2 = new Date("2025-09-02"); // 2nd
+      const date3 = new Date("2025-09-03"); // 3rd
+      const date4 = new Date("2025-09-04"); // 4th
+      const date10 = new Date("2025-09-10"); // 10th
+      const date11 = new Date("2025-01-11"); // 11th (special case)
+      const date12 = new Date("2025-01-12"); // 12th (special case)
+      const date13 = new Date("2025-01-13"); // 13th (special case)
+      const date14 = new Date("2025-01-14"); // 14th
+      const date20 = new Date("2025-01-20"); // 20th
+      const date21 = new Date("2025-01-21"); // 21st
+      const date22 = new Date("2025-01-22"); // 22nd
+      const date23 = new Date("2025-01-23"); // 23rd
+      const date24 = new Date("2025-01-24"); // 24th
+      const date30 = new Date("2025-09-30"); // 30th
+      const date31 = new Date("2025-01-31"); // 31st
+
+      expect(tokens.Do(date1, en)).toBe("1st");
+      expect(tokens.Do(date2, en)).toBe("2nd");
+      expect(tokens.Do(date3, en)).toBe("3rd");
+      expect(tokens.Do(date4, en)).toBe("4th");
+      expect(tokens.Do(date10, en)).toBe("10th");
+      expect(tokens.Do(date11, en)).toBe("11th");
+      expect(tokens.Do(date12, en)).toBe("12th");
+      expect(tokens.Do(date13, en)).toBe("13th");
+      expect(tokens.Do(date14, en)).toBe("14th");
+      expect(tokens.Do(date20, en)).toBe("20th");
+      expect(tokens.Do(date21, en)).toBe("21st");
+      expect(tokens.Do(date22, en)).toBe("22nd");
+      expect(tokens.Do(date23, en)).toBe("23rd");
+      expect(tokens.Do(date24, en)).toBe("24th");
+      expect(tokens.Do(date30, en)).toBe("30th");
+      expect(tokens.Do(date31, en)).toBe("31st");
+    });
+
     it("should handle single-digit days", () => {
       const date = new Date("2025-09-05");
       expect(tokens.DD(date)).toBe("05");

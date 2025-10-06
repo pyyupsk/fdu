@@ -406,4 +406,29 @@ describe("DateTime edge cases", () => {
     expect(date.month()).toBe(0);
     expect(date.date()).toBe(1);
   });
+
+  it("should handle local() method when offset is 0 (UTC)", () => {
+    // Create a date and test the local() method
+    const date = fdu("2025-10-05T12:00:00.000Z");
+    const localDate = date.local();
+    expect(localDate.isValid()).toBe(true);
+    // local() should return a new instance
+    expect(localDate).not.toBe(date);
+  });
+
+  it("should handle local() method when offset is not 0", () => {
+    // Test with a date that has non-zero offset
+    const date = fdu("2025-10-05T12:00:00");
+    const localDate = date.local();
+    expect(localDate.isValid()).toBe(true);
+    expect(localDate).not.toBe(date);
+  });
+
+  it("should return global locale when instance has no locale set", () => {
+    // This tests the || branch in locale() getter (line 207)
+    const date = fdu("2025-10-05");
+    const localeName = date.locale();
+    expect(typeof localeName).toBe("string");
+    expect(localeName).toBe("en"); // Default global locale
+  });
 });

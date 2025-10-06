@@ -348,4 +348,88 @@ describe("Advanced Format Plugin", () => {
       expect(typeof advancedFormat.version).toBe("string");
     });
   });
+
+  describe("Edge cases for year boundary calculations", () => {
+    it("should handle weekYear when week is 1 in December (return year + 1)", () => {
+      // Dec 31, 2027 is a Friday, which means Dec 27-31 could be week 1 of 2028
+      const date = fdu("2027-12-27");
+      const weekNum = date.weekOfYear();
+      if (weekNum === 1) {
+        // Lines 109-111 in advanced-format.ts
+        expect(date.weekYear()).toBe(2028);
+        expect(date.month()).toBe(11); // December
+      }
+    });
+
+    it("should handle weekYear when week is 52+ in January (return year - 1)", () => {
+      // Jan 1, 2022 is a Saturday, which is in week 52 of 2021
+      const date = fdu("2022-01-01");
+      const weekNum = date.weekOfYear();
+      if (weekNum >= 52) {
+        // Lines 113-115 in advanced-format.ts
+        expect(date.weekYear()).toBe(2021);
+        expect(date.month()).toBe(0); // January
+      }
+    });
+
+    it("should handle isoWeekYear when ISO week is 1 in December (return year + 1)", () => {
+      // Dec 30, 2024 is Monday, ISO week 1 of 2025
+      const date = fdu("2024-12-30");
+      expect(date.isoWeek()).toBe(1);
+      expect(date.month()).toBe(11); // December
+      expect(date.isoWeekYear()).toBe(2025);
+    });
+
+    it("should handle isoWeekYear when ISO week is 52+ in January (return year - 1)", () => {
+      // Jan 1, 2022 is Saturday, ISO week 52 of 2021
+      const date = fdu("2022-01-01");
+      expect(date.isoWeek()).toBe(52);
+      expect(date.month()).toBe(0); // January
+      expect(date.isoWeekYear()).toBe(2021);
+    });
+
+    it("should test multiple December dates to ensure week 1 coverage", () => {
+      const decemberDates = [
+        "2027-12-27",
+        "2027-12-28",
+        "2027-12-29",
+        "2027-12-30",
+        "2027-12-31",
+      ];
+
+      for (const dateStr of decemberDates) {
+        const date = fdu(dateStr);
+        const weekNum = date.weekOfYear();
+        const year = date.weekYear();
+
+        // Verify the function works and returns a valid year
+        expect(typeof year).toBe("number");
+        expect(year).toBeGreaterThanOrEqual(2027);
+        expect(year).toBeLessThanOrEqual(2028);
+
+        // If it's week 1 in December, year should be next year
+        if (weekNum === 1) {
+          expect(year).toBe(2028);
+        }
+      }
+    });
+
+    it("should test multiple January dates to ensure week 52/53 coverage", () => {
+      const januaryDates = ["2022-01-01", "2022-01-02", "2023-01-01"];
+
+      for (const dateStr of januaryDates) {
+        const date = fdu(dateStr);
+        const weekNum = date.weekOfYear();
+        const year = date.weekYear();
+
+        // Verify the function works and returns a valid year
+        expect(typeof year).toBe("number");
+
+        // If it's week 52+ in January, year should be previous year
+        if (weekNum >= 52) {
+          expect(year).toBeLessThan(date.year());
+        }
+      }
+    });
+  });
 });

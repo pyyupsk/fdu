@@ -41,7 +41,7 @@ date.locale("es").format("LLLL");
 - TypeScript-first, no runtime deps
 - Immutable, locale-aware API
 - Fine-grained comparisons & date math
-- Comprehensive test coverage (94%+)
+- Comprehensive test coverage (98%+)
 
 ### ⚡ Performance
 

@@ -90,7 +90,7 @@ bun run test
 # Run tests in watch mode
 bun run test:watch
 
-# Check coverage (must be ≥95%)
+# Check coverage (must meet thresholds: lines ≥99%, branches ≥96%, functions 100%, statements ≥99%)
 bun run test:coverage
 
 # Run benchmarks (ensure no performance regressions)
@@ -174,7 +174,7 @@ Then create a Pull Request on GitHub with:
 ### 6. Testing Discipline (TDD)
 
 - Write tests **before** implementation
-- Maintain ≥95% coverage
+- Maintain coverage thresholds: lines ≥99%, branches ≥96%, functions 100%, statements ≥99%
 - Include edge case tests
 - Add performance benchmarks for new features
 
@@ -274,7 +274,7 @@ Before submitting your PR, ensure:
 
 - [ ] Code follows project style (lint passes)
 - [ ] All tests pass (`bun run test`)
-- [ ] Coverage remains ≥95% (`bun run test:coverage`)
+- [ ] Coverage thresholds met: lines ≥99%, branches ≥96%, functions 100%, statements ≥99% (`bun run test:coverage`)
 - [ ] Benchmarks show no regressions (`bun run bench`)
 - [ ] Types are strict (`bun run typecheck`)
 - [ ] Documentation is updated (README, JSDoc)

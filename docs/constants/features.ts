@@ -18,6 +18,6 @@ export const features = [
     title: "Test Coverage",
     description:
       "Rigorously tested with comprehensive unit & integration coverage.",
-    metric: "94%+",
+    metric: "98%+",
   },
 ];
