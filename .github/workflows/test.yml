@@ -31,14 +31,14 @@ jobs:
       - name: Type check
         run: bun run typecheck
 
+      - name: Build project
+        run: bun run build
+
       - name: Run tests
         run: bun run test
 
       - name: Run tests with coverage
         run: bun run test:coverage
-
-      - name: Build project
-        run: bun run build
 
       - name: Upload coverage to Codecov
         if: matrix.node-version == '22.x'
