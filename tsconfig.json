@@ -15,7 +15,11 @@
 
     // Path mappings
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@pyyupsk/fdu": ["./src/index.ts"],
+      "@pyyupsk/fdu/types": ["./src/core/types.ts"],
+      "@pyyupsk/fdu/locale/*": ["./src/locale/locales/*.ts"],
+      "@pyyupsk/fdu/plugins/*": ["./src/plugins/*.ts"]
     },
 
     // Best practices
