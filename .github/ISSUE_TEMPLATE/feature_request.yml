@@ -1,0 +1,145 @@
+name: Feature Request
+description: Suggest a new feature or enhancement for fdu
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! Please describe your idea in detail.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? Is your feature request related to a problem?
+      placeholder: I'm frustrated when I need to... because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature you'd like to see implemented.
+      placeholder: Add a new method `fdu().quarter()` that returns the quarter (1-4) of the year...
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API
+      description: Show how you'd like to use this feature (code example).
+      render: typescript
+      placeholder: |
+        const date = fdu("2025-04-15");
+        console.log(date.quarter()); // Output: 2
+
+        // Or with setter
+        const newDate = date.quarter(3); // Sets to Q3
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: |
+        Current workaround:
+        const quarter = Math.floor(date.month() / 3) + 1;
+
+        But this doesn't handle edge cases...
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Feature Scope
+      description: Should this be in core or a plugin?
+      options:
+        - Core (essential functionality)
+        - Plugin (optional/advanced feature)
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: comparison
+    attributes:
+      label: Comparison with Other Libraries
+      description: How do Day.js, date-fns, or Luxon handle this feature?
+      placeholder: |
+        - Day.js: dayjs().quarter() (requires QuarterOfYear plugin)
+        - date-fns: getQuarter(date)
+        - Luxon: dateTime.quarter
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Breaking Change?
+      description: Would this introduce breaking changes to the API?
+      options:
+        - "No"
+        - "Yes"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Nice to have
+        - Would improve my workflow
+        - Blocking my project
+        - Critical for production
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Real-World Use Case
+      description: Describe a real scenario where you'd use this feature.
+      placeholder: |
+        Building a financial dashboard that groups transactions by quarter.
+        Currently have to write custom logic for each date operation.
+
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Implementation Interest
+      description: Would you be willing to implement this feature?
+      options:
+        - Yes, I can submit a PR
+        - Yes, with guidance
+        - No, but I can test it
+        - No
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context, screenshots, or references about the feature.
+        - Links to related issues or discussions
+        - Performance considerations
+        - Impact on bundle size
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-Submission Checklist
+      description: Please confirm the following before submitting.
+      options:
+        - label: I have searched existing issues and discussions to ensure this is not a duplicate
+          required: true
+        - label: I have read the Constitutional Principles in CONTRIBUTING.md (zero dependencies, performance-first, etc.)
+          required: true
+        - label: This feature aligns with fdu's philosophy (minimal API, tree-shakeable, modern standards)
+          required: false
