@@ -35,13 +35,11 @@ const THRESHOLDS = {
   YEAR: 47304000, // 1.5 years
 } as const;
 
-// Time unit divisors
+// Time unit divisors (for duration-based units only)
 const DIVISORS = {
   MINUTE: 60,
   HOUR: 3600,
   DAY: 86400,
-  MONTH: 2592000,
-  YEAR: 31536000,
 } as const;
 
 /**
@@ -86,6 +84,8 @@ function formatTime(
  * @param seconds - Absolute seconds difference
  * @param direction - Time direction (past/future)
  * @param style - Display style (long/short)
+ * @param thisDate - The current FduInstance (for calendar-based month/year calculations)
+ * @param compareDate - The comparison FduInstance (for calendar-based month/year calculations)
  * @returns Formatted relative time string
  *
  * @internal
@@ -94,6 +94,8 @@ function getTimeFormat(
   seconds: number,
   direction: TimeDirection,
   style: "long" | "short",
+  thisDate?: FduInstance,
+  compareDate?: FduInstance,
 ): string {
   if (seconds < THRESHOLDS.SECONDS) {
     return formatTime(
@@ -118,7 +120,7 @@ function getTimeFormat(
   }
 
   if (seconds < THRESHOLDS.MINUTES) {
-    const mins = Math.round(seconds / DIVISORS.MINUTE);
+    const mins = Math.floor(seconds / DIVISORS.MINUTE);
     return formatTime(
       {
         short: `${mins}m`,
@@ -142,7 +144,7 @@ function getTimeFormat(
   }
 
   if (seconds < THRESHOLDS.HOURS) {
-    const hours = Math.round(seconds / DIVISORS.HOUR);
+    const hours = Math.floor(seconds / DIVISORS.HOUR);
     return formatTime(
       {
         short: `${hours}h`,
@@ -166,7 +168,7 @@ function getTimeFormat(
   }
 
   if (seconds < THRESHOLDS.DAYS) {
-    const days = Math.round(seconds / DIVISORS.DAY);
+    const days = Math.floor(seconds / DIVISORS.DAY);
     return formatTime(
       {
         short: `${days}d`,
@@ -189,7 +191,10 @@ function getTimeFormat(
   }
 
   if (seconds < THRESHOLDS.MONTHS) {
-    const months = Math.round(seconds / DIVISORS.MONTH);
+    const months =
+      thisDate && compareDate
+        ? Math.abs(thisDate.diff(compareDate, "month"))
+        : Math.floor(seconds / 2628000); // Fallback (30.4375 days)
     return formatTime(
       {
         short: `${months}mo`,
@@ -212,7 +217,10 @@ function getTimeFormat(
     );
   }
 
-  const years = Math.round(seconds / DIVISORS.YEAR);
+  const years =
+    thisDate && compareDate
+      ? Math.abs(thisDate.diff(compareDate, "year"))
+      : Math.floor(seconds / 31536000); // Fallback (365 days)
   return formatTime(
     {
       short: `${years}y`,
@@ -275,7 +283,7 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
       const seconds = Math.abs(diff) / 1000;
       const direction: TimeDirection = diff > 0 ? "past" : "future";
 
-      return getTimeFormat(seconds, direction, style);
+      return getTimeFormat(seconds, direction, style, this, now);
     });
 
     // Add toNow() method - "in X time" (inverse of fromNow)
@@ -286,7 +294,7 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
       const seconds = Math.abs(diff) / 1000;
       const direction: TimeDirection = diff > 0 ? "future" : "past";
 
-      return getTimeFormat(seconds, direction, style);
+      return getTimeFormat(seconds, direction, style, this, now);
     });
 
     // Add from() method - "X time ago" relative to a specific date
@@ -300,7 +308,7 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
         const seconds = Math.abs(diff) / 1000;
         const direction: TimeDirection = diff > 0 ? "past" : "future";
 
-        return getTimeFormat(seconds, direction, style);
+        return getTimeFormat(seconds, direction, style, this, compared);
       },
     );
 
@@ -313,7 +321,7 @@ export const relativeTime: Plugin<RelativeTimeOptions> = {
       const seconds = Math.abs(diff) / 1000;
       const direction: TimeDirection = diff > 0 ? "future" : "past";
 
-      return getTimeFormat(seconds, direction, style);
+      return getTimeFormat(seconds, direction, style, this, compared);
     });
   },
 };
