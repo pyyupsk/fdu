@@ -1,6 +1,6 @@
+import { en } from "@pyyupsk/fdu/locale/en";
+import { tokens } from "@/format/tokens";
 import { describe, expect, it } from "vitest";
-import { tokens } from "../../../src/format/tokens";
-import { en } from "../../../src/locale/locales/en";
 
 describe("Format Tokens", () => {
   const testDate = new Date("2025-09-30T14:35:45.123Z");

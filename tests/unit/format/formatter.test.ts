@@ -1,7 +1,7 @@
+import { en } from "@pyyupsk/fdu/locale/en";
+import { th } from "@pyyupsk/fdu/locale/th";
+import { format } from "@/format/formatter";
 import { describe, expect, it } from "vitest";
-import { format } from "../../../src/format/formatter";
-import { en } from "../../../src/locale/locales/en";
-import { th } from "../../../src/locale/locales/th";
 
 describe("format()", () => {
   const testDate = new Date("2025-09-30T14:35:45.123Z");

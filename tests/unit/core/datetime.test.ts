@@ -1,5 +1,5 @@
+import { fdu } from "@pyyupsk/fdu";
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
 
 describe("fdu() factory function", () => {
   it("should create DateTime from undefined (current date)", () => {

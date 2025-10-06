@@ -1,14 +1,10 @@
+import { fdu, registerLocale, locale as setGlobalLocale } from "@pyyupsk/fdu";
+import { en } from "@pyyupsk/fdu/locale/en";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { fr } from "@pyyupsk/fdu/locale/fr";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
+import type { LocaleConfig } from "@pyyupsk/fdu/types";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fdu } from "../../src/core/datetime";
-import type { LocaleConfig } from "../../src/core/types";
-import {
-  registerLocale,
-  locale as setGlobalLocale,
-} from "../../src/locale/locale";
-import { en } from "../../src/locale/locales/en";
-import { es } from "../../src/locale/locales/es";
-import { fr } from "../../src/locale/locales/fr";
-import { zhCn } from "../../src/locale/locales/zh-cn";
 
 describe("Multi-Locale Integration Tests", () => {
   beforeEach(() => {

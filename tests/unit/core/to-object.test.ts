@@ -1,5 +1,5 @@
+import { fdu } from "@pyyupsk/fdu";
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
 
 describe("toObject() method", () => {
   it("should convert date to object with all components", () => {

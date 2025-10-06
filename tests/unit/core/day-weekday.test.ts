@@ -1,7 +1,6 @@
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { en } from "@pyyupsk/fdu/locale/en";
 import { beforeAll, describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
-import { registerLocale } from "../../../src/locale/locale";
-import { en } from "../../../src/locale/locales/en";
 
 beforeAll(() => {
   registerLocale("en", en);

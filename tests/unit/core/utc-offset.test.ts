@@ -1,5 +1,5 @@
+import { fdu } from "@pyyupsk/fdu";
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
 
 describe("utcOffset() method", () => {
   it("should get the current UTC offset in minutes", () => {

@@ -1,3 +1,4 @@
+import { fdu } from "@pyyupsk/fdu";
 import {
   add as dateFnsAdd,
   format as dateFnsFormat,
@@ -7,7 +8,6 @@ import {
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
 import { bench, describe } from "vitest";
-import { fdu } from "../../src";
 
 const TEST_DATE = "2025-09-30T14:35:45.123Z";
 

@@ -1,6 +1,6 @@
+import { en } from "@pyyupsk/fdu/locale/en";
+import { format } from "@/format/formatter";
 import { describe, expect, it } from "vitest";
-import { format } from "../../../src/format/formatter";
-import { en } from "../../../src/locale/locales/en";
 
 describe("Escaped Text in Format Strings", () => {
   const testDate = new Date("2025-01-15T14:30:00");

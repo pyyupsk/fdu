@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
-import type { ObjectInput } from "../../../src/core/types";
 import {
   isObjectInput,
   parseObjectInput,
   parseObjectInputUTC,
-} from "../../../src/parse/object-parser";
+} from "@/parse/object-parser";
+import type { ObjectInput } from "@pyyupsk/fdu/types";
+import { describe, expect, it } from "vitest";
 
 describe("Object Parser", () => {
   describe("isObjectInput", () => {

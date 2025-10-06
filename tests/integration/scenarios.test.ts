@@ -1,8 +1,7 @@
+import { fdu, registerLocale } from "@pyyupsk/fdu";
+import { en } from "@pyyupsk/fdu/locale/en";
+import { th } from "@pyyupsk/fdu/locale/th";
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../src";
-import { registerLocale } from "../../src/locale/locale";
-import { en } from "../../src/locale/locales/en";
-import { th } from "../../src/locale/locales/th";
 
 describe("Integration: User Scenarios", () => {
   describe("Scenario 1: Basic date creation and formatting", () => {

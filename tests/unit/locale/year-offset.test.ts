@@ -1,11 +1,7 @@
+import { fdu, registerLocale, locale as setGlobalLocale } from "@pyyupsk/fdu";
+import { en } from "@pyyupsk/fdu/locale/en";
+import { th } from "@pyyupsk/fdu/locale/th";
 import { beforeEach, describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
-import {
-  registerLocale,
-  locale as setGlobalLocale,
-} from "../../../src/locale/locale";
-import { en } from "../../../src/locale/locales/en";
-import { th } from "../../../src/locale/locales/th";
 
 describe("Year Offset - Alternative Calendar Systems", () => {
   beforeEach(() => {

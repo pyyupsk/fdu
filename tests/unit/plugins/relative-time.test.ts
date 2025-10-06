@@ -1,6 +1,6 @@
+import { fdu } from "@/core/datetime";
+import { relativeTime } from "@/plugins/relative-time";
 import { beforeEach, describe, expect, it } from "vitest";
-import { fdu } from "../../../src";
-import { relativeTime } from "../../../src/plugins/relative-time";
 
 describe("Relative Time Plugin", () => {
   describe("Long format (default)", () => {

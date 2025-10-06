@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
 import {
   diff,
   isAfter,
   isBefore,
   isSame,
-} from "../../../src/compare/comparisons";
+} from "@/compare/comparisons";
+import { describe, expect, it } from "vitest";
 
 describe("isBefore()", () => {
   const date1 = new Date("2025-09-30T12:00:00.000Z");

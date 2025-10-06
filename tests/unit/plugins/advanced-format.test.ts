@@ -1,6 +1,6 @@
+import { fdu } from "@/core/datetime";
+import { advancedFormat } from "@/plugins/advanced-format";
 import { beforeEach, describe, expect, it } from "vitest";
-import { fdu } from "../../../src";
-import { advancedFormat } from "../../../src/plugins/advanced-format";
 
 describe("Advanced Format Plugin", () => {
   beforeEach(() => {

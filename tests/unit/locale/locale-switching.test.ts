@@ -1,10 +1,6 @@
+import { fdu, registerLocale, locale as setGlobalLocale } from "@pyyupsk/fdu";
+import { en } from "@pyyupsk/fdu/locale/en";
 import { beforeEach, describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
-import {
-  registerLocale,
-  locale as setGlobalLocale,
-} from "../../../src/locale/locale";
-import { en } from "../../../src/locale/locales/en";
 
 describe("FdInstance.locale() - Instance-level locale switching", () => {
   beforeEach(() => {

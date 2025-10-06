@@ -13,6 +13,11 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
+    // Path mappings
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     // Best practices
     "strict": true,
     "skipLibCheck": true,

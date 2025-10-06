@@ -1,13 +1,13 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { en } from "@pyyupsk/fdu/locale/en";
+import { th } from "@pyyupsk/fdu/locale/th";
+import { zhCn } from "@pyyupsk/fdu/locale/zh-cn";
 import {
   getLocale,
   locale,
   registerLocale,
   resolveLocale,
-} from "../../../src/locale/locale";
-import { en } from "../../../src/locale/locales/en";
-import { th } from "../../../src/locale/locales/th";
-import { zhCn } from "../../../src/locale/locales/zh-cn";
+} from "@/locale/locale";
+import { beforeEach, describe, expect, it } from "vitest";
 
 describe("Locale Management", () => {
   beforeEach(() => {
