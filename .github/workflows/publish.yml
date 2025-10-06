@@ -35,8 +35,8 @@ jobs:
       - name: Setup Node.js for npm
         uses: actions/setup-node@v5
         with:
-          node-version: '22.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 22.x
+          registry-url: https://registry.npmjs.org
 
       - name: Determine npm tag
         id: npm-tag

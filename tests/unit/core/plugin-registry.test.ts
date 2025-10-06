@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it } from "vitest";
 import { fdu } from "@/core/datetime";
 import {
   CoreMethodOverrideError,
@@ -5,7 +6,6 @@ import {
   PluginRegistry,
 } from "@/core/plugin-registry";
 import type { FduInstance, Plugin } from "@/core/types";
-import { beforeEach, describe, expect, it } from "vitest";
 
 describe("PluginRegistry", () => {
   let registry: PluginRegistry;
