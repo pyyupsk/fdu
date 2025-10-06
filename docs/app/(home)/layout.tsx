@@ -31,6 +31,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "pyyupsk" }],
   creator: "pyyupsk",
+  alternates: {
+    canonical: "https://fdu.fasu.dev",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -39,6 +42,14 @@ export const metadata: Metadata = {
     description:
       "A zero-dependency, immutable, and type-safe date manipulation library for TypeScript and JavaScript with full internationalization support.",
     siteName: "@pyyupsk/fdu",
+    images: [
+      {
+        url: "https://fdu.fasu.dev/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "@pyyupsk/fdu - The 4× faster date library for JavaScript",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -46,6 +57,7 @@ export const metadata: Metadata = {
     description:
       "Zero-dependency, immutable date library for TypeScript with i18n support",
     creator: "@pyyupsk",
+    images: ["https://fdu.fasu.dev/opengraph-image.png"],
   },
   robots: {
     index: true,
