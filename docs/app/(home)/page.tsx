@@ -1,6 +1,5 @@
 "use client";
 
-import { fdu } from "@pyyupsk/fdu";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { ChevronRight } from "fumadocs-ui/internal/icons";
@@ -29,11 +28,15 @@ import { cn } from "@/lib/cn";
 export default function HomePage() {
   const [today, setToday] = useState<string>("");
   const [formattedDate, setFormattedDate] = useState<string>("");
+  const [benchmarkDateFormatted, setBenchmarkDateFormatted] = useState<string>(BENCHMARK_DATE);
 
   useEffect(() => {
-    const now = fdu().toISOString();
-    setToday(now);
-    setFormattedDate(fdu(now).format("dddd [at] HH:mm"));
+    import("@pyyupsk/fdu").then(({ fdu }) => {
+      const now = fdu().toISOString();
+      setToday(now);
+      setFormattedDate(fdu(now).format("dddd [at] HH:mm"));
+      setBenchmarkDateFormatted(fdu(BENCHMARK_DATE).format("MMMM D, YYYY"));
+    });
   }, []);
 
   return (
@@ -147,8 +150,8 @@ export default function HomePage() {
             </h2>
             <p className="text-fd-muted-foreground text-lg text-pretty max-w-3xl mx-auto">
               Benchmarked with Vitest {VITEST_VERSION} and Bun {BUN_VERSION} on{" "}
-              {fdu(BENCHMARK_DATE).format("MMMM D, YYYY")} - Real-world
-              performance gains for your applications.
+              {benchmarkDateFormatted} - Real-world performance gains for your
+              applications.
             </p>
           </div>
           <div className="pb-12 px-6">
