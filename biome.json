@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -18,10 +18,7 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "suspicious": {
-        "noUnknownAtRules": "off"
-      },
-      "nursery": {
+      "style": {
         "useConsistentTypeDefinitions": {
           "level": "error",
           "fix": "safe",
@@ -30,6 +27,11 @@
           }
         }
       }
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
     }
   },
   "assist": {
