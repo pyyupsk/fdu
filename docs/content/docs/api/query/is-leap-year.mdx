@@ -1,0 +1,122 @@
+---
+title: isLeapYear()
+description: Check if the year of a date is a leap year using proper Gregorian calendar rules. Essential for date validation, calendar applications, and age calculations.
+---
+
+Checks if the year of this date is a leap year according to the Gregorian calendar rules.
+
+## Syntax
+
+```typescript
+.isLeapYear(): boolean
+```
+
+## Returns
+
+`boolean` - True if the year is a leap year
+
+## Leap Year Rules
+
+A year is a leap year if:
+1. It is divisible by 4, AND
+2. Either not divisible by 100, OR divisible by 400
+
+Examples:
+- 2024 is a leap year (divisible by 4)
+- 1900 is NOT a leap year (divisible by 100 but not 400)
+- 2000 IS a leap year (divisible by 400)
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+fdu("2024-01-15").isLeapYear(); // true
+fdu("2023-01-15").isLeapYear(); // false
+fdu("2000-01-15").isLeapYear(); // true
+fdu("1900-01-15").isLeapYear(); // false
+```
+
+### February Days Check
+
+```typescript
+function getDaysInFebruary(year: number): number {
+  return fdu({ year, month: 1, day: 1 }).isLeapYear() ? 29 : 28;
+}
+
+getDaysInFebruary(2024); // 29
+getDaysInFebruary(2023); // 28
+```
+
+### Date Validation
+
+```typescript
+function isValidDate(year: number, month: number, day: number): boolean {
+  const date = fdu({ year, month, day });
+
+  if (month === 1 && day === 29) {
+    return date.isLeapYear();
+  }
+
+  return date.isValid();
+}
+
+isValidDate(2024, 1, 29); // true (Feb 29, 2024 exists)
+isValidDate(2023, 1, 29); // false (Feb 29, 2023 doesn't exist)
+```
+
+### Next Leap Year
+
+```typescript
+function nextLeapYear(date: FduInstance): number {
+  let year = date.year();
+
+  while (!fdu({ year, month: 0, day: 1 }).isLeapYear()) {
+    year++;
+  }
+
+  return year;
+}
+
+nextLeapYear(fdu("2023-06-15")); // 2024
+nextLeapYear(fdu("2024-06-15")); // 2024
+nextLeapYear(fdu("2025-01-01")); // 2028
+```
+
+### Leap Year Birthday Handling
+
+```typescript
+function getNextBirthday(birthdate: FduInstance): FduInstance {
+  const today = fdu();
+  let nextBirthday = fdu({
+    year: today.year(),
+    month: birthdate.month(),
+    day: birthdate.date(),
+  });
+
+  // Handle Feb 29 birthdays
+  if (birthdate.month() === 1 && birthdate.date() === 29) {
+    if (!nextBirthday.isLeapYear()) {
+      // Use Feb 28 in non-leap years
+      nextBirthday = fdu({
+        year: today.year(),
+        month: 1,
+        day: 28,
+      });
+    }
+  }
+
+  if (nextBirthday.isBefore(today)) {
+    nextBirthday = nextBirthday.add(1, "year");
+  }
+
+  return nextBirthday;
+}
+```
+
+## See Also
+
+- [year()](/docs/api/get) - Get the year component
+- [isValid()](/docs/api/conversion/is-valid) - Check if date is valid

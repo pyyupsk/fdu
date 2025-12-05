@@ -1,4 +1,11 @@
 {
   "title": "Comparison",
-  "pages": ["is-before", "is-after", "is-same", "diff"]
+  "pages": [
+    "is-before",
+    "is-after",
+    "is-same",
+    "is-same-or-before",
+    "is-same-or-after",
+    "diff"
+  ]
 }

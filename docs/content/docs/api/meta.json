@@ -5,6 +5,7 @@
     "formatting",
     "manipulation",
     "comparison",
+    "query",
     "get",
     "conversion",
     "locale"

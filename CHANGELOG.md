@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.0-beta.3] - 2025-12-05
+
+### ✨ Features
+
+- **New Date Methods**
+  - Added `day()` and `weekday()` setter methods for day-of-week manipulation
+  - Added `toObject()` method to convert dates to component objects
+  - Added `utcOffset()` and `local()` methods for timezone management
+  - Added date comparison utilities: `isToday()`, `isTomorrow()`, `isYesterday()`, `isLeapYear()`
+  - Added `isSameOrBefore()` and `isSameOrAfter()` comparison methods
+
+### 🐛 Bug Fixes
+
+- **Temporal Correctness**
+  - Fixed `diff()` to use `Math.floor()` instead of `Math.round()` for elapsed time (floor semantics)
+  - Fixed relative-time plugin to use calendar-based diff for months/years instead of duration conversion
+
+### 📝 Changes
+
+- **Documentation**
+  - Added philosophical foundations and design principles (Chronos/Kairos concepts)
+  - Emphasized temporal correctness alongside performance in introduction
+  - Added PWA support with manifest and app icons
+  - Implemented reusable OG image system
+  - Added sitemap and robots.txt for SEO optimization
+  - Enhanced homepage with performance benchmarks and UI improvements
+
+- **Testing**
+  - Restructured tests to mirror src/ directory structure
+  - Achieved 98.5% overall code coverage
+  - Migrated tests to use public API with path aliases
+
+- **Build & Tooling**
+  - Added ESLint with eslint-plugin-jsdoc for documentation enforcement
+  - Updated dependencies: biome 2.3.8, vitest 4.0.15, tsdown 0.17.0
+  - Added GitHub issue and PR templates for community contributions
+
 ## [0.0.0-beta.2] - 2025-10-04
 
 ### ✨ Features
@@ -125,4 +162,6 @@ The first beta release of `fdu` (faster date-time utility) - an ultra-fast, zero
 - Immutable by default
 - Day.js-compatible API for easy migration
 
+[0.0.0-beta.3]: https://github.com/pyyupsk/fdu/releases/tag/v0.0.0-beta.3
+[0.0.0-beta.2]: https://github.com/pyyupsk/fdu/releases/tag/v0.0.0-beta.2
 [0.0.0-beta.1]: https://github.com/pyyupsk/fdu/releases/tag/v0.0.0-beta.1

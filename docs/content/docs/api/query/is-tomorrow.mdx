@@ -1,0 +1,99 @@
+---
+title: isTomorrow()
+description: Check if a date is tomorrow. Useful for upcoming event notifications, deadline warnings, and scheduling applications.
+---
+
+Checks if this date is tomorrow (the calendar day after today).
+
+## Syntax
+
+```typescript
+.isTomorrow(): boolean
+```
+
+## Returns
+
+`boolean` - True if the date is tomorrow
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+// Assuming today is 2024-01-15
+fdu("2024-01-16").isTomorrow();          // true
+fdu("2024-01-16T08:00:00").isTomorrow(); // true (same day, different time)
+fdu("2024-01-15").isTomorrow();          // false (today)
+fdu("2024-01-17").isTomorrow();          // false (day after tomorrow)
+```
+
+### Upcoming Event Notification
+
+```typescript
+function getEventNotification(eventDate: FduInstance, eventName: string): string | null {
+  if (eventDate.isTomorrow()) {
+    return `Reminder: "${eventName}" is tomorrow!`;
+  }
+  return null;
+}
+
+const meeting = fdu().add(1, "day");
+getEventNotification(meeting, "Team Standup");
+// "Reminder: \"Team Standup\" is tomorrow!"
+```
+
+### Deadline Warning
+
+```typescript
+function getDeadlineStatus(deadline: FduInstance): string {
+  if (deadline.isBefore(fdu(), "day")) return "overdue";
+  if (deadline.isToday()) return "due-today";
+  if (deadline.isTomorrow()) return "due-tomorrow";
+  return "upcoming";
+}
+
+const projectDeadline = fdu().add(1, "day");
+getDeadlineStatus(projectDeadline); // "due-tomorrow"
+```
+
+### Filter Tomorrow's Tasks
+
+```typescript
+const tasks = [
+  { date: fdu(), title: "Today's Task" },
+  { date: fdu().add(1, "day"), title: "Tomorrow's Task" },
+  { date: fdu().add(2, "day"), title: "Future Task" },
+];
+
+const tomorrowsTasks = tasks.filter((t) => t.date.isTomorrow());
+// [{ date: ..., title: "Tomorrow's Task" }]
+```
+
+### Smart Date Display
+
+```typescript
+function formatSmartDate(date: FduInstance): string {
+  if (date.isYesterday()) return "Yesterday";
+  if (date.isToday()) return "Today";
+  if (date.isTomorrow()) return "Tomorrow";
+
+  // Within this week
+  const daysUntil = date.diff(fdu(), "day");
+  if (daysUntil > 0 && daysUntil < 7) {
+    return date.format("dddd"); // "Monday", "Tuesday", etc.
+  }
+
+  return date.format("MMM D");
+}
+
+formatSmartDate(fdu().add(1, "day")); // "Tomorrow"
+formatSmartDate(fdu().add(3, "day")); // "Thursday" (example)
+```
+
+## See Also
+
+- [isToday()](/docs/api/query/is-today) - Check if date is today
+- [isYesterday()](/docs/api/query/is-yesterday) - Check if date is yesterday
+- [isSame()](/docs/api/comparison/is-same) - Compare dates at specific granularity

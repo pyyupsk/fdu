@@ -1,0 +1,129 @@
+---
+title: isYesterday()
+description: Check if a date is yesterday. Ideal for recent activity displays, daily reports, and streak tracking applications.
+---
+
+Checks if this date is yesterday (the calendar day before today).
+
+## Syntax
+
+```typescript
+.isYesterday(): boolean
+```
+
+## Returns
+
+`boolean` - True if the date is yesterday
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+// Assuming today is 2024-01-15
+fdu("2024-01-14").isYesterday();          // true
+fdu("2024-01-14T23:59:59").isYesterday(); // true (same day, different time)
+fdu("2024-01-15").isYesterday();          // false (today)
+fdu("2024-01-13").isYesterday();          // false (day before yesterday)
+```
+
+### Recent Activity Display
+
+```typescript
+function formatActivityTime(date: FduInstance): string {
+  if (date.isToday()) {
+    return `Today at ${date.format("h:mm A")}`;
+  }
+  if (date.isYesterday()) {
+    return `Yesterday at ${date.format("h:mm A")}`;
+  }
+  return date.format("MMM D [at] h:mm A");
+}
+
+const lastLogin = fdu().subtract(1, "day");
+formatActivityTime(lastLogin); // "Yesterday at 2:30 PM"
+```
+
+### Daily Report Check
+
+```typescript
+function needsDailyReport(lastReportDate: FduInstance | null): boolean {
+  if (!lastReportDate) return true;
+
+  // Report needed if last report was yesterday or earlier
+  return lastReportDate.isYesterday() || lastReportDate.isBefore(fdu().subtract(1, "day"));
+}
+
+const lastReport = fdu().subtract(1, "day");
+needsDailyReport(lastReport); // true (reported yesterday, need today's)
+```
+
+### Streak Tracking
+
+```typescript
+function checkStreak(activityDates: FduInstance[]): { current: number; broken: boolean } {
+  if (activityDates.length === 0) {
+    return { current: 0, broken: true };
+  }
+
+  // Sort by most recent first
+  const sorted = [...activityDates].sort((a, b) => b.valueOf() - a.valueOf());
+  const mostRecent = sorted[0];
+
+  // Streak is broken if most recent activity wasn't today or yesterday
+  const streakActive = mostRecent.isToday() || mostRecent.isYesterday();
+
+  if (!streakActive) {
+    return { current: 0, broken: true };
+  }
+
+  // Count consecutive days
+  let streak = 1;
+  for (let i = 1; i < sorted.length; i++) {
+    const diff = sorted[i - 1].diff(sorted[i], "day");
+    if (diff === 1) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return { current: streak, broken: false };
+}
+```
+
+### Filter Yesterday's Events
+
+```typescript
+const events = [
+  { date: fdu().subtract(2, "day"), title: "Old Event" },
+  { date: fdu().subtract(1, "day"), title: "Yesterday's Event" },
+  { date: fdu(), title: "Today's Event" },
+];
+
+const yesterdaysEvents = events.filter((e) => e.date.isYesterday());
+// [{ date: ..., title: "Yesterday's Event" }]
+```
+
+### Relative Date Grouping
+
+```typescript
+function groupByRelativeDate(items: Array<{ date: FduInstance; title: string }>) {
+  return {
+    yesterday: items.filter((i) => i.date.isYesterday()),
+    today: items.filter((i) => i.date.isToday()),
+    tomorrow: items.filter((i) => i.date.isTomorrow()),
+    other: items.filter(
+      (i) => !i.date.isYesterday() && !i.date.isToday() && !i.date.isTomorrow()
+    ),
+  };
+}
+```
+
+## See Also
+
+- [isToday()](/docs/api/query/is-today) - Check if date is today
+- [isTomorrow()](/docs/api/query/is-tomorrow) - Check if date is tomorrow
+- [isSame()](/docs/api/comparison/is-same) - Compare dates at specific granularity
