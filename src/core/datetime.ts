@@ -355,7 +355,9 @@ class DateTimeImpl {
   }
 
   /**
-   * Get the internal Date object (for plugin use)
+   * Get the internal Date object (for plugin use).
+   *
+   * @returns The underlying Date object
    *
    * @internal
    */

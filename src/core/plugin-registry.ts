@@ -13,9 +13,14 @@ import type { FduInstance, Plugin, PluginAPI } from "./types";
 let fduFunction: ((input?: any) => FduInstance) | null = null;
 
 /**
- * Error thrown when a plugin is missing the required install method
+ * Error thrown when a plugin is missing the required install method.
  */
 export class InvalidPluginError extends Error {
+  /**
+   * Creates a new InvalidPluginError.
+   *
+   * @param message - The error message describing the invalid plugin
+   */
   constructor(message: string) {
     super(message);
     this.name = "InvalidPluginError";
@@ -23,9 +28,14 @@ export class InvalidPluginError extends Error {
 }
 
 /**
- * Error thrown when a plugin attempts to override a core method
+ * Error thrown when a plugin attempts to override a core method.
  */
 export class CoreMethodOverrideError extends Error {
+  /**
+   * Creates a new CoreMethodOverrideError.
+   *
+   * @param message - The error message describing the override attempt
+   */
   constructor(message: string) {
     super(message);
     this.name = "CoreMethodOverrideError";
@@ -45,7 +55,9 @@ export class PluginRegistry {
   private constructor() {}
 
   /**
-   * Set the fdu function reference (called from datetime.ts to avoid circular dependency)
+   * Set the fdu function reference (called from datetime.ts to avoid circular dependency).
+   *
+   * @param fn - The fdu factory function to register
    *
    * @internal
    */
@@ -55,7 +67,9 @@ export class PluginRegistry {
   }
 
   /**
-   * Get the singleton instance of the PluginRegistry
+   * Get the singleton instance of the PluginRegistry.
+   *
+   * @returns The singleton PluginRegistry instance
    *
    * @internal
    */
@@ -67,8 +81,10 @@ export class PluginRegistry {
   }
 
   /**
-   * Get core method names from FdInstance prototype
-   * Cached on first call
+   * Get core method names from FdInstance prototype.
+   * Cached on first call.
+   *
+   * @returns Set of protected core method names
    *
    * @internal
    */
@@ -106,8 +122,10 @@ export class PluginRegistry {
   }
 
   /**
-   * Check if a method name conflicts with core methods
-   * Throws CoreMethodOverrideError if conflict detected
+   * Check if a method name conflicts with core methods.
+   * Throws CoreMethodOverrideError if conflict detected.
+   *
+   * @param name - The method name to check for conflicts
    *
    * @internal
    */
@@ -121,7 +139,10 @@ export class PluginRegistry {
   }
 
   /**
-   * Check if a method has already been registered by another plugin
+   * Check if a method has already been registered by another plugin.
+   *
+   * @param name - The method name to check
+   * @returns True if the method is already registered
    *
    * @internal
    */
@@ -130,7 +151,10 @@ export class PluginRegistry {
   }
 
   /**
-   * Register a plugin and call its install method
+   * Register a plugin and call its install method.
+   *
+   * @param plugin - The plugin to register
+   * @param options - Optional configuration to pass to the plugin's install method
    *
    * @internal - Use fdu.extend() instead
    */
@@ -161,7 +185,9 @@ export class PluginRegistry {
   }
 
   /**
-   * Create a PluginAPI instance for a plugin
+   * Create a PluginAPI instance for a plugin.
+   *
+   * @returns A new PluginAPI instance for plugin installation
    *
    * @internal
    */
