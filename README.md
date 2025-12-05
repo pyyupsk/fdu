@@ -61,18 +61,18 @@ date.locale("es").format("LLLL");
 
 ### ⚡ Performance
 
-Benchmarked with **Vitest 3.2.4** and **Bun 1.2.22** on **2025-10-06**.
+Benchmarked with **Vitest 4.0.15** and **Bun 1.3.3** on **2025-12-05**.
 
-| Operation                    | @pyyupsk/fdu | Day.js      | date-fns    | Luxon       | Speedup vs Day.js |
-| ---------------------------- | ------------ | ----------- | ----------- | ----------- | ----------------- |
-| Date Parsing                 | 2.90M ops/s  | 1.90M ops/s | 118K ops/s  | 371K ops/s  | **1.52× faster**  |
-| Date Formatting              | 923K ops/s   | 460K ops/s  | 338K ops/s  | 551K ops/s  | **2.01× faster**  |
-| Date Manipulation            | 3.78M ops/s  | 850K ops/s  | 2.92M ops/s | 409K ops/s  | **4.44× faster**  |
-| Date Comparison              | 18.3M ops/s  | 1.54M ops/s | 4.73M ops/s | 6.96M ops/s | **11.89× faster** |
-| Complex Workflow             | 622K ops/s   | 215K ops/s  | 406K ops/s  | 145K ops/s  | **2.89× faster**  |
-| Batch Operations (100 dates) | 9.0K ops/s   | 4.6K ops/s  | 5.5K ops/s  | 2.3K ops/s  | **1.94× faster**  |
+| Operation                    | @pyyupsk/fdu   | Day.js         | date-fns       | Luxon          | Speedup vs Day.js |
+| ---------------------------- | -------------- | -------------- | -------------- | -------------- | ----------------- |
+| Date Parsing                 | 2.88M ops/sec  | 2.06M ops/sec  | 134.1K ops/sec | 413.1K ops/sec | **1.40× faster**  |
+| Date Formatting              | 955.1K ops/sec | 548.7K ops/sec | 398.0K ops/sec | 626.1K ops/sec | **1.74× faster**  |
+| Date Manipulation            | 3.87M ops/sec  | 965.2K ops/sec | 3.28M ops/sec  | 449.1K ops/sec | **4.01× faster**  |
+| Date Comparison              | 20.17M ops/sec | 1.53M ops/sec  | 4.92M ops/sec  | 6.98M ops/sec  | **13.18× faster** |
+| Complex Workflow             | 549.8K ops/sec | 245.9K ops/sec | 415.5K ops/sec | 143.1K ops/sec | **2.24× faster**  |
+| Batch Operations (100 dates) | 9.4K ops/sec   | 5.3K ops/sec   | 5.7K ops/sec   | 2.8K ops/sec   | **1.79× faster**  |
 
-> 🧪 **Summary:** `fdu` is **~4× faster** than Day.js on average, with exceptional performance in comparisons (**11.89×**), date manipulation (**4.44×**), and complex workflows (**2.89×**). See [full benchmarks](https://fdu.fasu.dev/docs/benchmarks) for details.
+> 🧪 **Summary:** `fdu` is **~4× faster** than Day.js on average, with exceptional performance in comparisons (**13.18×**), date manipulation (**4.01×**), and complex workflows (**2.24×**). See [full benchmarks](https://fdu.fasu.dev/docs/benchmarks) for details.
 
 ### 📚 Documentation
 

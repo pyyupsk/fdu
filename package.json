@@ -62,6 +62,7 @@
   ],
   "scripts": {
     "bench": "vitest bench --run",
+    "bench:update": "vitest bench --run | bun scripts/extract-benchmarks.ts",
     "build": "rimraf dist && tsdown",
     "docs:dev": "bun --cwd=docs run dev",
     "docs:build": "bun --cwd=docs run build",

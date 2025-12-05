@@ -17,7 +17,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BENCHMARK_DATE, benchmarks } from "@/constants/benchmarks";
+import {
+  BENCHMARK_DATE,
+  BUN_VERSION,
+  benchmarks,
+  VITEST_VERSION,
+} from "@/constants/benchmarks";
 import { features } from "@/constants/features";
 import { cn } from "@/lib/cn";
 
@@ -141,7 +146,7 @@ export default function HomePage() {
               Performance that speaks for itself
             </h2>
             <p className="text-fd-muted-foreground text-lg text-pretty max-w-3xl mx-auto">
-              Benchmarked with Vitest 3.2.4 and Bun 1.2.22 on{" "}
+              Benchmarked with Vitest {VITEST_VERSION} and Bun {BUN_VERSION} on{" "}
               {fdu(BENCHMARK_DATE).format("MMMM D, YYYY")} - Real-world
               performance gains for your applications.
             </p>
