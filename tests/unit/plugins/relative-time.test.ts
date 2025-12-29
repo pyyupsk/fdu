@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { fdu } from "@/core/datetime";
 import { relativeTime } from "@/plugins/relative-time";
 
@@ -121,6 +121,14 @@ describe("Relative Time Plugin", () => {
     });
 
     describe("toNow()", () => {
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
       it("should return 'a few seconds ago' for recent past (inverse of fromNow)", () => {
         const date = fdu(new Date(Date.now() - 10 * 1000)); // 10 seconds ago
         expect(date.toNow()).toBe("a few seconds ago");
@@ -152,12 +160,18 @@ describe("Relative Time Plugin", () => {
       });
 
       it("should return 'X days ago' for past dates (inverse)", () => {
-        const date = fdu(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)); // 7 days ago
+        const now = new Date("2025-01-15T12:00:00");
+        const past = new Date("2025-01-08T12:00:00"); // 7 days ago
+        vi.setSystemTime(now);
+        const date = fdu(past);
         expect(date.toNow()).toBe("7 days ago");
       });
 
       it("should return 'in X days' for future dates (inverse)", () => {
-        const date = fdu(new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)); // 14 days from now
+        const now = new Date("2025-01-01T12:00:00");
+        const future = new Date("2025-01-15T12:00:00"); // 14 days from now
+        vi.setSystemTime(now);
+        const date = fdu(future);
         expect(date.toNow()).toBe("in 14 days");
       });
     });
