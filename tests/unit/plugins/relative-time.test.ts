@@ -266,6 +266,14 @@ describe("Relative Time Plugin", () => {
     });
 
     describe("fromNow() with short style", () => {
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
       it("should return 'now' for recent past", () => {
         const date = fdu(new Date(Date.now() - 10 * 1000)); // 10 seconds ago
         expect(date.fromNow()).toBe("now");
@@ -326,6 +334,14 @@ describe("Relative Time Plugin", () => {
     });
 
     describe("toNow() with short style", () => {
+      beforeEach(() => {
+        vi.useFakeTimers();
+      });
+
+      afterEach(() => {
+        vi.useRealTimers();
+      });
+
       it("should return 'now' for near future", () => {
         const date = fdu(new Date(Date.now() + 10 * 1000)); // 10 seconds from now
         expect(date.toNow()).toBe("now");

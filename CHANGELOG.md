@@ -52,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Emphasized temporal correctness alongside performance in introduction
   - Added PWA support with manifest and app icons
   - Implemented reusable OG image system
-  - Added sitemap and robots.txt for SEO optimization
+  - Added sitemap and robots.txt for SEO
   - Enhanced homepage with performance benchmarks and UI improvements
   - Fixed UTC offset sign convention comments in docs
   - Fixed Feb 29 birthday example in leap year documentation
