@@ -4,7 +4,7 @@ import {
   DocsDescription,
   DocsPage,
   DocsTitle,
-} from "fumadocs-ui/page";
+} from "fumadocs-ui/layouts/docs/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LLMCopyButton, ViewOptions } from "@/components/page-actions";
@@ -31,7 +31,7 @@ export async function generateMetadata(
       "javascript",
       "date manipulation",
       "date formatting",
-      page.data.title.toLowerCase(),
+      (page.data.title ?? "").toLowerCase(),
     ],
     authors: [{ name: "pyyupsk" }],
     creator: "pyyupsk",
@@ -77,7 +77,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const MDXComponent = page.data.body;
+  const MDX = page.data.body;
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
@@ -95,7 +95,7 @@ export default async function Page(props: PageProps<"/docs/[[...slug]]">) {
         </div>
       </div>
       <DocsBody>
-        <MDXComponent
+        <MDX
           components={getMDXComponents({
             a: createRelativeLink(source, page),
           })}

@@ -2,8 +2,7 @@
 
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { buttonVariants } from "fumadocs-ui/components/ui/button";
-import { ChevronRight } from "fumadocs-ui/internal/icons";
-import { Zap } from "lucide-react";
+import { ChevronRight, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GithubIcon } from "@/components/icons/github";
