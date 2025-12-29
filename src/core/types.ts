@@ -62,16 +62,18 @@ export interface FduInstance {
   /**
    * Checks if this date is before another date.
    * @param other - Date to compare with
+   * @param unit - Optional unit for granularity ('year', 'month', 'day', etc.)
    * @returns True if this date is before the other date
    */
-  isBefore(other: FduInstance): boolean;
+  isBefore(other: FduInstance, unit?: UnitType): boolean;
 
   /**
    * Checks if this date is after another date.
    * @param other - Date to compare with
+   * @param unit - Optional unit for granularity ('year', 'month', 'day', etc.)
    * @returns True if this date is after the other date
    */
-  isAfter(other: FduInstance): boolean;
+  isAfter(other: FduInstance, unit?: UnitType): boolean;
 
   /**
    * Checks if this date is the same as another date.
@@ -328,7 +330,7 @@ export interface ObjectInput {
 }
 
 /**
- * Plugin interface for extending FdInstance functionality.
+ * Plugin interface for extending FduInstance functionality.
  *
  * @template T - Plugin options type
  *
@@ -372,7 +374,7 @@ export interface Plugin<T = unknown> {
 
 /**
  * Plugin API interface passed to plugins during installation.
- * Provides safe access to FdInstance prototype and core functionality.
+ * Provides safe access to FduInstance prototype and core functionality.
  *
  * @example
  * ```ts
@@ -390,10 +392,10 @@ export interface Plugin<T = unknown> {
  */
 export interface PluginAPI {
   /**
-   * Add a method to FdInstance prototype
+   * Add a method to FduInstance prototype
    *
    * @param methodName - Name of the method to add
-   * @param fn - Method implementation (receives 'this' as FdInstance)
+   * @param fn - Method implementation (receives 'this' as FduInstance)
    * @throws CoreMethodOverrideError if methodName is a core method
    */
   extendPrototype(
@@ -405,7 +407,7 @@ export interface PluginAPI {
    * Access the underlying Date object (read-only)
    * Called as this.getInternalDate() within plugin methods
    *
-   * @this FdInstance
+   * @this FduInstance
    * @returns Underlying Date object
    *
    * @internal - For plugin development only
@@ -413,11 +415,11 @@ export interface PluginAPI {
   getInternalDate(this: FduInstance): Date;
 
   /**
-   * Factory method for creating new FdInstance objects
+   * Factory method for creating new FduInstance objects
    * Preserves immutability - plugins should not mutate, only create new
    *
    * @param date - Date value to wrap
-   * @returns New immutable FdInstance
+   * @returns New immutable FduInstance
    */
   createInstance(date: Date | number | string): FduInstance;
 

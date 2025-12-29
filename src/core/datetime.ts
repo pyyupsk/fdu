@@ -48,7 +48,7 @@ export function fdu(input?: FduInput): FduInstance {
 PluginRegistry.setFduFunction(fdu);
 
 /**
- * Register a plugin to extend FdInstance functionality
+ * Register a plugin to extend FduInstance functionality
  *
  * @param plugin - Plugin object with install method
  * @param options - Optional plugin configuration
@@ -188,15 +188,6 @@ class DateTimeImpl {
   }
 
   local(): FduInstance {
-    const offset = this._date.getTimezoneOffset();
-
-    if (offset === 0) {
-      return new DateTimeImpl(
-        this._date,
-        this._locale,
-      ) as unknown as FduInstance;
-    }
-
     return new DateTimeImpl(this._date, this._locale) as unknown as FduInstance;
   }
 
@@ -224,20 +215,186 @@ class DateTimeImpl {
     return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
-  isBefore(other: FduInstance): boolean {
-    return this._date.getTime() < other.valueOf();
+  isBefore(other: FduInstance, unit?: UnitType): boolean {
+    if (!unit) {
+      return this._date.getTime() < other.valueOf();
+    }
+
+    const normalizedUnit = normalizeUnit(unit);
+    const d1 = this._date;
+    const d2 = other.toDate();
+
+    switch (normalizedUnit) {
+      case "year":
+        return d1.getFullYear() < d2.getFullYear();
+      case "month":
+        return (
+          d1.getFullYear() < d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() < d2.getMonth())
+        );
+      case "day":
+        return (
+          d1.getFullYear() < d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() < d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() < d2.getDate())
+        );
+      case "hour":
+        return (
+          d1.getFullYear() < d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() < d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() < d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() < d2.getHours())
+        );
+      case "minute":
+        return (
+          d1.getFullYear() < d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() < d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() < d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() < d2.getHours()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() < d2.getMinutes())
+        );
+      case "second":
+        return (
+          d1.getFullYear() < d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() < d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() < d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() < d2.getHours()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() < d2.getMinutes()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() === d2.getMinutes() &&
+            d1.getSeconds() < d2.getSeconds())
+        );
+      default:
+        return d1.getTime() < d2.getTime();
+    }
   }
 
-  isAfter(other: FduInstance): boolean {
-    return this._date.getTime() > other.valueOf();
+  isAfter(other: FduInstance, unit?: UnitType): boolean {
+    if (!unit) {
+      return this._date.getTime() > other.valueOf();
+    }
+
+    const normalizedUnit = normalizeUnit(unit);
+    const d1 = this._date;
+    const d2 = other.toDate();
+
+    switch (normalizedUnit) {
+      case "year":
+        return d1.getFullYear() > d2.getFullYear();
+      case "month":
+        return (
+          d1.getFullYear() > d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() > d2.getMonth())
+        );
+      case "day":
+        return (
+          d1.getFullYear() > d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() > d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() > d2.getDate())
+        );
+      case "hour":
+        return (
+          d1.getFullYear() > d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() > d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() > d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() > d2.getHours())
+        );
+      case "minute":
+        return (
+          d1.getFullYear() > d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() > d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() > d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() > d2.getHours()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() > d2.getMinutes())
+        );
+      case "second":
+        return (
+          d1.getFullYear() > d2.getFullYear() ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() > d2.getMonth()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() > d2.getDate()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() > d2.getHours()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() > d2.getMinutes()) ||
+          (d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate() &&
+            d1.getHours() === d2.getHours() &&
+            d1.getMinutes() === d2.getMinutes() &&
+            d1.getSeconds() > d2.getSeconds())
+        );
+      default:
+        return d1.getTime() > d2.getTime();
+    }
   }
 
   isSameOrBefore(other: FduInstance, unit?: UnitType): boolean {
-    return this.isSame(other, unit) || this.isBefore(other);
+    return this.isSame(other, unit) || this.isBefore(other, unit);
   }
 
   isSameOrAfter(other: FduInstance, unit?: UnitType): boolean {
-    return this.isSame(other, unit) || this.isAfter(other);
+    return this.isSame(other, unit) || this.isAfter(other, unit);
   }
 
   isLeapYear(): boolean {

@@ -90,29 +90,33 @@ nextLeapYear(fdu("2025-01-01")); // 2028
 ```typescript
 function getNextBirthday(birthdate: FduInstance): FduInstance {
   const today = fdu();
+  let targetYear = today.year();
+
+  // Start with this year's birthday
   let nextBirthday = fdu({
-    year: today.year(),
+    year: targetYear,
     month: birthdate.month(),
     day: birthdate.date(),
   });
 
-  // Handle Feb 29 birthdays
-  if (birthdate.month() === 1 && birthdate.date() === 29) {
-    if (!nextBirthday.isLeapYear()) {
-      // Use Feb 28 in non-leap years
-      nextBirthday = fdu({
-        year: today.year(),
-        month: 1,
-        day: 28,
-      });
-    }
-  }
-
+  // If it already passed, move to next year
   if (nextBirthday.isBefore(today)) {
-    nextBirthday = nextBirthday.add(1, "year");
+    targetYear += 1;
   }
 
-  return nextBirthday;
+  // Handle Feb 29 birthdays specially
+  if (birthdate.month() === 1 && birthdate.date() === 29) {
+    const isLeap = fdu({ year: targetYear, month: 0, day: 1 }).isLeapYear();
+    const day = isLeap ? 29 : 28;
+    return fdu({ year: targetYear, month: 1, day });
+  }
+
+  // All other birthdays
+  return fdu({
+    year: targetYear,
+    month: birthdate.month(),
+    day: birthdate.date(),
+  });
 }
 ```
 

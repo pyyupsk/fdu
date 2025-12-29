@@ -28,7 +28,8 @@ import { cn } from "@/lib/cn";
 export default function HomePage() {
   const [today, setToday] = useState<string>("");
   const [formattedDate, setFormattedDate] = useState<string>("");
-  const [benchmarkDateFormatted, setBenchmarkDateFormatted] = useState<string>(BENCHMARK_DATE);
+  const [benchmarkDateFormatted, setBenchmarkDateFormatted] =
+    useState<string>(BENCHMARK_DATE);
 
   useEffect(() => {
     import("@pyyupsk/fdu").then(({ fdu }) => {

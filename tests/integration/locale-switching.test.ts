@@ -2,7 +2,7 @@ import { fdu, registerLocale, locale as setGlobalLocale } from "@pyyupsk/fdu";
 import { en } from "@pyyupsk/fdu/locale/en";
 import { beforeEach, describe, expect, it } from "vitest";
 
-describe("FdInstance.locale() - Instance-level locale switching", () => {
+describe("FduInstance.locale() - Instance-level locale switching", () => {
   beforeEach(() => {
     // Reset to default locale and ensure English is registered
     setGlobalLocale("en");

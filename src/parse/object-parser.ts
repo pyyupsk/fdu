@@ -26,7 +26,7 @@ export function isObjectInput(input: unknown): input is ObjectInput {
  * Applies defaults for optional fields and delegates validation to Date constructor
  *
  * @param input - ObjectInput with year (required) and optional date/time components
- * @returns Date object (may be invalid if components are impossible)
+ * @returns Date object (overflow values are normalized, not rejected)
  *
  * @internal
  *
@@ -41,8 +41,8 @@ export function isObjectInput(input: unknown): input is ObjectInput {
  *   hour: 14, minute: 30, second: 15, millisecond: 500
  * })
  *
- * // Invalid (Feb 30)
- * parseObjectInput({ year: 2025, month: 1, day: 30 }) // Invalid Date
+ * // Overflow values are normalized by Date constructor
+ * parseObjectInput({ year: 2025, month: 1, day: 30 }) // Mar 2, 2025 (Feb 30 rolls over)
  * ```
  */
 export function parseObjectInput(input: ObjectInput): Date {
@@ -56,8 +56,8 @@ export function parseObjectInput(input: ObjectInput): Date {
     millisecond = 0,
   } = input;
 
-  // Use native Date constructor for validation
-  // Invalid combinations (Feb 30, month 13, etc.) will create invalid Date
+  // Date constructor normalizes overflow values (e.g., Feb 30 -> Mar 2)
+  // No explicit validation is performed; all inputs produce valid Date objects
   return new Date(year, month, day, hour, minute, second, millisecond);
 }
 
@@ -66,7 +66,7 @@ export function parseObjectInput(input: ObjectInput): Date {
  * Similar to parseObjectInput but interprets all components as UTC
  *
  * @param input - ObjectInput with date/time components
- * @returns Date object in UTC (may be invalid if components are impossible)
+ * @returns Date object in UTC (overflow values are normalized, not rejected)
  *
  * @internal
  */

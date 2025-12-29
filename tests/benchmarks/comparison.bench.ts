@@ -3,7 +3,7 @@ import {
   add as dateFnsAdd,
   format as dateFnsFormat,
   isBefore as dateFnsIsBefore,
-  parse as dateFnsParse,
+  parseISO as dateFnsParseISO,
 } from "date-fns";
 import dayjs from "dayjs";
 import { DateTime } from "luxon";
@@ -12,8 +12,6 @@ import { bench, describe } from "vitest";
 const TEST_DATE = "2025-09-30T14:35:45.123Z";
 
 describe("Library Comparison: Date Parsing", () => {
-  const referenceDate = new Date();
-
   bench("@pyyupsk/fdu - parse ISO string", () => {
     fdu(TEST_DATE);
   });
@@ -22,8 +20,8 @@ describe("Library Comparison: Date Parsing", () => {
     dayjs(TEST_DATE);
   });
 
-  bench("date-fns - parse ISO string", () => {
-    dateFnsParse(TEST_DATE, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx", referenceDate);
+  bench("date-fns - parseISO", () => {
+    dateFnsParseISO(TEST_DATE);
   });
 
   bench("Luxon - parse ISO string", () => {

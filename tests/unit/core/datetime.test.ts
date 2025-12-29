@@ -497,13 +497,19 @@ describe("DateTime edge cases", () => {
 
   it("should set UTC offset and return new instance", () => {
     const date = fdu("2025-10-05T12:00:00.000Z");
-    const newDate = date.utcOffset(120); // +2 hours
+    const originalOffset = date.utcOffset();
+    const originalTime = date.valueOf();
+
+    const targetOffset = 120; // +2 hours
+    const newDate = date.utcOffset(targetOffset);
+
     expect(newDate).not.toBe(date); // Immutability
     expect(newDate.isValid()).toBe(true);
-    // Setting offset should adjust the time
-    const originalTime = date.valueOf();
-    const newTime = newDate.valueOf();
-    expect(newTime).not.toBe(originalTime);
+
+    // Verify the timestamp is adjusted by the offset difference
+    const offsetDiffMinutes = targetOffset - originalOffset;
+    const expectedTime = originalTime + offsetDiffMinutes * 60_000;
+    expect(newDate.valueOf()).toBe(expectedTime);
   });
 
   it("should handle day() getter and setter", () => {

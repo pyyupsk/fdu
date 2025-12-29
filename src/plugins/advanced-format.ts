@@ -76,14 +76,14 @@ export const advancedFormat: Plugin = {
       // Get day of week for Jan 1st (0 = Sunday)
       const jan1DayOfWeek = yearStart.getDay();
 
-      // Calculate week number (ISO 8601 standard)
-      // Week 1 is the first week with a Thursday
+      // Simple week-of-year where week 1 contains Jan 1 (not ISO 8601)
+      // For ISO 8601 week numbering, use isoWeek() instead
       const weekNumber = Math.ceil((dayOfYear + jan1DayOfWeek) / 7);
 
       return weekNumber;
     });
 
-    // Add isoWeek() method - returns ISO week number 1-53
+    // Add isoWeek() method - returns ISO 8601 week number 1-53
     api.extendPrototype("isoWeek", function (this: FduInstance) {
       const date = this.getInternalDate();
       const target = new Date(date.valueOf());

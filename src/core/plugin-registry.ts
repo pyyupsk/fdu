@@ -81,7 +81,7 @@ export class PluginRegistry {
   }
 
   /**
-   * Get core method names from FdInstance prototype.
+   * Get core method names from FduInstance prototype.
    * Cached on first call.
    *
    * @returns Set of protected core method names
@@ -93,7 +93,7 @@ export class PluginRegistry {
       return this.coreMethods;
     }
 
-    // Scan FdInstance prototype for core methods
+    // Scan FduInstance prototype for core methods
     // These are the methods that plugins cannot override
     this.coreMethods = new Set<string>([
       "format",
@@ -102,6 +102,12 @@ export class PluginRegistry {
       "isBefore",
       "isAfter",
       "isSame",
+      "isSameOrBefore",
+      "isSameOrAfter",
+      "isLeapYear",
+      "isToday",
+      "isTomorrow",
+      "isYesterday",
       "diff",
       "year",
       "month",
@@ -115,8 +121,12 @@ export class PluginRegistry {
       "locale",
       "toDate",
       "toISOString",
+      "toObject",
       "valueOf",
       "isValid",
+      "utcOffset",
+      "local",
+      "getInternalDate",
     ]);
     return this.coreMethods;
   }
@@ -226,7 +236,7 @@ export class PluginRegistry {
       },
 
       getInternalDate(this: FduInstance): Date {
-        return this.getInternalDate() || new Date();
+        return this.toDate?.() || new Date();
       },
 
       createInstance(date: Date | number | string): FduInstance {
