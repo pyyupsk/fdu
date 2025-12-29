@@ -46,12 +46,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed Feb 29 birthday example in leap year documentation
   - Fixed JSDoc comments for date overflow normalization behavior
   - Fixed `weekOfYear()` comment to clarify it's not ISO 8601 (use `isoWeek()` instead)
+  - Fixed TypeScript tuple syntax in i18n guide (proper fixed-length tuple types)
+  - Upgraded documentation framework to fumadocs v16 (fumadocs-core, fumadocs-ui, fumadocs-mdx)
 
 - **Testing**
   - Restructured tests to mirror src/ directory structure
-  - Achieved 98.5% overall code coverage
+  - Achieved 99%+ overall code coverage
   - Migrated tests to use public API with path aliases
   - Updated benchmarks to use date-fns `parseISO` for fair ISO parsing comparison
+  - Added comprehensive unit-aware comparison tests for `isBefore()` and `isAfter()`
 
 - **Build & Tooling**
   - Added ESLint with eslint-plugin-jsdoc for documentation enforcement
@@ -59,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added GitHub issue and PR templates for community contributions
   - Lowered Node.js engine requirement from >=20.0.0 to >=18.0.0 for wider adoption
   - Added Node.js 18.x to CI test matrix
+  - Upgraded Next.js to v16 for documentation site
 
 ## [0.0.0-beta.2] - 2025-10-04
 
