@@ -18,11 +18,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added date comparison utilities: `isToday()`, `isTomorrow()`, `isYesterday()`, `isLeapYear()`
   - Added `isSameOrBefore()` and `isSameOrAfter()` comparison methods
 
+- **Enhanced Comparison Methods**
+  - Extended `isBefore()` and `isAfter()` with optional unit parameter for unit-aware comparisons
+  - Ensures consistent behavior with `isSameOrBefore()` and `isSameOrAfter()`
+
 ### 🐛 Bug Fixes
 
 - **Temporal Correctness**
   - Fixed `diff()` to use `Math.floor()` instead of `Math.round()` for elapsed time (floor semantics)
   - Fixed relative-time plugin to use calendar-based diff for months/years instead of duration conversion
+
+- **Code Quality**
+  - Fixed `local()` method by removing unused dead code
+  - Fixed plugin registry `getInternalDate()` recursion issue by using `toDate()`
+  - Fixed flaky `utcOffset` test with deterministic timestamp assertion
 
 ### 📝 Changes
 
@@ -33,16 +42,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented reusable OG image system
   - Added sitemap and robots.txt for SEO optimization
   - Enhanced homepage with performance benchmarks and UI improvements
+  - Fixed UTC offset sign convention comments in docs
+  - Fixed Feb 29 birthday example in leap year documentation
+  - Fixed JSDoc comments for date overflow normalization behavior
+  - Fixed `weekOfYear()` comment to clarify it's not ISO 8601 (use `isoWeek()` instead)
 
 - **Testing**
   - Restructured tests to mirror src/ directory structure
   - Achieved 98.5% overall code coverage
   - Migrated tests to use public API with path aliases
+  - Updated benchmarks to use date-fns `parseISO` for fair ISO parsing comparison
 
 - **Build & Tooling**
   - Added ESLint with eslint-plugin-jsdoc for documentation enforcement
   - Updated dependencies: biome 2.3.8, vitest 4.0.15, tsdown 0.17.0
   - Added GitHub issue and PR templates for community contributions
+  - Lowered Node.js engine requirement from >=20.0.0 to >=18.0.0 for wider adoption
+  - Added Node.js 18.x to CI test matrix
 
 ## [0.0.0-beta.2] - 2025-10-04
 
