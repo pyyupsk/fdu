@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.0-beta.3] - 2025-12-05
+## [0.0.0-beta.3] - 2025-12-29
 
 ### ✨ Features
 
@@ -32,6 +32,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed `local()` method by removing unused dead code
   - Fixed plugin registry `getInternalDate()` recursion issue by using `toDate()`
   - Fixed flaky `utcOffset` test with deterministic timestamp assertion
+
+### 🔧 Refactoring
+
+- **Comparison Methods**
+  - Extracted `truncateToUnit()` utility for unit-aware date comparisons
+  - Simplified `isBefore()` and `isAfter()` implementation using the new utility
+
+- **Code Quality**
+  - Simplified Date cloning from `new Date(date.getTime())` to `new Date(date)`
+  - Used arrow functions in plugin registry to avoid `self = this` pattern
+  - Changed `NaN` to `Number.NaN` for consistency
+  - Refactored benchmark extraction script with extracted constants and helper functions
 
 ### 📝 Changes
 

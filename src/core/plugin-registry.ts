@@ -202,16 +202,14 @@ export class PluginRegistry {
    * @internal
    */
   private createPluginAPI(): PluginAPI {
-    const self = this;
-
     return {
-      extendPrototype(
+      extendPrototype: (
         methodName: string,
         fn: (this: FduInstance, ...args: unknown[]) => unknown,
-      ): void {
-        self.preventCoreOverride(methodName);
+      ): void => {
+        this.preventCoreOverride(methodName);
 
-        if (self.isMethodRegistered(methodName)) {
+        if (this.isMethodRegistered(methodName)) {
           console.warn(
             `[Plugin] Method '${methodName}' already registered by another plugin. Overriding.`,
           );
@@ -232,7 +230,7 @@ export class PluginRegistry {
           configurable: true, // Allow future unregistration
         });
 
-        self.installedMethods.add(methodName);
+        this.installedMethods.add(methodName);
       },
 
       getInternalDate(this: FduInstance): Date {

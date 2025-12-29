@@ -55,8 +55,11 @@ function formatOps(hz: number): string {
  * @returns Clean string without ANSI codes
  */
 function stripAnsi(str: string): string {
-  // biome-ignore lint/suspicious/noControlCharactersInRegex: need to strip ANSI codes
-  return str.replace(/\x1B\[[0-9;]*[a-zA-Z]/g, "");
+  const ESC = String.fromCodePoint(27);
+  return str.replaceAll(
+    new RegExp(String.raw`${ESC}\[[0-9;]*[a-zA-Z]`, "g"),
+    "",
+  );
 }
 
 /**
@@ -66,6 +69,47 @@ function stripAnsi(str: string): string {
  */
 function parseInput(): string {
   return stripAnsi(readFileSync(0, "utf-8"));
+}
+
+/**
+ * Map operation key patterns to operation names.
+ * Order matters - more specific patterns should come first.
+ */
+const OPERATION_PATTERNS: [string, string][] = [
+  ["parse, format, manipulate", "Complex Workflow"],
+  ["create and format 100 dates", "Batch Operations (100 dates)"],
+  ["parse ISO string", "Date Parsing"],
+  ["add 1 day", "Date Manipulation"],
+  ["isBefore", "Date Comparison"],
+];
+
+/** Map library names to property keys */
+const LIB_TO_KEY: Record<string, string> = {
+  "@pyyupsk/fdu": "fdu",
+  "Day.js": "dayjs",
+  "date-fns": "dateFns",
+  Luxon: "luxon",
+};
+
+/**
+ * Determine operation name from operation key.
+ */
+function getOperationName(opKey: string): string | null {
+  const lowerKey = opKey.toLowerCase();
+
+  // Check for formatting (special case with compound condition)
+  if (lowerKey.includes("format") && lowerKey.includes("hh:mm:ss")) {
+    return "Date Formatting";
+  }
+
+  // Check pattern matches
+  for (const [pattern, name] of OPERATION_PATTERNS) {
+    if (opKey.includes(pattern)) {
+      return name;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -91,41 +135,20 @@ function extractBenchmarks(input: string): BenchmarkData {
     const match = line.match(
       /·\s+(@pyyupsk\/fdu|Day\.js|date-fns|Luxon)\s+-\s+(.+?)\s{2,}([\d,]+\.?\d*)/,
     );
-    if (match) {
-      const lib = match[1];
-      const opKey = match[2].trim();
-      const hz = Number.parseFloat(match[3].replace(/,/g, ""));
+    if (!match) continue;
 
-      // Map operation to category (order matters - more specific first)
-      let opName: string;
-      if (opKey.includes("parse, format, manipulate")) {
-        opName = "Complex Workflow";
-      } else if (opKey.includes("create and format 100 dates")) {
-        opName = "Batch Operations (100 dates)";
-      } else if (opKey.includes("parse ISO string")) {
-        opName = "Date Parsing";
-      } else if (
-        opKey.toLowerCase().includes("format") &&
-        opKey.toLowerCase().includes("hh:mm:ss")
-      ) {
-        opName = "Date Formatting";
-      } else if (opKey.includes("add 1 day")) {
-        opName = "Date Manipulation";
-      } else if (opKey.includes("isBefore")) {
-        opName = "Date Comparison";
-      } else {
-        continue; // Skip unrecognized operations
-      }
+    const lib = match[1];
+    const opKey = match[2].trim();
+    const hz = Number.parseFloat(match[3].replaceAll(",", ""));
 
-      if (!benchGroups[opName]) {
-        benchGroups[opName] = {};
-      }
+    const opName = getOperationName(opKey);
+    if (!opName) continue;
 
-      if (lib === "@pyyupsk/fdu") benchGroups[opName].fdu = hz;
-      else if (lib === "Day.js") benchGroups[opName].dayjs = hz;
-      else if (lib === "date-fns") benchGroups[opName].dateFns = hz;
-      else if (lib === "Luxon") benchGroups[opName].luxon = hz;
-    }
+    const libKey = LIB_TO_KEY[lib];
+    if (!libKey) continue;
+
+    benchGroups[opName] ??= {};
+    benchGroups[opName][libKey] = hz;
   }
 
   // Convert grouped data to results array

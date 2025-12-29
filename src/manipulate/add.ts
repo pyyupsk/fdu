@@ -12,7 +12,7 @@ import { normalizeUnit } from "../utils/units";
  * @internal
  */
 export function add(date: Date, value: number, unit: UnitType): Date {
-  const result = new Date(date.getTime());
+  const result = new Date(date);
   const normalizedUnit = normalizeUnit(unit);
 
   switch (normalizedUnit) {

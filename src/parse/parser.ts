@@ -11,12 +11,12 @@ import { isObjectInput, parseObjectInput } from "./object-parser";
  */
 export function parse(input: string | number | Date): Date {
   if (input instanceof Date) {
-    return new Date(input.getTime());
+    return new Date(input);
   }
   if (typeof input === "number" || typeof input === "string") {
     return new Date(input);
   }
-  return new Date(NaN);
+  return new Date(Number.NaN);
 }
 
 /**
@@ -32,7 +32,7 @@ export function parseInput(input: FduInput): Date {
     return new Date();
   }
   if (input instanceof Date) {
-    return new Date(input.getTime());
+    return new Date(input);
   }
   if (typeof input === "number") {
     return new Date(input);
@@ -51,5 +51,5 @@ export function parseInput(input: FduInput): Date {
   ) {
     return input.toDate();
   }
-  return new Date(NaN);
+  return new Date(Number.NaN);
 }
