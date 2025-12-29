@@ -202,6 +202,54 @@ describe("DateTime comparison methods", () => {
     it("should return false when same", () => {
       expect(date1.isBefore(date3)).toBe(false);
     });
+
+    it("should compare by year unit", () => {
+      const d1 = fdu("2024-12-31");
+      const d2 = fdu("2025-01-01");
+      expect(d1.isBefore(d2, "year")).toBe(true);
+      expect(d2.isBefore(d1, "year")).toBe(false);
+    });
+
+    it("should compare by month unit", () => {
+      const d1 = fdu("2025-08-31");
+      const d2 = fdu("2025-09-01");
+      expect(d1.isBefore(d2, "month")).toBe(true);
+      expect(d2.isBefore(d1, "month")).toBe(false);
+    });
+
+    it("should compare by day unit", () => {
+      const d1 = fdu("2025-09-29T23:59:59");
+      const d2 = fdu("2025-09-30T00:00:01");
+      expect(d1.isBefore(d2, "day")).toBe(true);
+      expect(d2.isBefore(d1, "day")).toBe(false);
+    });
+
+    it("should compare by hour unit", () => {
+      const d1 = fdu("2025-09-30T11:59:59");
+      const d2 = fdu("2025-09-30T12:00:01");
+      expect(d1.isBefore(d2, "hour")).toBe(true);
+      expect(d2.isBefore(d1, "hour")).toBe(false);
+    });
+
+    it("should compare by minute unit", () => {
+      const d1 = fdu("2025-09-30T12:29:59");
+      const d2 = fdu("2025-09-30T12:30:01");
+      expect(d1.isBefore(d2, "minute")).toBe(true);
+      expect(d2.isBefore(d1, "minute")).toBe(false);
+    });
+
+    it("should compare by second unit", () => {
+      const d1 = fdu("2025-09-30T12:30:29.999Z");
+      const d2 = fdu("2025-09-30T12:30:30.001Z");
+      expect(d1.isBefore(d2, "second")).toBe(true);
+      expect(d2.isBefore(d1, "second")).toBe(false);
+    });
+
+    it("should fall back to millisecond comparison for unknown unit", () => {
+      const d1 = fdu("2025-09-30T12:00:00.000Z");
+      const d2 = fdu("2025-09-30T12:00:00.001Z");
+      expect(d1.isBefore(d2, "millisecond")).toBe(true);
+    });
   });
 
   describe("isAfter", () => {
@@ -215,6 +263,54 @@ describe("DateTime comparison methods", () => {
 
     it("should return false when same", () => {
       expect(date1.isAfter(date3)).toBe(false);
+    });
+
+    it("should compare by year unit", () => {
+      const d1 = fdu("2025-01-01");
+      const d2 = fdu("2024-12-31");
+      expect(d1.isAfter(d2, "year")).toBe(true);
+      expect(d2.isAfter(d1, "year")).toBe(false);
+    });
+
+    it("should compare by month unit", () => {
+      const d1 = fdu("2025-09-01");
+      const d2 = fdu("2025-08-31");
+      expect(d1.isAfter(d2, "month")).toBe(true);
+      expect(d2.isAfter(d1, "month")).toBe(false);
+    });
+
+    it("should compare by day unit", () => {
+      const d1 = fdu("2025-09-30T00:00:01");
+      const d2 = fdu("2025-09-29T23:59:59");
+      expect(d1.isAfter(d2, "day")).toBe(true);
+      expect(d2.isAfter(d1, "day")).toBe(false);
+    });
+
+    it("should compare by hour unit", () => {
+      const d1 = fdu("2025-09-30T12:00:01");
+      const d2 = fdu("2025-09-30T11:59:59");
+      expect(d1.isAfter(d2, "hour")).toBe(true);
+      expect(d2.isAfter(d1, "hour")).toBe(false);
+    });
+
+    it("should compare by minute unit", () => {
+      const d1 = fdu("2025-09-30T12:30:01");
+      const d2 = fdu("2025-09-30T12:29:59");
+      expect(d1.isAfter(d2, "minute")).toBe(true);
+      expect(d2.isAfter(d1, "minute")).toBe(false);
+    });
+
+    it("should compare by second unit", () => {
+      const d1 = fdu("2025-09-30T12:30:30.001Z");
+      const d2 = fdu("2025-09-30T12:30:29.999Z");
+      expect(d1.isAfter(d2, "second")).toBe(true);
+      expect(d2.isAfter(d1, "second")).toBe(false);
+    });
+
+    it("should fall back to millisecond comparison for unknown unit", () => {
+      const d1 = fdu("2025-09-30T12:00:00.001Z");
+      const d2 = fdu("2025-09-30T12:00:00.000Z");
+      expect(d1.isAfter(d2, "millisecond")).toBe(true);
     });
   });
 
