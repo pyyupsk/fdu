@@ -1,5 +1,5 @@
 <div align="center">
-  <img src=".github/assets/logos/fdu.svg" alt="fdu logo" width="200" />
+  <img src="https://raw.githubusercontent.com/pyyupsk/fdu/refs/heads/main/.github/assets/logos/fdu.svg" alt="fdu logo" width="200" />
   <h1>@pyyupsk/fdu</h1>
   <p>⚡ Ultra-fast, zero-dependency date-time library grounded in philosophical time perception — 4× faster than Day.js.</p>
 
