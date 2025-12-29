@@ -1,0 +1,5 @@
+{
+  "title": "Plugins",
+  "pages": ["index", "advanced-format", "relative-time"],
+  "defaultOpen": true
+}

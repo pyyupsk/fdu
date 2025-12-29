@@ -1,0 +1,180 @@
+---
+title: Design Philosophy
+description: The philosophical foundations and temporal design principles behind @pyyupsk/fdu, grounded in Ancient Greek philosophy, phenomenology, and temporal psychology research.
+---
+
+## Introduction
+
+`@pyyupsk/fdu` is more than a date manipulation library—it's a commitment to implementing time operations that reflect how humans actually perceive, measure, and navigate temporal passage. Our design is grounded in established philosophical and psychological research on time perception.
+
+## Philosophical Foundations
+
+### Ancient Greek Time Concepts
+
+The foundation of our temporal philosophy comes from Ancient Greek distinctions between two types of time:
+
+#### Chronos (χρόνος)
+
+**Quantitative, measurable clock time** — the sequential, linear time that can be counted in seconds, minutes, hours, days, and years. This is the time of clocks and calendars that enables coordination and planning.
+
+**In the library**: Chronos is reflected in our precise timestamp handling, accurate date arithmetic, and consistent time unit conversions.
+
+#### Kairos (καιρός)
+
+**Qualitative, opportune moments** — the "right time" or "supreme moment" when conditions are optimal for action. Kairos represents subjective time where moments feel significant or fleeting depending on context and engagement.
+
+**In the library**: Kairos influences our API design to be intuitive and meaningful for developers, making temporal operations feel natural rather than mechanical.
+
+<Callout type="info">
+  **Historical Note**: The Ancient Greeks personified these concepts as deities.
+  Kairos was depicted as a young figure standing on tiptoe with wings on his
+  heels, symbolizing the fleeting nature of opportune moments.
+</Callout>
+
+### Phenomenology of Time-Consciousness
+
+Our understanding of temporal experience is informed by **Edmund Husserl's** phenomenological analysis of time-consciousness (1905), which examines how humans experience temporal succession.
+
+**Key Concepts**:
+
+- **Retention**: Consciousness of what has just passed (the immediate past)
+- **Protention**: Anticipation of what is coming (the immediate future)
+- **Now-phase**: The present moment that connects past and future
+
+**Practical Impact**: Husserl's work reinforces that humans don't experience time as discrete instants but as a continuous flow. This influenced our decision to represent elapsed time using floor semantics—focusing on what has **fully passed** rather than rounding to the nearest unit.
+
+**Reference**: [Phenomenology and Time-Consciousness (Internet Encyclopedia of Philosophy)](https://iep.utm.edu/phe-time/)
+
+### Temporal Psychology
+
+Modern psychological research on time perception confirms that subjective time experience differs significantly from objective clock time. Factors influencing perception include:
+
+- **Attention**: Focused attention makes time feel slower; distraction makes it fly
+- **Emotion**: Anxiety stretches time; joy compresses it
+- **Memory**: Rich memories make past periods feel longer
+- **Age**: Time seems to accelerate as we get older
+
+**Design Implication**: While we can't control subjective experience, we ensure our API aligns with intuitive temporal understanding—using calendar-based arithmetic for months/years and directional semantics for time differences.
+
+**Reference**: [The Experience and Perception of Time (Stanford Encyclopedia of Philosophy)](https://plato.stanford.edu/entries/time-experience/)
+
+### Flow Theory
+
+**Mihaly Csikszentmihalyi's** research on flow states (1975) demonstrates that during optimal experiences, people often lose track of time—hours can feel like minutes when fully engaged.
+
+**Key Finding**: Time perception distorts during flow; self-consciousness disappears, and people underestimate how much time has passed.
+
+**Library Connection**: This reminds us that time is both objective measurement (Chronos) and subjective experience (Kairos). Our library handles the objective measurement reliably, allowing developers to focus on creating flow-inducing experiences.
+
+**Reference**: [Flow (psychology) - Wikipedia](<https://en.wikipedia.org/wiki/Flow_(psychology)>)
+
+## Core Design Principles
+
+These principles are the library's own design philosophy, **informed by** the research above:
+
+### 1. Elapsed Time Semantics
+
+**Principle**: Time differences represent **fully elapsed units** using floor division (`Math.floor()`).
+
+```typescript
+// 1.9 hours → 1 hour (what has fully passed)
+fdu("2025-01-01 01:54").diff(fdu("2025-01-01 00:00"), "hour"); // 1
+
+// -2.3 hours → -3 hours (floor toward -∞, not toward zero)
+fdu("2025-01-01 00:00").diff(fdu("2025-01-01 02:18"), "hour"); // -3
+```
+
+**Rationale**: When someone says "I've been waiting for 1 hour," they mean **at least 60 full minutes** have passed—not "approximately 1 hour." Fractional time means the unit **has not fully passed yet**. This reflects Husserl's retention concept: we measure time by what has **completely occurred**, not by what's in progress.
+
+**Why floor, not round?** Rounding would claim time that hasn't passed yet. At 1 hour and 54 minutes, you haven't completed 2 hours—you're still in the 1st hour.
+
+### 2. Calendar-Based Arithmetic
+
+**Principle**: Month/year calculations use calendar logic, not duration conversion.
+
+```typescript
+// Calendar arithmetic: Feb 2026 - Oct 2025 = 4 months
+fdu("2026-02-15").diff(fdu("2025-10-15"), "month"); // 4
+
+// Formula: (year_diff × 12) + month_diff
+// (2026 - 2025) × 12 + (2 - 10) = 12 - 6 = 4 ✓
+```
+
+**Rationale**: Months are **calendar concepts**, not fixed durations. February has 28/29 days; January has 31. When humans think "3 months from now," they advance the calendar page, not add 91.25 days. This reflects cognitive temporal psychology—we conceptualize months categorically, not metrically.
+
+**Anti-pattern**: Converting months to days using averages (30.4375 days/month) is a "duration fallacy" that doesn't match human understanding.
+
+### 3. Temporal Direction Integrity
+
+**Principle**: Time flows in one direction; earlier < later; negative diffs indicate past.
+
+```typescript
+// 2020 is 5 years BEFORE 2025 → negative difference
+fdu("2020-01-01").diff(fdu("2025-01-01"), "year"); // -5
+
+// 2025 is 5 years AFTER 2020 → positive difference
+fdu("2025-01-01").diff(fdu("2020-01-01"), "year"); // 5
+```
+
+**Rationale**: The "arrow of time" from physics (second law of thermodynamics) ensures time flows forward. Our API preserves this directionality—negative values mean the comparand is **in the past** relative to the reference point. This prevents losing temporal information through absolute values.
+
+### 4. Human-Centric Years
+
+**Principle**: Year 0 means year 0 per ISO 8601 (proleptic Gregorian calendar).
+
+```typescript
+// Year 0 is year 0, not 1900
+fdu({ year: 0, month: 0, day: 1 }); // 0000-01-01 (1 BCE)
+fdu({ year: 50, month: 0, day: 1 }); // 0050-01-01 (not 1950)
+```
+
+**Rationale**: Humans understand years **linearly**. ISO 8601 defines year 0 as 1 BCE. JavaScript's `new Date(50, 0)` → 1950 is a historical artifact from legacy systems, not how humans conceptualize years. We always use `setFullYear()` for years 0-99 to preserve literal year values.
+
+## Temporal Correctness Over Convenience
+
+These principles are **non-negotiable**. They supersede performance, convenience, or compatibility concerns because:
+
+1. **Correctness First**: A fast library that produces temporally incorrect results is worse than useless—it's actively harmful
+2. **Predictability**: Consistent temporal logic prevents subtle bugs that compound over time
+3. **Human Alignment**: Code that matches human intuition is easier to understand, maintain, and trust
+
+<Callout type="warn">
+  **For Contributors**: Library changes violating these principles are bugs by
+  definition. Tests that assume rounding/truncation/symmetric behavior are wrong
+  and must be corrected, not the library.
+</Callout>
+
+## Examples of Violations
+
+To clarify what **not** to do:
+
+```typescript
+// ❌ WRONG: Using Math.round() for time differences
+// Problem: Claims time that hasn't fully passed yet
+const diff = Math.round(ms / UNIT_MS["hour"]); // 1.9 hours → 2 hours (wrong!)
+
+// ❌ WRONG: Converting months to days using fixed durations
+// Problem: Months have variable lengths (28-31 days)
+const monthDiff = Math.floor(dayDiff / 30.4375); // Doesn't reflect calendar reality
+
+// ❌ WRONG: Assuming year 50 means 1950 without explicit context
+// Problem: Humans don't think "50 = 1950" naturally
+date.setYear(50); // Ambiguous—is it 50 CE or 1950?
+
+// ❌ WRONG: Returning unsigned diffs that lose past/future information
+// Problem: Can't distinguish "5 years ago" from "5 years from now"
+return Math.abs(diff); // Loses temporal direction
+```
+
+## Conclusion
+
+`@pyyupsk/fdu` bridges the gap between Chronos and Kairos—providing precise, measurable time operations while respecting how humans actually think about and experience time. By grounding our design in philosophical and psychological research, we create a library that's not just fast, but **temporally truthful**.
+
+<Callout type="info">
+  **Further Reading**: - [Stanford Encyclopedia: The Experience and Perception
+  of Time](https://plato.stanford.edu/entries/time-experience/) - [IEP:
+  Phenomenology and Time-Consciousness](https://iep.utm.edu/phe-time/) -
+  [Wikipedia: Flow
+  (psychology)](https://en.wikipedia.org/wiki/Flow_(psychology)) - [Wikipedia:
+  Kairos](https://en.wikipedia.org/wiki/Kairos)
+</Callout>

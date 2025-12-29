@@ -1,0 +1,115 @@
+---
+title: isSameOrAfter()
+description: Check if a date is the same as or after another date with optional granularity. Ideal for availability checking, future date validation, and filtering upcoming events.
+---
+
+Checks if this date is the same as or after another date, optionally at a specific granularity.
+
+## Syntax
+
+```typescript
+.isSameOrAfter(other: FduInstance, unit?: UnitType): boolean
+```
+
+## Parameters
+
+- `other: FduInstance` - Date to compare with
+- `unit?: UnitType` - Optional unit for granularity comparison
+
+## Returns
+
+`boolean` - True if this date is the same as or after the other date
+
+## Examples
+
+### Basic Comparison
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date1 = fdu("2024-01-20");
+const date2 = fdu("2024-01-15");
+const date3 = fdu("2024-01-20");
+
+date1.isSameOrAfter(date2); // true (after)
+date1.isSameOrAfter(date3); // true (same)
+date2.isSameOrAfter(date1); // false (before)
+```
+
+### Granular Comparison
+
+Compare at specific units of time:
+
+```typescript
+const date1 = fdu("2024-01-15T14:45:00");
+const date2 = fdu("2024-01-15T10:30:00");
+
+date1.isSameOrAfter(date2, "day");    // true (same day)
+date1.isSameOrAfter(date2, "hour");   // true (14 >= 10)
+date1.isSameOrAfter(date2, "month");  // true (same month)
+```
+
+### Availability Checking
+
+```typescript
+function isAvailable(date: FduInstance, startDate: FduInstance): boolean {
+  return date.isSameOrAfter(startDate, "day");
+}
+
+const requestedDate = fdu("2024-01-20");
+const availableFrom = fdu("2024-01-15");
+
+isAvailable(requestedDate, availableFrom); // true
+```
+
+### Future Date Validation
+
+```typescript
+function isFutureOrToday(date: FduInstance): boolean {
+  return date.isSameOrAfter(fdu(), "day");
+}
+
+const eventDate = fdu("2024-12-25");
+isFutureOrToday(eventDate); // true if today is before or on Dec 25, 2024
+```
+
+### Filter Upcoming Events
+
+```typescript
+const events = [
+  { date: fdu("2024-01-10"), name: "Past Event" },
+  { date: fdu("2024-01-15"), name: "Today Event" },
+  { date: fdu("2024-01-20"), name: "Future Event" },
+];
+
+const today = fdu("2024-01-15");
+const todayOrFuture = events.filter((e) => e.date.isSameOrAfter(today, "day"));
+// [Today Event, Future Event]
+```
+
+### Age Verification
+
+```typescript
+function isOldEnough(birthdate: FduInstance, minimumAge: number): boolean {
+  const minimumBirthdate = fdu().subtract(minimumAge, "year");
+  return minimumBirthdate.isSameOrAfter(birthdate, "day");
+}
+
+const userBirthdate = fdu("2000-05-15");
+isOldEnough(userBirthdate, 21); // true if user is 21 or older
+```
+
+## Supported Units
+
+- `year` / `y` - Same or later calendar year
+- `month` / `M` - Same or later calendar month
+- `day` / `d` - Same or later calendar day
+- `hour` / `h` - Same or later hour
+- `minute` / `m` - Same or later minute
+- `second` / `s` - Same or later second
+
+## See Also
+
+- [isSameOrBefore()](/docs/api/comparison/is-same-or-before) - Check if same or before another date
+- [isSame()](/docs/api/comparison/is-same) - Check if same as another date
+- [isAfter()](/docs/api/comparison/is-after) - Check if strictly after another date

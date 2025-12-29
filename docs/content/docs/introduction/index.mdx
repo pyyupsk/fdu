@@ -1,0 +1,79 @@
+---
+title: What is fdu?
+description: Learn about fdu, an ultra-fast, zero-dependency date-time library for TypeScript and JavaScript. Discover how fdu delivers 4× better performance than Day.js while maintaining full TypeScript support, immutability, and a familiar API.
+---
+
+**fdu** (faster date-time utility) is an ultra-fast, zero-dependency date manipulation library for TypeScript and JavaScript.
+
+## Why fdu?
+
+### ⚡ Ultra-Fast
+
+Built for speed, delivering **~4× faster** performance than Day.js:
+
+- **12× faster** comparisons
+- **6× faster** chained operations
+- **4× faster** date manipulation
+- **2× faster** formatting
+
+[See benchmarks →](/docs/benchmarks)
+
+### 🕐 Temporally Correct
+
+fdu implements time based on how humans actually perceive it:
+
+- **Floor Semantics**: Time differences represent fully elapsed units (1.9 hours → 1 hour)
+- **Calendar Arithmetic**: Months/years count calendar boundaries, not duration
+- **Temporal Direction**: Earlier < later, negative = past
+- **Human-Centric Years**: Year 0 = Year 0 (ISO 8601)
+
+[Read the philosophy →](/docs/philosophy)
+
+### 💪 TypeScript-First
+
+Unlike libraries where TypeScript types are added later, fdu is **designed in TypeScript from day one**:
+
+- Full type inference for all operations
+- Strict null safety
+- IntelliSense support everywhere
+- No `@types/*` package needed
+
+### 🧭 Immutable & Predictable
+
+Every operation returns a new instance, preventing unexpected mutations:
+
+```typescript
+const date = fdu("2025-10-05");
+const tomorrow = date.add(1, "day");
+
+console.log(date.format("YYYY-MM-DD")); // '2025-10-05' (unchanged)
+console.log(tomorrow.format("YYYY-MM-DD")); // '2025-10-06'
+```
+
+### ⚙️ Zero Dependencies
+
+No external dependencies means:
+
+- **Smaller bundle size** - No transitive dependencies
+- **Better security** - Fewer attack vectors
+- **Faster installs** - No dependency resolution
+- **More reliable** - No breaking changes from dependencies
+
+### 🧩 Tree-Shakeable
+
+Modern ESM design ensures you only bundle what you use:
+
+```typescript
+// Only imports what you need
+import { fdu } from "@pyyupsk/fdu";
+import { es } from "@pyyupsk/fdu/locale/es";
+import { relativeTime } from "@pyyupsk/fdu/plugins/relative-time";
+```
+
+## Design Principles
+
+1. **Temporal correctness first** - Aligned with human time perception
+2. **Performance** - Fast operations through correct algorithms
+3. **Type safety** - Catch errors at compile time
+4. **Immutability** - Predictable behavior
+5. **Zero dependencies** - Stay lean and secure

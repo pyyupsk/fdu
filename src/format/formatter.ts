@@ -57,6 +57,11 @@ export function format(
 
 /**
  * Finds the matching closing bracket for nested bracket handling.
+ *
+ * @param pattern - The format pattern string to search
+ * @param startIndex - The index of the opening bracket
+ * @returns The index of the matching closing bracket, or -1 if not found
+ *
  * @internal
  */
 function findMatchingBracket(pattern: string, startIndex: number): number {
@@ -78,6 +83,11 @@ function findMatchingBracket(pattern: string, startIndex: number): number {
 
 /**
  * Handles unclosed brackets by treating them as literal text until the next space.
+ *
+ * @param pattern - The format pattern string
+ * @param startIndex - The index of the unclosed opening bracket
+ * @returns Object containing the literal content and the end index position
+ *
  * @internal
  */
 function handleUnclosedBracket(
@@ -93,6 +103,10 @@ function handleUnclosedBracket(
 
 /**
  * Processes nested brackets by marking them for special formatting.
+ *
+ * @param content - The content inside brackets to process
+ * @returns Processed content with markers for nested brackets
+ *
  * @internal
  */
 function processNestedBrackets(content: string): string {
@@ -105,6 +119,12 @@ function processNestedBrackets(content: string): string {
 
 /**
  * Adds an escaped section to the map and returns a placeholder.
+ *
+ * @param sections - Map storing escaped sections by index
+ * @param content - The escaped content to store
+ * @param escapeIndex - Unique index for this escaped section
+ * @returns Placeholder string to insert in the pattern
+ *
  * @internal
  */
 function addEscapedSection(
@@ -118,6 +138,10 @@ function addEscapedSection(
 
 /**
  * Extracts and replaces escaped sections (text in brackets) with placeholders.
+ *
+ * @param pattern - The format pattern to process
+ * @returns Object with processed pattern and map of escaped sections
+ *
  * @internal
  */
 function extractEscapedSections(pattern: string): {
@@ -156,6 +180,13 @@ function extractEscapedSections(pattern: string): {
 
 /**
  * Restores escaped sections from placeholders back to their original or formatted text.
+ *
+ * @param formatted - The formatted string with placeholders
+ * @param escapedSections - Map of escaped sections by index
+ * @param date - The date being formatted (for nested bracket formatting)
+ * @param locale - Optional locale configuration for nested formatting
+ * @returns Final formatted string with restored escaped content
+ *
  * @internal
  */
 function restoreEscapedSections(

@@ -1,0 +1,114 @@
+---
+title: Installation
+description: Install @pyyupsk/fdu using npm, pnpm, yarn, or bun. Get started with the ultra-fast, zero-dependency date-time library for TypeScript and JavaScript with CDN options and version information.
+---
+
+## Package Manager
+
+Install fdu using your preferred package manager:
+
+<Tabs items={["npm", "pnpm", "yarn", "bun"]}>
+  <Tab value="npm">
+  ```bash
+  npm install @pyyupsk/fdu
+  ```
+  </Tab>
+  <Tab value="pnpm">
+  ```bash
+  pnpm add @pyyupsk/fdu
+  ```
+  </Tab>
+  <Tab value="yarn">
+  ```bash
+  yarn add @pyyupsk/fdu
+  ```
+  </Tab>
+  <Tab value="bun">
+  ```bash
+  bun add @pyyupsk/fdu
+  ```
+  </Tab>
+</Tabs>
+
+## CDN
+
+You can also use fdu via CDN for quick prototyping:
+
+### ESM (Recommended)
+
+```html
+<script type="module">
+  import { fdu } from "https://esm.sh/@pyyupsk/fdu";
+
+  const date = fdu();
+  console.log(date.format("YYYY-MM-DD"));
+</script>
+```
+
+### UMD (Browser Global)
+
+```html
+<script src="https://unpkg.com/@pyyupsk/fdu/dist/umd/index.iife.js"></script>
+<script>
+  const { fdu } = window.fdu;
+  const date = fdu();
+  console.log(date.format("YYYY-MM-DD"));
+</script>
+```
+
+## Version Status
+
+<Callout type="warn" title="Beta Version">
+  This library is currently in **beta** (v0.0.0-beta.3). The API is stable but
+  may change before v1.0.0. Production use is acceptable, but consider pinning
+  to a specific version.
+</Callout>
+
+### Versioning
+
+fdu follows [Semantic Versioning](https://semver.org/):
+
+- **Major** (1.0.0) - Breaking changes
+- **Minor** (0.1.0) - New features, backwards compatible
+- **Patch** (0.0.1) - Bug fixes
+
+### Release Notes
+
+See the [CHANGELOG](https://github.com/pyyupsk/fdu/blob/main/CHANGELOG.md) for detailed release notes.
+
+## Requirements
+
+### Runtime
+
+The library is built with ESNext target and requires modern environments with ESM support.
+
+- **Node.js**: Version 20.0.0 or higher (tested on Node.js 20.x, 22.x, 23.x)
+- **Bun**: Version 1.0.0 or higher recommended
+- **Browsers**: Chrome 61+, Firefox 60+, Safari 11+, Edge 79+ (requires ESM support)
+
+<Callout type="info">
+  **Note:** Node.js 18.x reached End-of-Life on April 30, 2025 and is no longer
+  supported. We recommend using Node.js 22.x (Active LTS) or later for the best
+  performance and long-term support.
+</Callout>
+
+### Development
+
+To contribute or build from source, you'll need:
+
+- **TypeScript**: 5.x
+- **Build Tool**: [tsdown](https://tsdown.dev/)
+- **Test Runner**: [Vitest](https://vitest.dev/)
+- **Linter/Formatter**: [Biome](https://biomejs.dev/)
+- **Package Manager**: [bun](https://bun.sh/)
+
+## Verify Installation
+
+After installation, verify fdu is working:
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+console.log(fdu().format("YYYY-MM-DD HH:mm:ss"));
+// Output: "2025-10-05 15:30:00" (current date/time)
+```

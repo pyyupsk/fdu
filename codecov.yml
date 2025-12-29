@@ -1,0 +1,14 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 99%
+    patch:
+      default:
+        target: 95%
+
+ignore:
+  - "scripts/**"
+  - "docs/**"
+  - "**/*.test.ts"
+  - "**/*.bench.ts"

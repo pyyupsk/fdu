@@ -20,19 +20,19 @@ Converts the instance to a native JavaScript Date object.
 ### Basic Conversion
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const fduDate = fdu('2024-01-15T14:30:00');
+const fduDate = fdu("2024-01-15T14:30:00");
 const nativeDate = fduDate.toDate();
 
-console.log(nativeDate instanceof Date);  // true
-console.log(nativeDate.getFullYear());    // 2024
+console.log(nativeDate instanceof Date); // true
+console.log(nativeDate.getFullYear()); // 2024
 ```
 
 ### Use with Native Methods
 
 ```typescript
-const fduDate = fdu('2024-01-15');
+const fduDate = fdu("2024-01-15");
 const nativeDate = fduDate.toDate();
 
 // Use native Date methods
@@ -46,7 +46,7 @@ console.log(nativeDate.getTime());
 ### Pass to APIs Expecting Date
 
 ```typescript
-const fduDate = fdu('2024-01-15');
+const fduDate = fdu("2024-01-15");
 
 // Pass to API expecting Date
 someApi.setDate(fduDate.toDate());
@@ -58,19 +58,19 @@ calendar.setSelectedDate(fduDate.toDate());
 ### Use with Chart Libraries
 
 ```typescript
-const fduDate = fdu('2024-01-15');
+const fduDate = fdu("2024-01-15");
 
 // Use with chart library
 chart.addDataPoint({
   x: fduDate.toDate(),
-  y: value
+  y: value,
 });
 ```
 
 ### Date Picker Integration
 
 ```typescript
-const fduDate = fdu('2024-01-15');
+const fduDate = fdu("2024-01-15");
 
 // Set date picker value
 datePicker.setValue(fduDate.toDate());
@@ -83,12 +83,12 @@ const backToFdu = fdu(nativeDate);
 ### Comparison with Native Dates
 
 ```typescript
-const fduDate = fdu('2024-01-15');
-const nativeDate = new Date('2024-01-20');
+const fduDate = fdu("2024-01-15");
+const nativeDate = new Date("2024-01-20");
 
 // Convert to compare
 if (fduDate.toDate() < nativeDate) {
-  console.log('fdu date is earlier');
+  console.log("fdu date is earlier");
 }
 ```
 

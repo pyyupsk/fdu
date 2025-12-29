@@ -25,52 +25,52 @@ Subtracts the specified amount of time from the date. Returns a new instance (im
 ### Subtracting Days
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-date.subtract(1, 'day');   // 2024-01-14
-date.subtract(7, 'day');   // 2024-01-08
-date.subtract(1, 'd');     // 2024-01-14 (short form)
+date.subtract(1, "day"); // 2024-01-14
+date.subtract(7, "day"); // 2024-01-08
+date.subtract(1, "d"); // 2024-01-14 (short form)
 ```
 
 ### Subtracting Months
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-date.subtract(1, 'month');   // 2023-12-15
-date.subtract(6, 'month');   // 2023-07-15
-date.subtract(1, 'M');       // 2023-12-15 (short form)
+date.subtract(1, "month"); // 2023-12-15
+date.subtract(6, "month"); // 2023-07-15
+date.subtract(1, "M"); // 2023-12-15 (short form)
 ```
 
 ### Subtracting Years
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-date.subtract(1, 'year');    // 2023-01-15
-date.subtract(5, 'year');    // 2019-01-15
-date.subtract(1, 'y');       // 2023-01-15 (short form)
+date.subtract(1, "year"); // 2023-01-15
+date.subtract(5, "year"); // 2019-01-15
+date.subtract(1, "y"); // 2023-01-15 (short form)
 ```
 
 ### Subtracting Time
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
+const date = fdu("2024-01-15T14:30:45");
 
-date.subtract(3, 'hour');      // 2024-01-15 11:30:45
-date.subtract(30, 'minute');   // 2024-01-15 14:00:45
-date.subtract(15, 'second');   // 2024-01-15 14:30:30
+date.subtract(3, "hour"); // 2024-01-15 11:30:45
+date.subtract(30, "minute"); // 2024-01-15 14:00:45
+date.subtract(15, "second"); // 2024-01-15 14:30:30
 ```
 
 ### Subtracting Weeks
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-date.subtract(1, 'week');    // 2024-01-08
-date.subtract(2, 'w');       // 2024-01-01 (short form)
+date.subtract(1, "week"); // 2024-01-08
+date.subtract(2, "w"); // 2024-01-01 (short form)
 ```
 
 ## Chaining
@@ -78,43 +78,40 @@ date.subtract(2, 'w');       // 2024-01-01 (short form)
 Since `.subtract()` returns a new instance, you can chain multiple operations:
 
 ```typescript
-const date = fdu('2024-01-15');
+const date = fdu("2024-01-15");
 
-const past = date
-  .subtract(1, 'month')
-  .subtract(2, 'day')
-  .subtract(3, 'hour');
+const past = date.subtract(1, "month").subtract(2, "day").subtract(3, "hour");
 
-date.format('YYYY-MM-DD HH:mm');    // '2024-01-15 00:00' (original unchanged)
-past.format('YYYY-MM-DD HH:mm');    // '2023-12-12 21:00'
+date.format("YYYY-MM-DD HH:mm"); // '2024-01-15 00:00' (original unchanged)
+past.format("YYYY-MM-DD HH:mm"); // '2023-12-12 21:00'
 ```
 
 ## Unit Types
 
-| Full Name | Short | Example |
-|-----------|-------|---------|
-| `year` | `y` | `.subtract(1, 'year')` |
-| `month` | `M` | `.subtract(1, 'month')` |
-| `week` | `w` | `.subtract(1, 'week')` |
-| `day` | `d` | `.subtract(1, 'day')` |
-| `hour` | `h` | `.subtract(1, 'hour')` |
-| `minute` | `m` | `.subtract(1, 'minute')` |
-| `second` | `s` | `.subtract(1, 'second')` |
-| `millisecond` | `ms` | `.subtract(1, 'millisecond')` |
+| Full Name     | Short | Example                       |
+| ------------- | ----- | ----------------------------- |
+| `year`        | `y`   | `.subtract(1, 'year')`        |
+| `month`       | `M`   | `.subtract(1, 'month')`       |
+| `week`        | `w`   | `.subtract(1, 'week')`        |
+| `day`         | `d`   | `.subtract(1, 'day')`         |
+| `hour`        | `h`   | `.subtract(1, 'hour')`        |
+| `minute`      | `m`   | `.subtract(1, 'minute')`      |
+| `second`      | `s`   | `.subtract(1, 'second')`      |
+| `millisecond` | `ms`  | `.subtract(1, 'millisecond')` |
 
 ## Month/Year Edge Cases
 
 When subtracting months or years, if the resulting day doesn't exist in the target month, it will be clamped to the last valid day:
 
 ```typescript
-const date = fdu('2024-03-31');
+const date = fdu("2024-03-31");
 
 // March 31 - 1 month = February 29 (2024 is a leap year)
-date.subtract(1, 'month').format('YYYY-MM-DD');  // '2024-02-29'
+date.subtract(1, "month").format("YYYY-MM-DD"); // '2024-02-29'
 
-const date2 = fdu('2023-03-31');
+const date2 = fdu("2023-03-31");
 // March 31 - 1 month = February 28 (2023 is not a leap year)
-date2.subtract(1, 'month').format('YYYY-MM-DD'); // '2023-02-28'
+date2.subtract(1, "month").format("YYYY-MM-DD"); // '2023-02-28'
 ```
 
 ## Immutability
@@ -122,11 +119,11 @@ date2.subtract(1, 'month').format('YYYY-MM-DD'); // '2023-02-28'
 `.subtract()` returns a new instance and never modifies the original:
 
 ```typescript
-const original = fdu('2024-01-15');
-const modified = original.subtract(1, 'day');
+const original = fdu("2024-01-15");
+const modified = original.subtract(1, "day");
 
-original.format('YYYY-MM-DD');  // '2024-01-15' (unchanged)
-modified.format('YYYY-MM-DD');  // '2024-01-14'
+original.format("YYYY-MM-DD"); // '2024-01-15' (unchanged)
+modified.format("YYYY-MM-DD"); // '2024-01-14'
 ```
 
 ## Common Patterns
@@ -135,55 +132,57 @@ modified.format('YYYY-MM-DD');  // '2024-01-14'
 
 ```typescript
 const now = fdu();
-const lastWeek = now.subtract(7, 'day');
-const lastMonth = now.subtract(1, 'month');
-const lastYear = now.subtract(1, 'year');
+const lastWeek = now.subtract(7, "day");
+const lastMonth = now.subtract(1, "month");
+const lastYear = now.subtract(1, "year");
 ```
 
 ### Calculate age from birthdate
 
 ```typescript
-const birthdate = fdu('1990-05-15');
+const birthdate = fdu("1990-05-15");
 const today = fdu();
 
 // Calculate years ago
-const yearsAgo = birthdate.subtract(-1 * today.diff(birthdate, 'year'), 'year');
+const yearsAgo = birthdate.subtract(-1 * today.diff(birthdate, "year"), "year");
 
 // Or use diff directly (recommended)
-const age = today.diff(birthdate, 'year');
+const age = today.diff(birthdate, "year");
 ```
 
 ### Time range calculation
 
 ```typescript
-const endDate = fdu('2024-12-31');
-const startDate = endDate.subtract(30, 'day');
+const endDate = fdu("2024-12-31");
+const startDate = endDate.subtract(30, "day");
 
-console.log(`Range: ${startDate.format('YYYY-MM-DD')} to ${endDate.format('YYYY-MM-DD')}`);
+console.log(
+  `Range: ${startDate.format("YYYY-MM-DD")} to ${endDate.format("YYYY-MM-DD")}`,
+);
 // Range: 2024-12-01 to 2024-12-31
 ```
 
 ### Deadline calculation
 
 ```typescript
-const dueDate = fdu('2024-12-25');
-const startWork = dueDate.subtract(2, 'week');
+const dueDate = fdu("2024-12-25");
+const startWork = dueDate.subtract(2, "week");
 
-console.log(`Start working by: ${startWork.format('MMMM D, YYYY')}`);
+console.log(`Start working by: ${startWork.format("MMMM D, YYYY")}`);
 ```
 
 ### Historical date
 
 ```typescript
 const today = fdu();
-const oneYearAgo = today.subtract(1, 'year');
-const fiveYearsAgo = today.subtract(5, 'year');
-const tenYearsAgo = today.subtract(10, 'year');
+const oneYearAgo = today.subtract(1, "year");
+const fiveYearsAgo = today.subtract(5, "year");
+const tenYearsAgo = today.subtract(10, "year");
 
-console.log('Historical dates:');
-console.log(`1 year ago: ${oneYearAgo.format('YYYY-MM-DD')}`);
-console.log(`5 years ago: ${fiveYearsAgo.format('YYYY-MM-DD')}`);
-console.log(`10 years ago: ${tenYearsAgo.format('YYYY-MM-DD')}`);
+console.log("Historical dates:");
+console.log(`1 year ago: ${oneYearAgo.format("YYYY-MM-DD")}`);
+console.log(`5 years ago: ${fiveYearsAgo.format("YYYY-MM-DD")}`);
+console.log(`10 years ago: ${tenYearsAgo.format("YYYY-MM-DD")}`);
 ```
 
 ## See Also

@@ -1,0 +1,134 @@
+name: Bug Report
+description: Report a bug or unexpected behavior in fdu
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out this form as completely as possible.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: When I call fdu().format(), I expect... but instead...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Step-by-step instructions to reproduce the issue.
+      placeholder: |
+        1. Install @pyyupsk/fdu@0.0.0-beta.3
+        2. Call fdu("2025-01-01").add(1, "month")
+        3. See error...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Should return February 1st, 2025
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Returns January 32nd, 2025 (invalid date)
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Minimal Reproducible Code
+      description: Provide a minimal code snippet that reproduces the issue.
+      render: typescript
+      placeholder: |
+        import { fdu } from "@pyyupsk/fdu";
+
+        const date = fdu("2025-01-01");
+        const result = date.add(1, "month");
+        console.log(result.format("YYYY-MM-DD"));
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: fdu Version
+      description: Which version of fdu are you using?
+      placeholder: 0.0.0-beta.3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: runtime
+    attributes:
+      label: Runtime Environment
+      description: What JavaScript runtime are you using?
+      options:
+        - Node.js
+        - Bun
+        - Deno
+        - Browser
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: runtime-version
+    attributes:
+      label: Runtime Version
+      description: What version of the runtime?
+      placeholder: Node.js 22.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: module-system
+    attributes:
+      label: Module System
+      description: How are you importing fdu?
+      options:
+        - ESM (import)
+        - CommonJS (require)
+        - IIFE (script tag)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context about the problem here.
+        - Does this happen with Day.js or other date libraries?
+        - Any relevant browser console errors?
+        - Related issues or discussions?
+      placeholder: This also happens with date-fns...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-Submission Checklist
+      description: Please confirm the following before submitting.
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have tested this with the latest version of fdu
+          required: true
+        - label: I have provided a minimal reproducible code example
+          required: true
+        - label: I have read the CONTRIBUTING.md guidelines
+          required: false

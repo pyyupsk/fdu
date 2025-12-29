@@ -1,4 +1,4 @@
 {
   "title": "Conversion",
-  "pages": ["to-date", "to-iso-string", "value-of", "is-valid"]
+  "pages": ["to-date", "to-iso-string", "to-object", "value-of", "is-valid"]
 }

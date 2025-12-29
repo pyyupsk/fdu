@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { add } from "../../../src/manipulate/add";
+import { add } from "@/manipulate/add";
 
 describe("add()", () => {
   const baseDate = new Date("2025-09-30T12:00:00.000Z");

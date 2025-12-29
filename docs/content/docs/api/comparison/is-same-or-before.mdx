@@ -1,0 +1,106 @@
+---
+title: isSameOrBefore()
+description: Check if a date is the same as or before another date with optional granularity. Perfect for deadline checking, date range validation, and filtering past events.
+---
+
+Checks if this date is the same as or before another date, optionally at a specific granularity.
+
+## Syntax
+
+```typescript
+.isSameOrBefore(other: FduInstance, unit?: UnitType): boolean
+```
+
+## Parameters
+
+- `other: FduInstance` - Date to compare with
+- `unit?: UnitType` - Optional unit for granularity comparison
+
+## Returns
+
+`boolean` - True if this date is the same as or before the other date
+
+## Examples
+
+### Basic Comparison
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+const date1 = fdu("2024-01-15");
+const date2 = fdu("2024-01-20");
+const date3 = fdu("2024-01-15");
+
+date1.isSameOrBefore(date2); // true (before)
+date1.isSameOrBefore(date3); // true (same)
+date2.isSameOrBefore(date1); // false (after)
+```
+
+### Granular Comparison
+
+Compare at specific units of time:
+
+```typescript
+const date1 = fdu("2024-01-15T10:30:00");
+const date2 = fdu("2024-01-15T14:45:00");
+
+date1.isSameOrBefore(date2, "day");    // true (same day)
+date1.isSameOrBefore(date2, "hour");   // true (10 <= 14)
+date1.isSameOrBefore(date2, "month");  // true (same month)
+```
+
+### Deadline Checking
+
+```typescript
+function isBeforeDeadline(date: FduInstance, deadline: FduInstance): boolean {
+  return date.isSameOrBefore(deadline, "day");
+}
+
+const submission = fdu("2024-01-15");
+const deadline = fdu("2024-01-15");
+
+isBeforeDeadline(submission, deadline); // true (on deadline day)
+```
+
+### Date Range Validation
+
+```typescript
+function isInRange(date: FduInstance, start: FduInstance, end: FduInstance): boolean {
+  return date.isSameOrAfter(start) && date.isSameOrBefore(end);
+}
+
+const eventDate = fdu("2024-01-15");
+const rangeStart = fdu("2024-01-10");
+const rangeEnd = fdu("2024-01-20");
+
+isInRange(eventDate, rangeStart, rangeEnd); // true
+```
+
+### Filter Past Events
+
+```typescript
+const events = [
+  { date: fdu("2024-01-10"), name: "Past Event" },
+  { date: fdu("2024-01-15"), name: "Today Event" },
+  { date: fdu("2024-01-20"), name: "Future Event" },
+];
+
+const today = fdu("2024-01-15");
+const pastOrToday = events.filter((e) => e.date.isSameOrBefore(today, "day"));
+// [Past Event, Today Event]
+```
+
+## Supported Units
+
+- `year` / `y` - Same or earlier calendar year
+- `month` / `M` - Same or earlier calendar month
+- `day` / `d` - Same or earlier calendar day
+- `hour` / `h` - Same or earlier hour
+- `minute` / `m` - Same or earlier minute
+- `second` / `s` - Same or earlier second
+
+## See Also
+
+- [isSameOrAfter()](/docs/api/comparison/is-same-or-after) - Check if same or after another date
+- [isSame()](/docs/api/comparison/is-same) - Check if same as another date
+- [isBefore()](/docs/api/comparison/is-before) - Check if strictly before another date

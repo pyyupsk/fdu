@@ -1,0 +1,5 @@
+{
+  "title": "Guides",
+  "pages": ["format-tokens", "i18n", "benchmarks"],
+  "defaultOpen": true
+}

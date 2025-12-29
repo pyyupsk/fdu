@@ -1,0 +1,4 @@
+{
+  "title": "Query",
+  "pages": ["is-today", "is-tomorrow", "is-yesterday", "is-leap-year"]
+}

@@ -24,7 +24,6 @@ export function registerLocale(name: string, config: LocaleConfig): void {
 /**
  * Gets or sets the global locale used by default for all date instances.
  *
- * @param name - Optional locale name to set as global
  * @returns The current global locale name
  *
  * @example
@@ -39,6 +38,12 @@ export function registerLocale(name: string, config: LocaleConfig): void {
  * ```
  */
 export function locale(): string;
+/**
+ * Sets the global locale used by default for all date instances.
+ *
+ * @param name - Locale name to set as global
+ * @returns The new global locale name
+ */
 export function locale(name: string): string;
 export function locale(name?: string): string {
   if (name !== undefined) {

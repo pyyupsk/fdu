@@ -20,20 +20,20 @@ Converts to ISO 8601 string format (always in UTC).
 ### Basic Usage
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-const date = fdu('2024-01-15T14:30:45');
-date.toISOString();  // '2024-01-15T14:30:45.000Z'
+const date = fdu("2024-01-15T14:30:45");
+date.toISOString(); // '2024-01-15T14:30:45.000Z'
 
-const date2 = fdu('2024-12-25T00:00:00');
-date2.toISOString();  // '2024-12-25T00:00:00.000Z'
+const date2 = fdu("2024-12-25T00:00:00");
+date2.toISOString(); // '2024-12-25T00:00:00.000Z'
 ```
 
 ### With Milliseconds
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45.123');
-date.toISOString();  // '2024-01-15T14:30:45.123Z'
+const date = fdu("2024-01-15T14:30:45.123");
+date.toISOString(); // '2024-01-15T14:30:45.123Z'
 ```
 
 ## Common Patterns
@@ -41,11 +41,11 @@ date.toISOString();  // '2024-01-15T14:30:45.123Z'
 ### Store in Database
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
+const date = fdu("2024-01-15T14:30:45");
 
 // Store in database
 db.insert({
-  created_at: date.toISOString()
+  created_at: date.toISOString(),
 });
 
 // Retrieve and recreate
@@ -56,27 +56,27 @@ const retrieved = fdu(row.created_at);
 ### Send via API
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
+const date = fdu("2024-01-15T14:30:45");
 
 // Send via API
-fetch('/api/events', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+fetch("/api/events", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     date: date.toISOString(),
-    title: 'Event'
-  })
+    title: "Event",
+  }),
 });
 ```
 
 ### JSON Serialization
 
 ```typescript
-const date = fdu('2024-01-15T14:30:45');
+const date = fdu("2024-01-15T14:30:45");
 
 const data = {
   timestamp: date.toISOString(),
-  event: 'User login'
+  event: "User login",
 };
 
 const json = JSON.stringify(data);
@@ -101,7 +101,7 @@ const filename = `backup-${now.toISOString()}.sql`;
 // backup-2024-01-15T14:30:45.123Z.sql
 
 // Remove colons for filesystem compatibility
-const safeFilename = `backup-${now.toISOString().replace(/:/g, '-')}.sql`;
+const safeFilename = `backup-${now.toISOString().replace(/:/g, "-")}.sql`;
 // backup-2024-01-15T14-30-45.123Z.sql
 ```
 

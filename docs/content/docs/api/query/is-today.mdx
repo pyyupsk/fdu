@@ -1,0 +1,96 @@
+---
+title: isToday()
+description: Check if a date is today. Simple and efficient method for highlighting current day, filtering today's events, and building calendar applications.
+---
+
+Checks if this date is today (same calendar day as the current date).
+
+## Syntax
+
+```typescript
+.isToday(): boolean
+```
+
+## Returns
+
+`boolean` - True if the date is today
+
+## Examples
+
+### Basic Usage
+
+```typescript
+import { fdu } from "@pyyupsk/fdu";
+
+// Assuming today is 2024-01-15
+fdu("2024-01-15").isToday();          // true
+fdu("2024-01-15T23:59:59").isToday(); // true (same day, different time)
+fdu("2024-01-14").isToday();          // false
+fdu("2024-01-16").isToday();          // false
+```
+
+### Current Date Check
+
+```typescript
+fdu().isToday(); // always true (current moment)
+```
+
+### Highlight Today in Calendar
+
+```typescript
+function renderCalendarDay(date: FduInstance) {
+  const isCurrentDay = date.isToday();
+
+  return {
+    date: date.format("D"),
+    className: isCurrentDay ? "today highlight" : "day",
+  };
+}
+```
+
+### Filter Today's Events
+
+```typescript
+const events = [
+  { date: fdu("2024-01-14"), title: "Yesterday's Meeting" },
+  { date: fdu("2024-01-15"), title: "Today's Meeting" },
+  { date: fdu("2024-01-16"), title: "Tomorrow's Meeting" },
+];
+
+// Assuming today is 2024-01-15
+const todaysEvents = events.filter((e) => e.date.isToday());
+// [{ date: ..., title: "Today's Meeting" }]
+```
+
+### Daily Task Reminder
+
+```typescript
+function shouldRemind(taskDueDate: FduInstance): boolean {
+  return taskDueDate.isToday() || taskDueDate.isBefore(fdu(), "day");
+}
+
+const task = { dueDate: fdu("2024-01-15"), title: "Submit report" };
+shouldRemind(task.dueDate); // true if today or overdue
+```
+
+### Display Relative Date Label
+
+```typescript
+function getDateLabel(date: FduInstance): string {
+  if (date.isToday()) return "Today";
+  if (date.isTomorrow()) return "Tomorrow";
+  if (date.isYesterday()) return "Yesterday";
+  return date.format("MMM D, YYYY");
+}
+
+getDateLabel(fdu());                    // "Today"
+getDateLabel(fdu().add(1, "day"));      // "Tomorrow"
+getDateLabel(fdu().subtract(1, "day")); // "Yesterday"
+getDateLabel(fdu("2024-12-25"));        // "Dec 25, 2024"
+```
+
+## See Also
+
+- [isTomorrow()](/docs/api/query/is-tomorrow) - Check if date is tomorrow
+- [isYesterday()](/docs/api/query/is-yesterday) - Check if date is yesterday
+- [isSame()](/docs/api/comparison/is-same) - Compare dates at specific granularity

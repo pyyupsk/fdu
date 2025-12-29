@@ -1,0 +1,55 @@
+{
+  "date": "2025-12-05",
+  "vitestVersion": "4.0.15",
+  "bunVersion": "1.3.3",
+  "results": [
+    {
+      "operation": "Date Parsing",
+      "fdu": "2.88M ops/sec",
+      "dayjs": "2.06M ops/sec",
+      "dateFns": "134.1K ops/sec",
+      "luxon": "413.1K ops/sec",
+      "speedup": "1.40×"
+    },
+    {
+      "operation": "Date Formatting",
+      "fdu": "955.1K ops/sec",
+      "dayjs": "548.7K ops/sec",
+      "dateFns": "398.0K ops/sec",
+      "luxon": "626.1K ops/sec",
+      "speedup": "1.74×"
+    },
+    {
+      "operation": "Date Manipulation",
+      "fdu": "3.87M ops/sec",
+      "dayjs": "965.2K ops/sec",
+      "dateFns": "3.28M ops/sec",
+      "luxon": "449.1K ops/sec",
+      "speedup": "4.01×"
+    },
+    {
+      "operation": "Date Comparison",
+      "fdu": "20.17M ops/sec",
+      "dayjs": "1.53M ops/sec",
+      "dateFns": "4.92M ops/sec",
+      "luxon": "6.98M ops/sec",
+      "speedup": "13.18×"
+    },
+    {
+      "operation": "Complex Workflow",
+      "fdu": "549.8K ops/sec",
+      "dayjs": "245.9K ops/sec",
+      "dateFns": "415.5K ops/sec",
+      "luxon": "143.1K ops/sec",
+      "speedup": "2.24×"
+    },
+    {
+      "operation": "Batch Operations (100 dates)",
+      "fdu": "9.4K ops/sec",
+      "dayjs": "5.3K ops/sec",
+      "dateFns": "5.7K ops/sec",
+      "luxon": "2.8K ops/sec",
+      "speedup": "1.79×"
+    }
+  ]
+}

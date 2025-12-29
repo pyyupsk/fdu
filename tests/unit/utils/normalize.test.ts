@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeUnit } from "../../../src/utils/units";
+import { normalizeUnit } from "@/utils/units";
 
 describe("normalizeUnit", () => {
   it("should normalize year units", () => {

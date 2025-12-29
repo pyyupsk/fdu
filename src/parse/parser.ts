@@ -1,4 +1,5 @@
 import type { FduInput } from "../core/types";
+import { isObjectInput, parseObjectInput } from "./object-parser";
 
 /**
  * Parses various input types into a Date object.
@@ -10,12 +11,12 @@ import type { FduInput } from "../core/types";
  */
 export function parse(input: string | number | Date): Date {
   if (input instanceof Date) {
-    return new Date(input.getTime());
+    return new Date(input);
   }
   if (typeof input === "number" || typeof input === "string") {
     return new Date(input);
   }
-  return new Date(NaN);
+  return new Date(Number.NaN);
 }
 
 /**
@@ -31,7 +32,7 @@ export function parseInput(input: FduInput): Date {
     return new Date();
   }
   if (input instanceof Date) {
-    return new Date(input.getTime());
+    return new Date(input);
   }
   if (typeof input === "number") {
     return new Date(input);
@@ -39,8 +40,16 @@ export function parseInput(input: FduInput): Date {
   if (typeof input === "string") {
     return new Date(input);
   }
-  if ("toDate" in input && typeof input.toDate === "function") {
+  if (isObjectInput(input)) {
+    return parseObjectInput(input);
+  }
+  if (
+    typeof input === "object" &&
+    input !== null &&
+    "toDate" in input &&
+    typeof input.toDate === "function"
+  ) {
     return input.toDate();
   }
-  return new Date(NaN);
+  return new Date(Number.NaN);
 }

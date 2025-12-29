@@ -20,24 +20,24 @@ Checks if the date instance represents a valid date.
 ### Valid Dates
 
 ```typescript
-import { fdu } from '@pyyupsk/fdu';
+import { fdu } from "@pyyupsk/fdu";
 
-fdu('2024-01-15').isValid();              // true
-fdu(new Date()).isValid();                // true
-fdu(1705276800000).isValid();             // true
-fdu('2024-02-29').isValid();              // true (2024 is a leap year)
-fdu().isValid();                          // true (current date)
+fdu("2024-01-15").isValid(); // true
+fdu(new Date()).isValid(); // true
+fdu(1705276800000).isValid(); // true
+fdu("2024-02-29").isValid(); // true (2024 is a leap year)
+fdu().isValid(); // true (current date)
 ```
 
 ### Invalid Dates
 
 ```typescript
-fdu('invalid-date').isValid();            // false
-fdu('2023-02-29').isValid();              // false (2023 is not a leap year)
-fdu('2024-13-01').isValid();              // false (month 13 doesn't exist)
-fdu('2024-01-32').isValid();              // false (day 32 doesn't exist)
-fdu(NaN).isValid();                       // false
-fdu('not a date at all').isValid();       // false
+fdu("invalid-date").isValid(); // false
+fdu("2023-02-29").isValid(); // false (2023 is not a leap year)
+fdu("2024-13-01").isValid(); // false (month 13 doesn't exist)
+fdu("2024-01-32").isValid(); // false (day 32 doesn't exist)
+fdu(NaN).isValid(); // false
+fdu("not a date at all").isValid(); // false
 ```
 
 ## Common Patterns
@@ -49,16 +49,16 @@ function processDate(input: string): string | null {
   const date = fdu(input);
 
   if (!date.isValid()) {
-    console.error('Invalid date provided');
+    console.error("Invalid date provided");
     return null;
   }
 
-  return date.format('YYYY-MM-DD');
+  return date.format("YYYY-MM-DD");
 }
 
 // Usage
-processDate('2024-01-15');  // '2024-01-15'
-processDate('invalid');     // null
+processDate("2024-01-15"); // '2024-01-15'
+processDate("invalid"); // null
 ```
 
 ### Form Validation
@@ -68,14 +68,14 @@ function validateDateInput(value: string): string | undefined {
   const date = fdu(value);
 
   if (!date.isValid()) {
-    return 'Please enter a valid date';
+    return "Please enter a valid date";
   }
 
   if (date.isBefore(fdu())) {
-    return 'Date cannot be in the past';
+    return "Date cannot be in the past";
   }
 
-  return undefined;  // No error
+  return undefined; // No error
 }
 ```
 
@@ -86,11 +86,11 @@ const userInput = getUserInput();
 const date = fdu(userInput);
 
 if (date.isValid()) {
-  console.log(`Valid date: ${date.format('YYYY-MM-DD')}`);
+  console.log(`Valid date: ${date.format("YYYY-MM-DD")}`);
   processDate(date);
 } else {
-  console.log('Please enter a valid date');
-  showError('Invalid date format');
+  console.log("Please enter a valid date");
+  showError("Invalid date format");
 }
 ```
 
@@ -102,11 +102,11 @@ function parseUserDate(input: string): FduInstance | null {
   return date.isValid() ? date : null;
 }
 
-const result = parseUserDate('2024-01-15');
+const result = parseUserDate("2024-01-15");
 if (result) {
-  console.log('Valid date:', result.format('YYYY-MM-DD'));
+  console.log("Valid date:", result.format("YYYY-MM-DD"));
 } else {
-  console.log('Invalid date');
+  console.log("Invalid date");
 }
 ```
 
@@ -114,16 +114,16 @@ if (result) {
 
 ```typescript
 const inputs = [
-  '2024-01-15',
-  'invalid',
-  '2024-02-29',  // Valid (leap year)
-  '2023-02-29',  // Invalid (not leap year)
-  '2024-12-25'
+  "2024-01-15",
+  "invalid",
+  "2024-02-29", // Valid (leap year)
+  "2023-02-29", // Invalid (not leap year)
+  "2024-12-25",
 ];
 
 const validDates = inputs
-  .map(input => fdu(input))
-  .filter(date => date.isValid());
+  .map((input) => fdu(input))
+  .filter((date) => date.isValid());
 
 console.log(`Found ${validDates.length} valid dates`);
 ```
@@ -144,7 +144,7 @@ function processApiResponse(response: ApiResponse): void {
   }
 
   // Safe to use date
-  console.log(`Data for ${date.format('YYYY-MM-DD')}: ${response.value}`);
+  console.log(`Data for ${date.format("YYYY-MM-DD")}: ${response.value}`);
 }
 ```
 
@@ -153,12 +153,12 @@ function processApiResponse(response: ApiResponse): void {
 ```typescript
 function calculateDaysUntil(targetDate: FduInstance): number | null {
   if (!targetDate.isValid()) {
-    console.warn('Invalid target date provided');
+    console.warn("Invalid target date provided");
     return null;
   }
 
   const now = fdu();
-  return targetDate.diff(now, 'day');
+  return targetDate.diff(now, "day");
 }
 ```
 
@@ -191,11 +191,7 @@ function isValidFduDate(date: FduInstance): boolean {
   return date.isValid();
 }
 
-const dates = [
-  fdu('2024-01-15'),
-  fdu('invalid'),
-  fdu('2024-12-25')
-];
+const dates = [fdu("2024-01-15"), fdu("invalid"), fdu("2024-12-25")];
 
 const validDates = dates.filter(isValidFduDate);
 ```
@@ -203,6 +199,7 @@ const validDates = dates.filter(isValidFduDate);
 ## Validation Rules
 
 A date is considered invalid if:
+
 - The input string cannot be parsed as a date
 - The resulting Date object is `Invalid Date`
 - Numeric values are `NaN` or `Infinity`

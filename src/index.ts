@@ -12,6 +12,7 @@
  * const fromDate = fdu(new Date());
  * const fromString = fdu('2024-01-01');
  * const fromTimestamp = fdu(1609459200000);
+ * const fromObject = fdu({ year: 2025, month: 9, day: 30 });
  * ```
  */
 export { fdu, fdu as default } from "./core/datetime";

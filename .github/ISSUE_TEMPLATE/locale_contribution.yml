@@ -1,0 +1,260 @@
+name: Locale Contribution
+description: Add or update internationalization (i18n) locale support
+title: "[Locale]: Add support for [Language/Country]"
+labels: ["locale", "i18n", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a locale! This helps make fdu accessible to more developers worldwide.
+
+  - type: input
+    id: locale-code
+    attributes:
+      label: Locale Code
+      description: The locale code (e.g., 'en', 'fr', 'zh-cn', 'pt-br')
+      placeholder: es-mx
+    validations:
+      required: true
+
+  - type: input
+    id: language
+    attributes:
+      label: Language Name
+      description: Full language name in English
+      placeholder: Spanish (Mexico)
+    validations:
+      required: true
+
+  - type: input
+    id: native-name
+    attributes:
+      label: Native Language Name
+      description: Language name in its native script
+      placeholder: Español (México)
+    validations:
+      required: true
+
+  - type: textarea
+    id: months
+    attributes:
+      label: Month Names (Full)
+      description: Provide all 12 month names in order (January through December)
+      placeholder: |
+        Enero
+        Febrero
+        Marzo
+        Abril
+        Mayo
+        Junio
+        Julio
+        Agosto
+        Septiembre
+        Octubre
+        Noviembre
+        Diciembre
+    validations:
+      required: true
+
+  - type: textarea
+    id: months-short
+    attributes:
+      label: Month Names (Short/Abbreviated)
+      description: Short versions of month names (typically 3 letters)
+      placeholder: |
+        Ene
+        Feb
+        Mar
+        Abr
+        May
+        Jun
+        Jul
+        Ago
+        Sep
+        Oct
+        Nov
+        Dic
+    validations:
+      required: true
+
+  - type: textarea
+    id: weekdays
+    attributes:
+      label: Weekday Names (Full)
+      description: Provide all 7 weekday names starting with Sunday
+      placeholder: |
+        Domingo
+        Lunes
+        Martes
+        Miércoles
+        Jueves
+        Viernes
+        Sábado
+    validations:
+      required: true
+
+  - type: textarea
+    id: weekdays-short
+    attributes:
+      label: Weekday Names (Short)
+      description: Short versions of weekday names
+      placeholder: |
+        Dom
+        Lun
+        Mar
+        Mié
+        Jue
+        Vie
+        Sáb
+    validations:
+      required: true
+
+  - type: textarea
+    id: weekdays-min
+    attributes:
+      label: Weekday Names (Minimal)
+      description: Minimal versions (typically 2 letters)
+      placeholder: |
+        Do
+        Lu
+        Ma
+        Mi
+        Ju
+        Vi
+        Sa
+    validations:
+      required: true
+
+  - type: dropdown
+    id: week-start
+    attributes:
+      label: Week Start Day
+      description: Which day does the week start on in this locale?
+      options:
+        - Sunday (0)
+        - Monday (1)
+        - Saturday (6)
+    validations:
+      required: true
+
+  - type: input
+    id: year-offset
+    attributes:
+      label: Year Offset (Optional)
+      description: Calendar year offset (e.g., 543 for Thai Buddhist calendar). Leave blank if using Gregorian calendar.
+      placeholder: "0"
+
+  - type: textarea
+    id: formats
+    attributes:
+      label: Date/Time Formats
+      description: Common date/time formats used in this locale
+      placeholder: |
+        LT: HH:mm (time only)
+        LTS: HH:mm:ss (time with seconds)
+        L: DD/MM/YYYY (short date)
+        LL: D [de] MMMM [de] YYYY (long date)
+        LLL: D [de] MMMM [de] YYYY HH:mm (long date + time)
+        LLLL: dddd, D [de] MMMM [de] YYYY HH:mm (full)
+    validations:
+      required: true
+
+  - type: textarea
+    id: relative-time
+    attributes:
+      label: Relative Time Strings (Optional)
+      description: For future RelativeTime plugin support
+      placeholder: |
+        future: "en %s"
+        past: "hace %s"
+        s: "unos segundos"
+        m: "un minuto"
+        mm: "%d minutos"
+        h: "una hora"
+        hh: "%d horas"
+        d: "un día"
+        dd: "%d días"
+        M: "un mes"
+        MM: "%d meses"
+        y: "un año"
+        yy: "%d años"
+
+  - type: dropdown
+    id: rtl
+    attributes:
+      label: Right-to-Left (RTL) Support
+      description: Is this a right-to-left language?
+      options:
+        - "No"
+        - "Yes"
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference
+    attributes:
+      label: Reference Sources
+      description: |
+        Provide references for locale data (CLDR, Unicode, official standards, etc.)
+      placeholder: |
+        - CLDR: https://github.com/unicode-org/cldr/blob/main/common/main/es_MX.xml
+        - Day.js locale: https://github.com/iamkun/dayjs/blob/dev/src/locale/es-mx.js
+
+  - type: dropdown
+    id: native-speaker
+    attributes:
+      label: Native Speaker Status
+      description: Are you a native speaker of this language?
+      options:
+        - "Yes"
+        - "No, but fluent"
+        - "No, used reference materials"
+    validations:
+      required: true
+
+  - type: textarea
+    id: testing
+    attributes:
+      label: Testing Plan
+      description: How will you test this locale?
+      placeholder: |
+        - Compared with Day.js locale output
+        - Validated with native speakers
+        - Tested date formatting in production app
+
+  - type: dropdown
+    id: implementation
+    attributes:
+      label: Implementation Status
+      description: Do you have the locale file ready?
+      options:
+        - I can submit a PR with the locale file
+        - I need help creating the file
+        - This is a request for someone else to implement
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: |
+        Any special considerations for this locale?
+        - Cultural nuances
+        - Regional variations
+        - Historical calendar systems
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-Submission Checklist
+      description: Please confirm the following before submitting.
+      options:
+        - label: I have searched existing locales to ensure this is not a duplicate
+          required: true
+        - label: I have reviewed an existing locale file (e.g., src/locale/locales/en.ts) for structure
+          required: true
+        - label: I have verified the accuracy of month/weekday names with native speakers or official sources
+          required: false
+        - label: I have read the "Adding Locales" section in CONTRIBUTING.md
+          required: false

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../../src";
-import { parse, parseInput } from "../../../src/parse/parser";
+import { fdu } from "@/core/datetime";
+import { parse, parseInput } from "@/parse/parser";
 
 describe("parse()", () => {
   describe("Date input", () => {

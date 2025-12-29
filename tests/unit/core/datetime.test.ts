@@ -1,5 +1,5 @@
+import { fdu } from "@pyyupsk/fdu";
 import { describe, expect, it } from "vitest";
-import { fdu } from "../../../src/core/datetime";
 
 describe("fdu() factory function", () => {
   it("should create DateTime from undefined (current date)", () => {
@@ -202,6 +202,54 @@ describe("DateTime comparison methods", () => {
     it("should return false when same", () => {
       expect(date1.isBefore(date3)).toBe(false);
     });
+
+    it("should compare by year unit", () => {
+      const d1 = fdu("2024-12-31");
+      const d2 = fdu("2025-01-01");
+      expect(d1.isBefore(d2, "year")).toBe(true);
+      expect(d2.isBefore(d1, "year")).toBe(false);
+    });
+
+    it("should compare by month unit", () => {
+      const d1 = fdu("2025-08-31");
+      const d2 = fdu("2025-09-01");
+      expect(d1.isBefore(d2, "month")).toBe(true);
+      expect(d2.isBefore(d1, "month")).toBe(false);
+    });
+
+    it("should compare by day unit", () => {
+      const d1 = fdu("2025-09-29T23:59:59");
+      const d2 = fdu("2025-09-30T00:00:01");
+      expect(d1.isBefore(d2, "day")).toBe(true);
+      expect(d2.isBefore(d1, "day")).toBe(false);
+    });
+
+    it("should compare by hour unit", () => {
+      const d1 = fdu("2025-09-30T11:59:59");
+      const d2 = fdu("2025-09-30T12:00:01");
+      expect(d1.isBefore(d2, "hour")).toBe(true);
+      expect(d2.isBefore(d1, "hour")).toBe(false);
+    });
+
+    it("should compare by minute unit", () => {
+      const d1 = fdu("2025-09-30T12:29:59");
+      const d2 = fdu("2025-09-30T12:30:01");
+      expect(d1.isBefore(d2, "minute")).toBe(true);
+      expect(d2.isBefore(d1, "minute")).toBe(false);
+    });
+
+    it("should compare by second unit", () => {
+      const d1 = fdu("2025-09-30T12:30:29.999Z");
+      const d2 = fdu("2025-09-30T12:30:30.001Z");
+      expect(d1.isBefore(d2, "second")).toBe(true);
+      expect(d2.isBefore(d1, "second")).toBe(false);
+    });
+
+    it("should fall back to millisecond comparison for unknown unit", () => {
+      const d1 = fdu("2025-09-30T12:00:00.000Z");
+      const d2 = fdu("2025-09-30T12:00:00.001Z");
+      expect(d1.isBefore(d2, "millisecond")).toBe(true);
+    });
   });
 
   describe("isAfter", () => {
@@ -215,6 +263,54 @@ describe("DateTime comparison methods", () => {
 
     it("should return false when same", () => {
       expect(date1.isAfter(date3)).toBe(false);
+    });
+
+    it("should compare by year unit", () => {
+      const d1 = fdu("2025-01-01");
+      const d2 = fdu("2024-12-31");
+      expect(d1.isAfter(d2, "year")).toBe(true);
+      expect(d2.isAfter(d1, "year")).toBe(false);
+    });
+
+    it("should compare by month unit", () => {
+      const d1 = fdu("2025-09-01");
+      const d2 = fdu("2025-08-31");
+      expect(d1.isAfter(d2, "month")).toBe(true);
+      expect(d2.isAfter(d1, "month")).toBe(false);
+    });
+
+    it("should compare by day unit", () => {
+      const d1 = fdu("2025-09-30T00:00:01");
+      const d2 = fdu("2025-09-29T23:59:59");
+      expect(d1.isAfter(d2, "day")).toBe(true);
+      expect(d2.isAfter(d1, "day")).toBe(false);
+    });
+
+    it("should compare by hour unit", () => {
+      const d1 = fdu("2025-09-30T12:00:01");
+      const d2 = fdu("2025-09-30T11:59:59");
+      expect(d1.isAfter(d2, "hour")).toBe(true);
+      expect(d2.isAfter(d1, "hour")).toBe(false);
+    });
+
+    it("should compare by minute unit", () => {
+      const d1 = fdu("2025-09-30T12:30:01");
+      const d2 = fdu("2025-09-30T12:29:59");
+      expect(d1.isAfter(d2, "minute")).toBe(true);
+      expect(d2.isAfter(d1, "minute")).toBe(false);
+    });
+
+    it("should compare by second unit", () => {
+      const d1 = fdu("2025-09-30T12:30:30.001Z");
+      const d2 = fdu("2025-09-30T12:30:29.999Z");
+      expect(d1.isAfter(d2, "second")).toBe(true);
+      expect(d2.isAfter(d1, "second")).toBe(false);
+    });
+
+    it("should fall back to millisecond comparison for unknown unit", () => {
+      const d1 = fdu("2025-09-30T12:00:00.001Z");
+      const d2 = fdu("2025-09-30T12:00:00.000Z");
+      expect(d1.isAfter(d2, "millisecond")).toBe(true);
     });
   });
 
@@ -275,6 +371,68 @@ describe("DateTime comparison methods", () => {
       const diff = date1.diff(date2);
       expect(diff).toBe(-24 * 60 * 60 * 1000); // -1 day
     });
+  });
+});
+
+describe("DateTime utility comparison methods", () => {
+  it("should detect isToday() for today's date", () => {
+    const today = fdu();
+    expect(today.isToday()).toBe(true);
+  });
+
+  it("should detect isToday() for non-today date", () => {
+    const notToday = fdu("2020-01-01");
+    expect(notToday.isToday()).toBe(false);
+  });
+
+  it("should detect isTomorrow() for tomorrow's date", () => {
+    const tomorrow = fdu().add(1, "day");
+    expect(tomorrow.isTomorrow()).toBe(true);
+  });
+
+  it("should detect isTomorrow() for non-tomorrow date", () => {
+    const notTomorrow = fdu("2020-01-01");
+    expect(notTomorrow.isTomorrow()).toBe(false);
+  });
+
+  it("should detect isYesterday() for yesterday's date", () => {
+    const yesterday = fdu().subtract(1, "day");
+    expect(yesterday.isYesterday()).toBe(true);
+  });
+
+  it("should detect isYesterday() for non-yesterday date", () => {
+    const notYesterday = fdu("2020-01-01");
+    expect(notYesterday.isYesterday()).toBe(false);
+  });
+
+  it("should detect isLeapYear() for leap years", () => {
+    expect(fdu("2024-01-01").isLeapYear()).toBe(true);
+    expect(fdu("2000-01-01").isLeapYear()).toBe(true);
+  });
+
+  it("should detect isLeapYear() for non-leap years", () => {
+    expect(fdu("2023-01-01").isLeapYear()).toBe(false);
+    expect(fdu("1900-01-01").isLeapYear()).toBe(false);
+  });
+
+  it("should detect isSameOrBefore()", () => {
+    const date1 = fdu("2025-09-30");
+    const date2 = fdu("2025-10-01");
+    const date3 = fdu("2025-09-30");
+
+    expect(date1.isSameOrBefore(date2)).toBe(true);
+    expect(date1.isSameOrBefore(date3)).toBe(true);
+    expect(date2.isSameOrBefore(date1)).toBe(false);
+  });
+
+  it("should detect isSameOrAfter()", () => {
+    const date1 = fdu("2025-09-30");
+    const date2 = fdu("2025-10-01");
+    const date3 = fdu("2025-09-30");
+
+    expect(date2.isSameOrAfter(date1)).toBe(true);
+    expect(date1.isSameOrAfter(date3)).toBe(true);
+    expect(date1.isSameOrAfter(date2)).toBe(false);
   });
 });
 
@@ -389,5 +547,101 @@ describe("DateTime edge cases", () => {
     // biome-ignore lint/suspicious/noExplicitAny: test edge case
     const date = fdu(invalidObj as any);
     expect(date.isValid()).toBe(false);
+  });
+
+  it("should handle object input with year property", () => {
+    const date = fdu({ year: 2025, month: 9, day: 5 });
+    expect(date.isValid()).toBe(true);
+    expect(date.year()).toBe(2025);
+    expect(date.month()).toBe(9);
+    expect(date.date()).toBe(5);
+  });
+
+  it("should handle object input with minimal properties", () => {
+    const date = fdu({ year: 2025 });
+    expect(date.isValid()).toBe(true);
+    expect(date.year()).toBe(2025);
+    expect(date.month()).toBe(0);
+    expect(date.date()).toBe(1);
+  });
+
+  it("should handle local() method when timezone offset is not zero", () => {
+    // Test with a date that has non-zero offset
+    const date = fdu("2025-10-05T12:00:00");
+    const localDate = date.local();
+    expect(localDate.isValid()).toBe(true);
+    expect(localDate).not.toBe(date);
+    // local() returns a new instance
+    expect(localDate.valueOf()).toBe(date.valueOf());
+  });
+
+  it("should return global locale when instance has no locale set", () => {
+    // This tests the || branch in locale() getter (line 207)
+    const date = fdu("2025-10-05");
+    const localeName = date.locale();
+    expect(typeof localeName).toBe("string");
+    expect(localeName).toBe("en"); // Default global locale
+  });
+
+  it("should get UTC offset in minutes", () => {
+    const date = fdu("2025-10-05T12:00:00");
+    const offset = date.utcOffset();
+    expect(typeof offset).toBe("number");
+    // Offset depends on system timezone, just verify it's a number
+    expect(Number.isFinite(offset)).toBe(true);
+  });
+
+  it("should set UTC offset and return new instance", () => {
+    const date = fdu("2025-10-05T12:00:00.000Z");
+    const originalOffset = date.utcOffset();
+    const originalTime = date.valueOf();
+
+    const targetOffset = 120; // +2 hours
+    const newDate = date.utcOffset(targetOffset);
+
+    expect(newDate).not.toBe(date); // Immutability
+    expect(newDate.isValid()).toBe(true);
+
+    // Verify the timestamp is adjusted by the offset difference
+    const offsetDiffMinutes = targetOffset - originalOffset;
+    const expectedTime = originalTime + offsetDiffMinutes * 60_000;
+    expect(newDate.valueOf()).toBe(expectedTime);
+  });
+
+  it("should handle day() getter and setter", () => {
+    const date = fdu("2025-10-05"); // Sunday = 0
+    const day = date.day();
+    expect(day).toBeGreaterThanOrEqual(0);
+    expect(day).toBeLessThan(7);
+
+    // Set to Monday (1)
+    const monday = date.day(1);
+    expect(monday.day()).toBe(1);
+    expect(monday).not.toBe(date);
+  });
+
+  it("should handle weekday() getter and setter", () => {
+    const date = fdu("2025-10-05");
+    const weekday = date.weekday();
+    expect(weekday).toBeGreaterThanOrEqual(0);
+    expect(weekday).toBeLessThan(7);
+
+    // Set weekday
+    const newDate = date.weekday(3);
+    expect(newDate.weekday()).toBe(3);
+    expect(newDate).not.toBe(date);
+  });
+
+  it("should handle toObject() method", () => {
+    const date = fdu("2025-10-05T14:30:45.123");
+    const obj = date.toObject();
+    expect(obj.years).toBe(2025);
+    expect(obj.months).toBeGreaterThanOrEqual(0);
+    expect(obj.months).toBeLessThan(12);
+    expect(obj.date).toBeGreaterThan(0);
+    expect(obj.hours).toBeGreaterThanOrEqual(0);
+    expect(obj.minutes).toBeGreaterThanOrEqual(0);
+    expect(obj.seconds).toBeGreaterThanOrEqual(0);
+    expect(obj.milliseconds).toBeGreaterThanOrEqual(0);
   });
 });

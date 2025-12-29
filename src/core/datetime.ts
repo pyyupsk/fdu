@@ -3,8 +3,15 @@ import { locale as getGlobalLocale, resolveLocale } from "../locale/locale";
 import { add as addToDate } from "../manipulate/add";
 import { subtract as subtractFromDate } from "../manipulate/subtract";
 import { parseInput } from "../parse/parser";
-import { normalizeUnit } from "../utils/units";
-import type { FduInput, FduInstance, UnitType } from "./types";
+import { normalizeUnit, truncateToUnit } from "../utils/units";
+import { PluginRegistry } from "./plugin-registry";
+import type {
+  DateObject,
+  FduInput,
+  FduInstance,
+  Plugin,
+  UnitType,
+} from "./types";
 
 /**
  * Creates a date-time instance from various input types.
@@ -32,16 +39,48 @@ import type { FduInput, FduInstance, UnitType } from "./types";
  */
 export function fdu(input?: FduInput): FduInstance {
   const date = parseInput(input);
-  return new DateTimeImpl(date, getGlobalLocale());
+  return new DateTimeImpl(date, getGlobalLocale()) as unknown as FduInstance;
 }
 
-class DateTimeImpl implements FduInstance {
+/**
+ * Set the default FduInstance creation function
+ */
+PluginRegistry.setFduFunction(fdu);
+
+/**
+ * Register a plugin to extend FduInstance functionality
+ *
+ * @param plugin - Plugin object with install method
+ * @param options - Optional plugin configuration
+ *
+ * @example
+ * ```ts
+ * import { fdu, type Plugin } from '@pyyupsk/fdu';
+ *
+ * const myPlugin: Plugin = {
+ *   name: 'my-plugin',
+ *   install(api) {
+ *     api.extendPrototype('myMethod', function() {
+ *       return this.format('YYYY-MM-DD');
+ *     });
+ *   }
+ * };
+ *
+ * fdu.extend(myPlugin);
+ * ```
+ */
+fdu.extend = <T>(plugin: Plugin<T>, options?: T): void => {
+  const registry = PluginRegistry.getInstance();
+  registry.register(plugin, options);
+};
+
+class DateTimeImpl {
   private readonly _date: Date;
   private readonly _isValid: boolean;
   private readonly _locale: string | undefined;
 
   constructor(date: Date, locale?: string) {
-    this._date = new Date(date.getTime());
+    this._date = new Date(date);
     this._isValid = !Number.isNaN(this._date.getTime());
     this._locale = locale;
   }
@@ -74,16 +113,56 @@ class DateTimeImpl implements FduInstance {
     return this._date.getMilliseconds();
   }
 
-  day(): number {
-    return this._date.getDay();
+  day(): number;
+  day(value: number): FduInstance;
+  day(value?: number): number | FduInstance {
+    if (value === undefined) {
+      return this._date.getDay();
+    }
+    const currentDay = this._date.getDay();
+    const diff = value - currentDay;
+    const newDate = new Date(this._date);
+    newDate.setDate(newDate.getDate() + diff);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
+  }
+
+  weekday(): number;
+  weekday(value: number): FduInstance;
+  weekday(value?: number): number | FduInstance {
+    const localeConfig = resolveLocale(this._locale);
+    const weekStart = localeConfig.weekStart ?? 0;
+
+    if (value === undefined) {
+      const day = this._date.getDay();
+      return (day - weekStart + 7) % 7;
+    }
+
+    const targetDay = (value + weekStart) % 7;
+    const currentDay = this._date.getDay();
+    const diff = targetDay - currentDay;
+    const newDate = new Date(this._date);
+    newDate.setDate(newDate.getDate() + diff);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
   toDate(): Date {
-    return new Date(this._date.getTime());
+    return new Date(this._date);
   }
 
   toISOString(): string {
     return this._date.toISOString();
+  }
+
+  toObject(): DateObject {
+    return {
+      years: this._date.getFullYear(),
+      months: this._date.getMonth(),
+      date: this._date.getDate(),
+      hours: this._date.getHours(),
+      minutes: this._date.getMinutes(),
+      seconds: this._date.getSeconds(),
+      milliseconds: this._date.getMilliseconds(),
+    };
   }
 
   valueOf(): number {
@@ -94,13 +173,31 @@ class DateTimeImpl implements FduInstance {
     return this._isValid;
   }
 
+  utcOffset(): number;
+  utcOffset(offset: number): FduInstance;
+  utcOffset(offset?: number): number | FduInstance {
+    if (offset === undefined) {
+      return -this._date.getTimezoneOffset();
+    }
+
+    const currentOffset = -this._date.getTimezoneOffset();
+    const diffInMinutes = offset - currentOffset;
+    const newDate = new Date(this._date.getTime() + diffInMinutes * 60 * 1000);
+
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
+  }
+
+  local(): FduInstance {
+    return new DateTimeImpl(this._date, this._locale) as unknown as FduInstance;
+  }
+
   locale(): string;
   locale(name: string): FduInstance;
   locale(name?: string): string | FduInstance {
     if (name === undefined) {
       return this._locale || getGlobalLocale();
     }
-    return new DateTimeImpl(this._date, name);
+    return new DateTimeImpl(this._date, name) as unknown as FduInstance;
   }
 
   format(pattern: string): string {
@@ -110,20 +207,72 @@ class DateTimeImpl implements FduInstance {
 
   add(value: number, unit: UnitType): FduInstance {
     const newDate = addToDate(this._date, value, unit);
-    return new DateTimeImpl(newDate, this._locale);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
   subtract(value: number, unit: UnitType): FduInstance {
     const newDate = subtractFromDate(this._date, value, unit);
-    return new DateTimeImpl(newDate, this._locale);
+    return new DateTimeImpl(newDate, this._locale) as unknown as FduInstance;
   }
 
-  isBefore(other: FduInstance): boolean {
-    return this._date.getTime() < other.valueOf();
+  isBefore(other: FduInstance, unit?: UnitType): boolean {
+    if (!unit) {
+      return this._date.getTime() < other.valueOf();
+    }
+    const t1 = truncateToUnit(this._date, normalizeUnit(unit));
+    const t2 = truncateToUnit(other.toDate(), normalizeUnit(unit));
+    return t1 < t2;
   }
 
-  isAfter(other: FduInstance): boolean {
-    return this._date.getTime() > other.valueOf();
+  isAfter(other: FduInstance, unit?: UnitType): boolean {
+    if (!unit) {
+      return this._date.getTime() > other.valueOf();
+    }
+    const t1 = truncateToUnit(this._date, normalizeUnit(unit));
+    const t2 = truncateToUnit(other.toDate(), normalizeUnit(unit));
+    return t1 > t2;
+  }
+
+  isSameOrBefore(other: FduInstance, unit?: UnitType): boolean {
+    return this.isSame(other, unit) || this.isBefore(other, unit);
+  }
+
+  isSameOrAfter(other: FduInstance, unit?: UnitType): boolean {
+    return this.isSame(other, unit) || this.isAfter(other, unit);
+  }
+
+  isLeapYear(): boolean {
+    const year = this._date.getFullYear();
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  }
+
+  isToday(): boolean {
+    const now = new Date();
+    return (
+      this._date.getFullYear() === now.getFullYear() &&
+      this._date.getMonth() === now.getMonth() &&
+      this._date.getDate() === now.getDate()
+    );
+  }
+
+  isTomorrow(): boolean {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return (
+      this._date.getFullYear() === tomorrow.getFullYear() &&
+      this._date.getMonth() === tomorrow.getMonth() &&
+      this._date.getDate() === tomorrow.getDate()
+    );
+  }
+
+  isYesterday(): boolean {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return (
+      this._date.getFullYear() === yesterday.getFullYear() &&
+      this._date.getMonth() === yesterday.getMonth() &&
+      this._date.getDate() === yesterday.getDate()
+    );
   }
 
   isSame(other: FduInstance, unit?: UnitType): boolean {
@@ -204,5 +353,16 @@ class DateTimeImpl implements FduInstance {
       default:
         return diff;
     }
+  }
+
+  /**
+   * Get the internal Date object (for plugin use).
+   *
+   * @returns The underlying Date object
+   *
+   * @internal
+   */
+  getInternalDate(): Date {
+    return this._date;
   }
 }

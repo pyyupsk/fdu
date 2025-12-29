@@ -1,0 +1,5 @@
+{
+  "title": "Introduction",
+  "pages": ["index", "installation", "quickstart", "typescript"],
+  "defaultOpen": true
+}
