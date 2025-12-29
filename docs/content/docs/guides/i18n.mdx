@@ -402,14 +402,24 @@ registerLocale("custom", customLocale);
 ### LocaleConfig Type
 
 ```typescript
+// Helper types for fixed-length tuples
+type Months = readonly [
+  string, string, string, string, string, string,
+  string, string, string, string, string, string
+]; // 12 items: Jan-Dec
+
+type Weekdays = readonly [
+  string, string, string, string, string, string, string
+]; // 7 items: Sun-Sat
+
 type LocaleConfig = {
   name: string;
   yearOffset?: number; // For alternative calendar systems
-  months: readonly [string, string, ...]; // 12 items
-  monthsShort?: readonly [string, string, ...]; // 12 items
-  weekdays: readonly [string, string, ...]; // 7 items (Sun-Sat)
-  weekdaysShort?: readonly [string, string, ...]; // 7 items
-  weekdaysMin?: readonly [string, string, ...]; // 7 items
+  months: Months;
+  monthsShort?: Months;
+  weekdays: Weekdays;
+  weekdaysShort?: Weekdays;
+  weekdaysMin?: Weekdays;
   weekStart?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   formats?: {
     LT?: string;

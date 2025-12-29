@@ -184,3 +184,8 @@
     @apply border-x;
   }
 }
+
+@utility container {
+  margin-inline: auto;
+  max-width: var(--fd-layout-width);
+}
