@@ -117,9 +117,9 @@ export default function HomePage() {
                 key={feature.title}
                 className={cn(
                   "py-12 px-6",
-                  "lg:[&:nth-child(3n+1)]:border-r lg:[&:nth-child(3n+2)]:border-r lg:[&:nth-child(-n+3)]:border-b",
-                  "md:max-lg:[&:nth-child(odd)]:border-r md:max-lg:[&:nth-child(-n+4)]:border-b",
-                  "max-md:[&:not(:last-child)]:border-b",
+                  "lg:nth-[3n+1]:border-r lg:nth-[3n+2]:border-r lg:nth-[-n+3]:border-b",
+                  "md:max-lg:odd:border-r md:max-lg:nth-[-n+4]:border-b",
+                  "max-md:not-last:border-b",
                 )}
               >
                 <div className="space-y-4">

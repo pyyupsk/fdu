@@ -1,4 +1,4 @@
-export function GithubIcon({ className }: { className?: string }) {
+export function GithubIcon({ className }: Readonly<{ className?: string }>) {
   return (
     <svg
       className={className}
