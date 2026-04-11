@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.0-beta.4] - 2026-04-11
+
+### 🔧 Maintenance
+
+- Updated all dependencies to latest versions (Biome 2.4.11, TypeScript 6.0.2, tsdown 0.21.7, Vitest 4.1.4, ESLint 10.2.0)
+- Added `overrides` for `flatted`, `picomatch`, `rollup`, and `vite` to resolve 9 transitive dependency vulnerabilities (6 high, 3 moderate)
+- Fixed export sort order in docs table component
+- Updated docs Next.js dependency
+
 ## [0.0.0-beta.3] - 2025-12-29
 
 ### ✨ Features
