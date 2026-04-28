@@ -35,7 +35,7 @@ export default async function AppleIcon() {
       }}
     >
       {/* biome-ignore lint/performance/noImgElement: ImageResponse requires img element */}
-      <img src={logoSrc} width="160" height="160" alt="fdu logo" />
+      <img src={logoSrc} width={160} height={160} alt="fdu logo" />
     </div>,
     {
       ...size,
