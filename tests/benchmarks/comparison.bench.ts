@@ -98,7 +98,7 @@ describe("Library Comparison: Date Comparison", () => {
   });
 
   bench("Luxon - isBefore", () => {
-    luxonDate1 < luxonDate2;
+    Boolean(luxonDate1 < luxonDate2);
   });
 });
 
@@ -130,7 +130,7 @@ describe("Library Comparison: Complex Workflow", () => {
     const date = DateTime.fromISO("2025-09-30");
     date.toFormat("yyyy-MM-dd");
     const future = date.plus({ days: 7 });
-    future < DateTime.now();
+    Boolean(future < DateTime.now());
   });
 });
 

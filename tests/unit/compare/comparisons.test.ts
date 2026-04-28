@@ -2,25 +2,25 @@ import { describe, expect, it } from "vitest";
 import { diff, isAfter, isBefore, isSame } from "@/compare/comparisons";
 
 describe("isBefore()", () => {
-  const date1 = new Date("2025-09-30T12:00:00.000Z");
-  const date2 = new Date("2025-10-01T12:00:00.000Z");
+  const earlier = new Date("2025-09-30T12:00:00.000Z");
+  const later = new Date("2025-10-01T12:00:00.000Z");
 
   it("should return true when first date is before second", () => {
-    expect(isBefore(date1, date2)).toBe(true);
+    expect(isBefore(earlier, later)).toBe(true);
   });
 
   it("should return false when first date is after second", () => {
-    expect(isBefore(date2, date1)).toBe(false);
+    expect(isBefore(later, earlier)).toBe(false);
   });
 
   it("should return false when dates are equal", () => {
-    const date3 = new Date(date1.getTime());
-    expect(isBefore(date1, date3)).toBe(false);
+    const same = new Date(earlier);
+    expect(isBefore(earlier, same)).toBe(false);
   });
 
   it("should compare with millisecond precision", () => {
-    const date3 = new Date("2025-09-30T12:00:00.001Z");
-    expect(isBefore(date1, date3)).toBe(true);
+    const oneMsLater = new Date("2025-09-30T12:00:00.001Z");
+    expect(isBefore(earlier, oneMsLater)).toBe(true);
   });
 
   it("should handle dates far apart", () => {
@@ -32,25 +32,25 @@ describe("isBefore()", () => {
 });
 
 describe("isAfter()", () => {
-  const date1 = new Date("2025-09-30T12:00:00.000Z");
-  const date2 = new Date("2025-10-01T12:00:00.000Z");
+  const earlier = new Date("2025-09-30T12:00:00.000Z");
+  const later = new Date("2025-10-01T12:00:00.000Z");
 
   it("should return true when first date is after second", () => {
-    expect(isAfter(date2, date1)).toBe(true);
+    expect(isAfter(later, earlier)).toBe(true);
   });
 
   it("should return false when first date is before second", () => {
-    expect(isAfter(date1, date2)).toBe(false);
+    expect(isAfter(earlier, later)).toBe(false);
   });
 
   it("should return false when dates are equal", () => {
-    const date3 = new Date(date1.getTime());
-    expect(isAfter(date1, date3)).toBe(false);
+    const same = new Date(earlier);
+    expect(isAfter(earlier, same)).toBe(false);
   });
 
   it("should compare with millisecond precision", () => {
-    const date3 = new Date("2025-09-30T12:00:00.001Z");
-    expect(isAfter(date3, date1)).toBe(true);
+    const oneMsLater = new Date("2025-09-30T12:00:00.001Z");
+    expect(isAfter(oneMsLater, earlier)).toBe(true);
   });
 
   it("should handle dates far apart", () => {
@@ -62,227 +62,288 @@ describe("isAfter()", () => {
 });
 
 describe("isSame()", () => {
-  const date1 = new Date("2025-09-30T12:00:00.000Z");
-  const date2 = new Date("2025-09-30T12:00:00.000Z");
+  const a = new Date("2025-09-30T12:00:00.000Z");
+  const b = new Date("2025-09-30T12:00:00.000Z");
 
   it("should return true for identical timestamps", () => {
-    expect(isSame(date1, date2)).toBe(true);
+    expect(isSame(a, b)).toBe(true);
   });
 
   it("should return false for different timestamps", () => {
-    const date3 = new Date("2025-10-01T12:00:00.000Z");
-    expect(isSame(date1, date3)).toBe(false);
+    const other = new Date("2025-10-01T12:00:00.000Z");
+    expect(isSame(a, other)).toBe(false);
   });
 
   it("should compare with millisecond precision by default", () => {
-    const date3 = new Date("2025-09-30T12:00:00.001Z");
-    expect(isSame(date1, date3)).toBe(false);
+    const oneMsLater = new Date("2025-09-30T12:00:00.001Z");
+    expect(isSame(a, oneMsLater)).toBe(false);
   });
 
   it("should handle same reference", () => {
-    expect(isSame(date1, date1)).toBe(true);
+    expect(isSame(a, a)).toBe(true);
   });
 });
 
 describe("diff()", () => {
-  describe("Milliseconds (default)", () => {
-    it("should calculate diff in milliseconds", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:01.000Z");
-      expect(diff(date2, date1)).toBe(1000);
-    });
+  it.each([
+    // Milliseconds (default + alias)
+    {
+      group: "ms",
+      name: "default unit returns ms",
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:01.000Z",
+      expected: 1000,
+    },
+    {
+      group: "ms",
+      name: "negative diff",
+      from: "2025-09-30T12:00:01.000Z",
+      to: "2025-09-30T12:00:00.000Z",
+      expected: -1000,
+    },
+    {
+      group: "ms",
+      name: "zero for same dates",
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:00.000Z",
+      expected: 0,
+    },
+    {
+      group: "ms",
+      name: '"ms" alias',
+      unit: "ms" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:01.000Z",
+      expected: 1000,
+    },
 
-    it("should handle negative diff", () => {
-      const date1 = new Date("2025-09-30T12:00:01.000Z");
-      const date2 = new Date("2025-09-30T12:00:00.000Z");
-      expect(diff(date2, date1)).toBe(-1000);
-    });
+    // Seconds
+    {
+      group: "second",
+      name: "60 seconds",
+      unit: "second" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:01:00.000Z",
+      expected: 60,
+    },
+    {
+      group: "second",
+      name: '"s" alias',
+      unit: "s" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:30.000Z",
+      expected: 30,
+    },
+    {
+      group: "second",
+      name: "floor fractional",
+      unit: "second" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:00.999Z",
+      expected: 0,
+    },
 
-    it("should return zero for same dates", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:00.000Z");
-      expect(diff(date1, date2)).toBe(0);
-    });
+    // Minutes
+    {
+      group: "minute",
+      name: "60 minutes",
+      unit: "minute" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T13:00:00.000Z",
+      expected: 60,
+    },
+    {
+      group: "minute",
+      name: '"m" alias',
+      unit: "m" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:30:00.000Z",
+      expected: 30,
+    },
+    {
+      group: "minute",
+      name: "floor fractional",
+      unit: "minute" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:00:59.000Z",
+      expected: 0,
+    },
 
-    it('should use "ms" alias', () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:01.000Z");
-      expect(diff(date2, date1, "ms")).toBe(1000);
-    });
+    // Hours
+    {
+      group: "hour",
+      name: "12 hours",
+      unit: "hour" as const,
+      from: "2025-09-30T00:00:00.000Z",
+      to: "2025-09-30T12:00:00.000Z",
+      expected: 12,
+    },
+    {
+      group: "hour",
+      name: '"h" alias',
+      unit: "h" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T18:00:00.000Z",
+      expected: 6,
+    },
+    {
+      group: "hour",
+      name: "floor fractional",
+      unit: "hour" as const,
+      from: "2025-09-30T12:00:00.000Z",
+      to: "2025-09-30T12:59:59.000Z",
+      expected: 0,
+    },
+
+    // Days
+    {
+      group: "day",
+      name: "5 days",
+      unit: "day" as const,
+      from: "2025-09-30",
+      to: "2025-10-05",
+      expected: 5,
+    },
+    {
+      group: "day",
+      name: '"d" alias',
+      unit: "d" as const,
+      from: "2025-09-01",
+      to: "2025-09-30",
+      expected: 29,
+    },
+    {
+      group: "day",
+      name: "floor fractional",
+      unit: "day" as const,
+      from: "2025-09-30T00:00:00",
+      to: "2025-09-30T23:59:59",
+      expected: 0,
+    },
+
+    // Weeks
+    {
+      group: "week",
+      name: "2 weeks",
+      unit: "week" as const,
+      from: "2025-09-01",
+      to: "2025-09-15",
+      expected: 2,
+    },
+    {
+      group: "week",
+      name: '"w" alias',
+      unit: "w" as const,
+      from: "2025-09-01",
+      to: "2025-09-22",
+      expected: 3,
+    },
+    {
+      group: "week",
+      name: "floor fractional",
+      unit: "week" as const,
+      from: "2025-09-01",
+      to: "2025-09-07",
+      expected: 0,
+    },
+
+    // Months
+    {
+      group: "month",
+      name: "5 months",
+      unit: "month" as const,
+      from: "2025-01-01",
+      to: "2025-06-01",
+      expected: 5,
+    },
+    {
+      group: "month",
+      name: '"M" alias',
+      unit: "M" as const,
+      from: "2025-01-15",
+      to: "2025-03-15",
+      expected: 2,
+    },
+    {
+      group: "month",
+      name: "year boundary",
+      unit: "month" as const,
+      from: "2024-11-01",
+      to: "2025-02-01",
+      expected: 3,
+    },
+    {
+      group: "month",
+      name: "calendar months",
+      unit: "month" as const,
+      from: "2025-01-31",
+      to: "2025-02-01",
+      expected: 1,
+    },
+
+    // Years
+    {
+      group: "year",
+      name: "5 years",
+      unit: "year" as const,
+      from: "2020-01-01",
+      to: "2025-01-01",
+      expected: 5,
+    },
+    {
+      group: "year",
+      name: '"y" alias',
+      unit: "y" as const,
+      from: "2023-06-15",
+      to: "2025-06-15",
+      expected: 2,
+    },
+    {
+      group: "year",
+      name: "calendar years",
+      unit: "year" as const,
+      from: "2024-12-31",
+      to: "2025-01-01",
+      expected: 1,
+    },
+
+    // Edge cases
+    {
+      group: "edge",
+      name: "leap year",
+      unit: "day" as const,
+      from: "2024-02-29",
+      to: "2024-03-01",
+      expected: 1,
+    },
+    {
+      group: "edge",
+      name: "large time span",
+      unit: "year" as const,
+      from: "2000-01-01",
+      to: "2050-01-01",
+      expected: 50,
+    },
+  ])("$group: $name", ({ unit, from, to, expected }) => {
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+    expect(unit ? diff(toDate, fromDate, unit) : diff(toDate, fromDate)).toBe(
+      expected,
+    );
   });
 
-  describe("Seconds", () => {
-    it("should calculate diff in seconds", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:01:00.000Z");
-      expect(diff(date2, date1, "second")).toBe(60);
-    });
-
-    it('should use "s" alias', () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:30.000Z");
-      expect(diff(date2, date1, "s")).toBe(30);
-    });
-
-    it("should floor fractional seconds", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:00.999Z");
-      expect(diff(date2, date1, "second")).toBe(0);
-    });
+  it("should produce a negative result when args are flipped", () => {
+    const earlier = new Date("2025-01-01");
+    const later = new Date("2025-12-31");
+    expect(diff(earlier, later, "day")).toBeLessThan(0);
   });
 
-  describe("Minutes", () => {
-    it("should calculate diff in minutes", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T13:00:00.000Z");
-      expect(diff(date2, date1, "minute")).toBe(60);
-    });
-
-    it('should use "m" alias', () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:30:00.000Z");
-      expect(diff(date2, date1, "m")).toBe(30);
-    });
-
-    it("should floor fractional minutes", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:59.000Z");
-      expect(diff(date2, date1, "minute")).toBe(0);
-    });
-  });
-
-  describe("Hours", () => {
-    it("should calculate diff in hours", () => {
-      const date1 = new Date("2025-09-30T00:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:00:00.000Z");
-      expect(diff(date2, date1, "hour")).toBe(12);
-    });
-
-    it('should use "h" alias', () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T18:00:00.000Z");
-      expect(diff(date2, date1, "h")).toBe(6);
-    });
-
-    it("should floor fractional hours", () => {
-      const date1 = new Date("2025-09-30T12:00:00.000Z");
-      const date2 = new Date("2025-09-30T12:59:59.000Z");
-      expect(diff(date2, date1, "hour")).toBe(0);
-    });
-  });
-
-  describe("Days", () => {
-    it("should calculate diff in days", () => {
-      const date1 = new Date("2025-09-30");
-      const date2 = new Date("2025-10-05");
-      expect(diff(date2, date1, "day")).toBe(5);
-    });
-
-    it('should use "d" alias', () => {
-      const date1 = new Date("2025-09-01");
-      const date2 = new Date("2025-09-30");
-      expect(diff(date2, date1, "d")).toBe(29);
-    });
-
-    it("should floor fractional days", () => {
-      const date1 = new Date("2025-09-30T00:00:00");
-      const date2 = new Date("2025-09-30T23:59:59");
-      expect(diff(date2, date1, "day")).toBe(0);
-    });
-  });
-
-  describe("Weeks", () => {
-    it("should calculate diff in weeks", () => {
-      const date1 = new Date("2025-09-01");
-      const date2 = new Date("2025-09-15");
-      expect(diff(date2, date1, "week")).toBe(2);
-    });
-
-    it('should use "w" alias', () => {
-      const date1 = new Date("2025-09-01");
-      const date2 = new Date("2025-09-22");
-      expect(diff(date2, date1, "w")).toBe(3);
-    });
-
-    it("should floor fractional weeks", () => {
-      const date1 = new Date("2025-09-01");
-      const date2 = new Date("2025-09-07");
-      expect(diff(date2, date1, "week")).toBe(0);
-    });
-  });
-
-  describe("Months", () => {
-    it("should calculate diff in months", () => {
-      const date1 = new Date("2025-01-01");
-      const date2 = new Date("2025-06-01");
-      expect(diff(date2, date1, "month")).toBe(5);
-    });
-
-    it('should use "M" alias', () => {
-      const date1 = new Date("2025-01-15");
-      const date2 = new Date("2025-03-15");
-      expect(diff(date2, date1, "M")).toBe(2);
-    });
-
-    it("should handle year boundary", () => {
-      const date1 = new Date("2024-11-01");
-      const date2 = new Date("2025-02-01");
-      expect(diff(date2, date1, "month")).toBe(3);
-    });
-
-    it("should calculate calendar months", () => {
-      const date1 = new Date("2025-01-31");
-      const date2 = new Date("2025-02-01");
-      expect(diff(date2, date1, "month")).toBe(1);
-    });
-  });
-
-  describe("Years", () => {
-    it("should calculate diff in years", () => {
-      const date1 = new Date("2020-01-01");
-      const date2 = new Date("2025-01-01");
-      expect(diff(date2, date1, "year")).toBe(5);
-    });
-
-    it('should use "y" alias', () => {
-      const date1 = new Date("2023-06-15");
-      const date2 = new Date("2025-06-15");
-      expect(diff(date2, date1, "y")).toBe(2);
-    });
-
-    it("should calculate calendar years", () => {
-      const date1 = new Date("2024-12-31");
-      const date2 = new Date("2025-01-01");
-      expect(diff(date2, date1, "year")).toBe(1);
-    });
-  });
-
-  describe("Edge cases", () => {
-    it("should handle leap year correctly", () => {
-      const date1 = new Date("2024-02-29");
-      const date2 = new Date("2024-03-01");
-      expect(diff(date2, date1, "day")).toBe(1);
-    });
-
-    it("should handle large time spans", () => {
-      const date1 = new Date("2000-01-01");
-      const date2 = new Date("2050-01-01");
-      expect(diff(date2, date1, "year")).toBe(50);
-    });
-
-    it("should handle negative diffs", () => {
-      const date1 = new Date("2025-12-31");
-      const date2 = new Date("2025-01-01");
-      expect(diff(date2, date1, "day")).toBeLessThan(0);
-    });
-
-    it("should handle daylight saving time transitions", () => {
-      // Note: behavior depends on system timezone
-      const date1 = new Date("2025-03-09T00:00:00");
-      const date2 = new Date("2025-03-10T00:00:00");
-      const hoursDiff = diff(date2, date1, "hour");
-      expect(Math.abs(hoursDiff)).toBeGreaterThanOrEqual(23);
-      expect(Math.abs(hoursDiff)).toBeLessThanOrEqual(25);
-    });
+  it("should handle daylight saving time transitions", () => {
+    // Note: behavior depends on system timezone
+    const earlier = new Date("2025-03-09T00:00:00");
+    const later = new Date("2025-03-10T00:00:00");
+    const hoursDiff = diff(later, earlier, "hour");
+    expect(Math.abs(hoursDiff)).toBeGreaterThanOrEqual(23);
+    expect(Math.abs(hoursDiff)).toBeLessThanOrEqual(25);
   });
 });
