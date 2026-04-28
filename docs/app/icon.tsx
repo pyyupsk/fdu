@@ -35,7 +35,7 @@ export default async function Icon() {
       }}
     >
       {/* biome-ignore lint/performance/noImgElement: ImageResponse requires img element */}
-      <img src={logoSrc} width="32" height="32" alt="fdu logo" />
+      <img src={logoSrc} width={32} height={32} alt="fdu logo" />
     </div>,
     {
       ...size,
