@@ -122,7 +122,7 @@ function extractBenchmarks(input: string): BenchmarkData {
   const results: BenchmarkResult[] = [];
 
   // Parse version info
-  const vitestMatch = input.match(/v(\d+\.\d+\.\d+)/);
+  const vitestMatch = /v(\d+\.\d+\.\d+)/.exec(input);
   const vitestVersion = vitestMatch ? vitestMatch[1] : "unknown";
 
   // Group benchmark results by operation
@@ -132,9 +132,10 @@ function extractBenchmarks(input: string): BenchmarkData {
   const lines = input.split("\n");
   for (const line of lines) {
     // Match: · @pyyupsk/fdu - parse ISO string  3,035,955.98
-    const match = line.match(
-      /·\s+(@pyyupsk\/fdu|Day\.js|date-fns|Luxon)\s+-\s+(.+?)\s{2,}([\d,]+\.?\d*)/,
-    );
+    const match =
+      /·\s+(@pyyupsk\/fdu|Day\.js|date-fns|Luxon)\s+-\s+(.+?)\s{2,}([\d,]+\.?\d*)/.exec(
+        line,
+      );
     if (!match) continue;
 
     const lib = match[1];

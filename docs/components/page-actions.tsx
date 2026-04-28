@@ -90,9 +90,9 @@ export function ViewOptions({
 }>) {
   const items = useMemo(() => {
     const fullMarkdownUrl =
-      typeof window === "undefined"
+      globalThis.window === undefined
         ? "loading"
-        : new URL(markdownUrl, window.location.origin);
+        : new URL(markdownUrl, globalThis.location.origin);
     const q = `Read ${fullMarkdownUrl}, I want to ask questions about it.`;
 
     return [

@@ -78,21 +78,21 @@ describe("add()", () => {
   describe("Adding weeks", () => {
     it("should add positive weeks", () => {
       const result = add(baseDate, 1, "week");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 7);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should add multiple weeks", () => {
       const result = add(baseDate, 2, "week");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 14);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "w"', () => {
       const result = add(baseDate, 1, "w");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 7);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -106,21 +106,21 @@ describe("add()", () => {
   describe("Adding days", () => {
     it("should add positive days", () => {
       const result = add(baseDate, 1, "day");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should add multiple days", () => {
       const result = add(baseDate, 5, "day");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 5);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "d"', () => {
       const result = add(baseDate, 1, "d");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -140,28 +140,28 @@ describe("add()", () => {
   describe("Adding hours", () => {
     it("should add positive hours", () => {
       const result = add(baseDate, 1, "hour");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setHours(expected.getHours() + 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should add multiple hours", () => {
       const result = add(baseDate, 6, "hour");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setHours(expected.getHours() + 6);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "h"', () => {
       const result = add(baseDate, 1, "h");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setHours(expected.getHours() + 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should roll over to next day", () => {
       const result = add(baseDate, 24, "hour");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setDate(expected.getDate() + 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -249,7 +249,7 @@ describe("add()", () => {
 
   describe("Immutability", () => {
     it("should not mutate original date", () => {
-      const original = new Date(baseDate.getTime());
+      const original = new Date(baseDate);
       add(baseDate, 1, "day");
       expect(baseDate.getTime()).toBe(original.getTime());
     });

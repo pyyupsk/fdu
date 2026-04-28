@@ -4,7 +4,7 @@ import { generateOGImage, OG_IMAGE_SIZE } from "@/lib/og-image";
 export const dynamic = "force-static";
 
 export const alt = "@pyyupsk/fdu - The 4× faster date library for JavaScript";
-export const size = OG_IMAGE_SIZE;
+export { OG_IMAGE_SIZE as size } from "@/lib/og-image";
 export const contentType = "image/png";
 
 /**
