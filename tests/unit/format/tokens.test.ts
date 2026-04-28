@@ -168,7 +168,7 @@ describe("Format Tokens", () => {
 
     it("d should return weekday number (0-6)", () => {
       const result = tokens.d(testDate);
-      const day = parseInt(result, 10);
+      const day = Number.parseInt(result, 10);
       expect(day).toBeGreaterThanOrEqual(0);
       expect(day).toBeLessThan(7);
     });
@@ -200,7 +200,7 @@ describe("Format Tokens", () => {
     it("hh should return zero-padded 12-hour", () => {
       const result = tokens.hh(testDate);
       expect(result).toMatch(/^\d{2}$/);
-      const hour = parseInt(result, 10);
+      const hour = Number.parseInt(result, 10);
       expect(hour).toBeGreaterThanOrEqual(1);
       expect(hour).toBeLessThanOrEqual(12);
     });
@@ -208,7 +208,7 @@ describe("Format Tokens", () => {
     it("h should return 12-hour without padding", () => {
       const result = tokens.h(testDate);
       expect(result).toMatch(/^\d{1,2}$/);
-      const hour = parseInt(result, 10);
+      const hour = Number.parseInt(result, 10);
       expect(hour).toBeGreaterThanOrEqual(1);
       expect(hour).toBeLessThanOrEqual(12);
     });

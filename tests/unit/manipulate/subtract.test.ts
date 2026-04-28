@@ -139,14 +139,14 @@ describe("subtract()", () => {
   describe("Subtracting minutes", () => {
     it("should subtract positive minutes", () => {
       const result = subtract(baseDate, 30, "minute");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setMinutes(expected.getMinutes() - 30);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "m"', () => {
       const result = subtract(baseDate, 15, "m");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setMinutes(expected.getMinutes() - 15);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -161,21 +161,21 @@ describe("subtract()", () => {
   describe("Subtracting seconds", () => {
     it("should subtract positive seconds", () => {
       const result = subtract(baseDate, 30, "second");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setSeconds(expected.getSeconds() - 30);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "s"', () => {
       const result = subtract(baseDate, 15, "s");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setSeconds(expected.getSeconds() - 15);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should roll back to previous minute", () => {
       const result = subtract(baseDate, 60, "second");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setMinutes(expected.getMinutes() - 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -184,21 +184,21 @@ describe("subtract()", () => {
   describe("Subtracting milliseconds", () => {
     it("should subtract positive milliseconds", () => {
       const result = subtract(baseDate, 500, "millisecond");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setMilliseconds(expected.getMilliseconds() - 500);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it('should use short alias "ms"', () => {
       const result = subtract(baseDate, 250, "ms");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setMilliseconds(expected.getMilliseconds() - 250);
       expect(result.getTime()).toBe(expected.getTime());
     });
 
     it("should roll back to previous second", () => {
       const result = subtract(baseDate, 1000, "millisecond");
-      const expected = new Date(baseDate.getTime());
+      const expected = new Date(baseDate);
       expected.setSeconds(expected.getSeconds() - 1);
       expect(result.getTime()).toBe(expected.getTime());
     });
@@ -241,7 +241,7 @@ describe("subtract()", () => {
 
   describe("Immutability", () => {
     it("should not mutate original date", () => {
-      const original = new Date(baseDate.getTime());
+      const original = new Date(baseDate);
       subtract(baseDate, 1, "day");
       expect(baseDate.getTime()).toBe(original.getTime());
     });
@@ -264,7 +264,7 @@ describe("subtract()", () => {
 
     it("should handle add/subtract round trip", () => {
       const date = new Date("2025-06-15T12:00:00");
-      const added = new Date(date.getTime());
+      const added = new Date(date);
       added.setDate(added.getDate() + 10);
       const subtracted = subtract(added, 10, "day");
       expect(subtracted.getTime()).toBe(date.getTime());

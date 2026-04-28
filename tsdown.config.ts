@@ -30,7 +30,7 @@ export default defineConfig([
           const content = readFileSync(file, "utf-8");
 
           if (content.includes("__VERSION__")) {
-            const updated = content.replace(/__VERSION__/g, version);
+            const updated = content.replaceAll("__VERSION__", version);
             writeFileSync(file, updated, "utf-8");
             filesUpdated++;
             console.log(`  ✓ ${file}`);

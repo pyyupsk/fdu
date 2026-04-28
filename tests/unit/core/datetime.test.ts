@@ -30,7 +30,7 @@ describe("fdu() factory function", () => {
   });
 
   it("should return invalid instance for NaN input", () => {
-    const date = fdu(NaN);
+    const date = fdu(Number.NaN);
     expect(date.isValid()).toBe(false);
   });
 

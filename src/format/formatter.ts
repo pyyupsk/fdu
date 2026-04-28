@@ -37,8 +37,9 @@ export function format(
   if (locale?.formats) {
     const formatKeys = ["LLLL", "LLL", "LL", "LTS", "LT", "L"] as const;
     for (const key of formatKeys) {
-      if (locale.formats[key] && pattern === key) {
-        expandedPattern = locale.formats[key];
+      const localeFormat = locale.formats[key];
+      if (localeFormat && pattern === key) {
+        expandedPattern = localeFormat;
         break;
       }
     }

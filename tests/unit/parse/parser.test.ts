@@ -87,7 +87,7 @@ describe("parse()", () => {
     });
 
     it("should handle NaN", () => {
-      const result = parse(NaN);
+      const result = parse(Number.NaN);
       expect(Number.isNaN(result.getTime())).toBe(true);
     });
 
